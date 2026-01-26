@@ -21,12 +21,12 @@
 **Description:** Implement shared header/footer components plus layout wrappers so every route shares the same chrome and placeholder logo.
 **Checklist:**
 
-- [ ] Create `AppHeaderComponent` with placeholder logo (for example, initials in a rounded badge) and nav links to Home & Genres using Tailwind plus accessibility best practices.
-- [ ] Create `AppFooterComponent` with simple text/links (copyright, attribution).
-- [ ] Update `app.html` to wrap the router outlet in a layout container that injects the header (fixed or sticky) and footer on all pages.
-- [ ] Add responsive behavior (flex/stack) so header/footer adapt to mobile widths.
-- [ ] Cover components with basic unit tests verifying rendering and navigation.
-      **Acceptance Criteria:**
+- [✔️] Create `AppHeaderComponent` with placeholder logo (for example, initials in a rounded badge) and nav links to Home & Genres using Tailwind plus accessibility best practices.
+- [✔️] Create `AppFooterComponent` with simple text/links (copyright, attribution).
+- [✔️] Update `app.html` to wrap the router outlet in a layout container that injects the header (fixed or sticky) and footer on all pages.
+- [✔️] Add responsive behavior (flex/stack) so header/footer adapt to mobile widths.
+- [✔️] Cover components with basic unit tests verifying rendering and navigation.
+  **Acceptance Criteria:**
 - Header and footer render on `/`, `/genres`, and `/anime/:id`, sharing consistent spacing.
 - Placeholder logo is visible and described via `aria-label`.
 - Navigation uses Angular routerLink and respects focus outlines.
