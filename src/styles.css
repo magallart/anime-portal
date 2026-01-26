@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,8 +33,8 @@
    These variables only define WHICH font families Tailwind should use.
 --------------------------------------------------------------------------- */
 :root {
-  --font-sans: Inter;
-  --font-heading: Geist;
+  --font-sans: 'Rubik';
+  --font-heading: 'Rubik';
   --font-mono: 'JetBrains Mono';
 
   /* ------------------------------------------------------------------------
@@ -63,29 +65,37 @@
   ------------------------------------------------------------------------ */
 
   /* Neutrals (Light Theme) */
-  --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
+  --background: 0 0% 96%;
+  --foreground: 256 5% 30%;
 
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card-foreground: 256 5% 30%;
 
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 265 11% 40%;
 
-  --border: 214 32% 91%;
+  --border: 265 11% 80%;
+
+  /* Focus + spacing tokens */
+  --focus-ring: 45 70% 56%;
+  --focus-ring-offset: var(--background);
+  --space-gutter: clamp(1rem, 2vw, 2.5rem);
+  --space-section-y: clamp(2.5rem, 5vw, 4.5rem);
+  --space-gap: 1.5rem;
+  --space-card-padding: 1.25rem;
 
   /* Brand */
-  --primary: 221 83% 53%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 45 70% 56%;
+  --primary-foreground: 265 11% 22%;
 
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222 47% 11%;
+  --secondary: 37 72% 54%;
+  --secondary-foreground: 0 0% 100%;
 
-  --accent: 210 40% 96%;
-  --accent-foreground: 222 47% 11%;
+  --accent: 265 11% 22%;
+  --accent-foreground: 0 0% 96%;
 
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 82% 60%;
+  --destructive-foreground: 0 0% 100%;
 }
 
 /* --------------------------------------------------------------------------
@@ -94,28 +104,28 @@
    Add class "dark" to <html> or <body> to enable dark mode.
 --------------------------------------------------------------------------- */
 .dark {
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
+  --background: 265 11% 12%;
+  --foreground: 0 0% 96%;
 
-  --card: 222 47% 13%;
-  --card-foreground: 210 40% 98%;
+  --card: 265 11% 18%;
+  --card-foreground: 0 0% 96%;
 
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
+  --muted: 265 10% 30%;
+  --muted-foreground: 0 0% 85%;
 
-  --border: 217 33% 20%;
+  --border: 265 11% 35%;
 
-  --primary: 221 83% 60%;
-  --primary-foreground: 222 47% 11%;
+  --primary: 45 70% 56%;
+  --primary-foreground: 265 11% 18%;
 
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 37 72% 54%;
+  --secondary-foreground: 265 11% 18%;
 
-  --accent: 217 33% 17%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 265 11% 18%;
 
-  --destructive: 0 72% 51%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 78% 58%;
+  --destructive-foreground: 0 0% 98%;
 }
 
 /* --------------------------------------------------------------------------
@@ -132,6 +142,8 @@ html.dark {
 body {
   margin: 0;
   font-family: var(--font-sans), system-ui, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
 /* Optional: better default focus style for non-Tailwind elements */

@@ -119,6 +119,25 @@ module.exports = {
         heading: ['var(--font-heading)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
+
+      /**
+       * FOCUS RING + SPACING TOKENS
+       * ----------------------------------------------------------------
+       * Mirrors the CSS variables defined in styles.css so layout
+       * utilities (gap, padding, ring) can use semantic classes.
+       */
+      ringColor: {
+        focus: 'hsl(var(--focus-ring))',
+      },
+      ringOffsetColor: {
+        background: 'hsl(var(--focus-ring-offset))',
+      },
+      spacing: {
+        gutter: 'var(--space-gutter)',
+        section: 'var(--space-section-y)',
+        layout: 'var(--space-gap)',
+        card: 'var(--space-card-padding)',
+      },
     },
   },
 
