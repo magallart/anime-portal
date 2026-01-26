@@ -1,14 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RepoButtonComponent } from './components/repo-button/repo-button.component';
-import { AppStateService } from './services/state/app-state.service';
+import { AppHeaderComponent } from './components/app-header/app-header.component';
+import { AppFooterComponent } from './components/app-footer/app-footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RepoButtonComponent],
+  imports: [RouterOutlet, AppHeaderComponent, AppFooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  protected readonly appState = inject(AppStateService);
-}
+export class App {}
