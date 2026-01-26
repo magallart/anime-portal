@@ -5,11 +5,11 @@
 **Description:** Document the Anime Portal visual profile and surface placeholder theme tokens through CSS variables to unblock layout work.
 **Checklist:**
 
-- [ ] Fill `DESIGN.md` Quick Fill (app name, tone, typography, spacing, component recipes) to reflect Anime Portal.
-- [ ] Add placeholder CSS variables for neutrals, brand, accent, focus, and spacing under `:root` in `src/styles.css`.
-- [ ] Wire Tailwind theme tokens to the CSS variables (colors, font families, radii) so utility classes consume the placeholders.
-- [ ] Note required future refinements inside DESIGN.md for when final palette arrives.
-      **Acceptance Criteria:**
+- [✔️] Fill `DESIGN.md` Quick Fill (app name, tone, typography, spacing, component recipes) to reflect Anime Portal.
+- [✔️] Add placeholder CSS variables for neutrals, brand, accent, focus, and spacing under `:root` in `src/styles.css`.
+- [✔️] Wire Tailwind theme tokens to the CSS variables (colors, font families, radii) so utility classes consume the placeholders.
+- [✔️] Note required future refinements inside DESIGN.md for when final palette arrives.
+  **Acceptance Criteria:**
 - DESIGN.md names Anime Portal and documents tone/density/components.
 - `src/styles.css` exposes CSS variables for page, card, text, buttons, focus ring, and spacing tokens with placeholder values.
 - Tailwind builds without errors and utilities reference CSS variables instead of raw hex values.
