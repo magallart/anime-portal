@@ -147,6 +147,6 @@ E2E tests exist to answer one question:
 ## Commands
 
 ```bash
-npm test
-npm run lint
+pnpm test
+pnpm run lint
 ```

@@ -10,7 +10,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'npm run start -- --port 4200',
+    command: 'pnpm exec ng serve --port 4200',
     url: 'http://localhost:4200',
     reuseExistingServer: !process.env['CI'],
   },
