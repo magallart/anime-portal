@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
+import { CtaButtonComponent } from '../cta-button/cta-button.component';
 
 @Component({
   selector: 'app-last-airing-anime-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CtaButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="relative left-1/2 w-screen -translate-x-1/2 bg-accent text-accent-foreground">
@@ -15,26 +16,7 @@ import type { AiringEpisode } from '../../interfaces/airing-episode';
             Últimos animes de la semana
           </h2>
 
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
-          >
-            ver más
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
+          <app-cta-button label="Ver más" [link]="['/genres']" />
         </header>
 
         @if (isEmpty()) {
