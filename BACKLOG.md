@@ -71,11 +71,11 @@
 **Checklist:**
 
 - [✔️] Define interfaces/models for `AnimeSummary`, `AiringEpisode`, `AnimeDetail`, `GenreFilter`, etc. under `src/app/interfaces/`.
-- [ ] Implement `AnilistService` (or similar) that composes `GraphqlClientService` and houses query strings plus mapping helpers.
-- [ ] Provide methods: `getAiringScheduleThisWeek()`, `getAnimeByFilters()`, `getAnimeDetailsById(id)` returning Observables or signals.
-- [ ] Normalize/sanitize AniList HTML descriptions to safe strings.
-- [ ] Write focused unit tests verifying correct GraphQL query payloads and mapping for each method.
-      **Acceptance Criteria:**
+- [✔️] Implement `AnilistService` (or similar) that composes `GraphqlClientService` and houses query strings plus mapping helpers.
+- [✔️] Provide methods: `getAiringScheduleThisWeek()`, `getAnimeByFilters()`, `getAnimeDetailsById(id)` returning Observables or signals.
+- [✔️] Normalize/sanitize AniList HTML descriptions to safe strings.
+- [✔️] Write focused unit tests verifying correct GraphQL query payloads and mapping for each method.
+  **Acceptance Criteria:**
 - Service covers all data needs for Home, Genres, and Detail pages.
 - Interfaces avoid `any` and align with AGENTS TypeScript rules.
 - Tests validate query body construction and response mapping for at least one success and one error.
