@@ -54,12 +54,12 @@
 **Description:** Create a reusable HTTP GraphQL client configured for the AniList endpoint with strict typing and error translation.
 **Checklist:**
 
-- [ ] Add environment token for `ANILIST_API_URL` (defaulting to `https://graphql.anilist.co`).
-- [ ] Implement `GraphqlClientService` wrapping Angular `HttpClient` to POST GraphQL queries plus variables.
-- [ ] Define shared TypeScript interfaces for query payloads (`GraphqlRequest`, `GraphqlResponse`, `GraphqlError`).
-- [ ] Handle network and GraphQL errors with typed results/logging.
-- [ ] Unit test success/failure branches with HttpTestingController.
-      **Acceptance Criteria:**
+- [✔️] Add environment token for `ANILIST_API_URL` (defaulting to `https://graphql.anilist.co`).
+- [✔️] Implement `GraphqlClientService` wrapping Angular `HttpClient` to POST GraphQL queries plus variables.
+- [✔️] Define shared TypeScript interfaces for query payloads (`GraphqlRequest`, `GraphqlResponse`, `GraphqlError`).
+- [✔️] Handle network and GraphQL errors with typed results/logging.
+- [✔️] Unit test success/failure branches with HttpTestingController.
+  **Acceptance Criteria:**
 - Service method like `execute<T>(query, variables)` returns typed Observable.
 - Errors from AniList propagate with helpful messages.
 - Tests cover typical query and error responses.
