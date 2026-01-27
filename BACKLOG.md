@@ -45,8 +45,9 @@
       **Acceptance Criteria:**
 - Visiting `/`, `/genres`, `/anime/your-favorite-show` renders the correct placeholder component.
 - Routes include page titles/meta via `title` or `data`.
+- Invalid slugs or unknown paths redirect to a branded Not Found page.
 - Specs confirming router configuration pass.
-  **Files:** `src/app/app.routes.ts`, `src/app/pages/home/*`, `src/app/pages/genres/*`, `src/app/pages/anime-detail/*`, `src/app/app.spec.ts`
+  **Files:** `src/app/app.routes.ts`, `src/app/pages/home/*`, `src/app/pages/genres/*`, `src/app/pages/anime-detail/*`, `src/app/pages/not-found/*`, `src/app/pages/anime-detail/anime-slug.guard.ts`, `src/app/app.routes.spec.ts`
 
 ### Ticket AP-004 - AniList GraphQL client foundation
 
