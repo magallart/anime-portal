@@ -20,7 +20,7 @@ const sampleEpisodes: AiringEpisode[] = [
 
 describe('HomePageComponent', () => {
   const setup = async (returnValue = of(sampleEpisodes)) => {
-    const getScheduleMock = vi.fn().mockReturnValue(returnValue);
+    const getAiringMock = vi.fn().mockReturnValue(returnValue);
 
     await TestBed.configureTestingModule({
       imports: [HomePageComponent, RouterTestingModule],
@@ -28,7 +28,7 @@ describe('HomePageComponent', () => {
         {
           provide: AnilistService,
           useValue: {
-            getAiringScheduleThisWeek: getScheduleMock,
+            getAiringThisWeek: getAiringMock,
           },
         },
       ],
@@ -36,27 +36,27 @@ describe('HomePageComponent', () => {
 
     const fixture = TestBed.createComponent(HomePageComponent);
     fixture.detectChanges();
-    return { fixture, getScheduleMock };
+    return { fixture, getAiringMock };
   };
 
-  it('renders hero content, highlights, and airing schedule', async () => {
-    const { fixture, getScheduleMock } = await setup();
+  it('renders hero content, highlights, and airing list', async () => {
+    const { fixture, getAiringMock } = await setup();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Discover');
     expect(compiled.querySelectorAll('[data-test="home-highlight"]').length).toBe(3);
-    expect(getScheduleMock).toHaveBeenCalled();
-    expect(compiled.querySelector('app-airing-schedule-list')).toBeTruthy();
+    expect(getAiringMock).toHaveBeenCalled();
+    expect(compiled.querySelector('app-last-airing-anime-list')).toBeTruthy();
   });
 
-  it('surfaces an error message when airing schedule fails', async () => {
+  it('surfaces an error message when airing feed fails', async () => {
     const { fixture } = await setup(throwError(() => new Error('fail')));
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Unable to load airing schedule');
+    expect(compiled.textContent).toContain('Unable to load the airing feed right now.');
   });
 });

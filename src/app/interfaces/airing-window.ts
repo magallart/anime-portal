@@ -1,4 +1,4 @@
-export interface AiringScheduleWindow {
+export interface AiringWindow {
   readonly start: Date;
   readonly end: Date;
 }

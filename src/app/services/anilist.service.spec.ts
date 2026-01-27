@@ -23,11 +23,11 @@ describe('AnilistService', () => {
     service = TestBed.inject(AnilistService);
   });
 
-  it('maps airing schedule results into domain models', async () => {
+  it('maps weekly airing results into domain models', async () => {
     executeSpy.mockReturnValue(
       of({
         Page: {
-          airingSchedules: [
+          latestAiring: [
             {
               airingAt: 1_700_000_000,
               episode: 5,
@@ -45,9 +45,9 @@ describe('AnilistService', () => {
     );
 
     const window = { start: new Date(0), end: new Date(0) };
-    const result = await firstValueFrom(service.getAiringScheduleThisWeek(window));
+    const result = await firstValueFrom(service.getAiringThisWeek(window));
 
-    expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('airingSchedules'), {
+    expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('LatestAiring'), {
       start: 0,
       end: 0,
     });

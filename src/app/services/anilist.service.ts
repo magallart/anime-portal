@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { map, type Observable } from 'rxjs';
 import { GraphqlClientService } from './graphql-client.service';
 import type { AiringEpisode } from '../interfaces/airing-episode';
-import type { AiringScheduleWindow } from '../interfaces/airing-schedule-window';
+import type { AiringWindow } from '../interfaces/airing-window';
 import type { AnimeDetail } from '../interfaces/anime-detail';
 import type { AnimeSummary } from '../interfaces/anime-summary';
 import type { GenreFilter } from '../interfaces/genre-filter';
@@ -18,8 +18,8 @@ import type { AnimeStatus } from '../interfaces/anime-status';
 export class AnilistService {
   private readonly client = inject(GraphqlClientService);
 
-  getAiringScheduleThisWeek(
-    window: AiringScheduleWindow = this.getCurrentWeekWindow(),
+  getAiringThisWeek(
+    window: AiringWindow = this.getCurrentWeekWindow(),
   ): Observable<AiringEpisode[]> {
     const variables = {
       start: Math.floor(window.start.getTime() / 1000),
@@ -27,9 +27,9 @@ export class AnilistService {
     };
 
     return this.client
-      .execute<AiringScheduleQueryResponse, typeof variables>(AIRING_SCHEDULE_QUERY, variables)
+      .execute<LatestAiringQueryResponse, typeof variables>(LATEST_AIRING_QUERY, variables)
       .pipe(
-        map((response) => response.Page.airingSchedules.map((node) => this.mapAiringEpisode(node))),
+        map((response) => response.Page.latestAiring.map((node) => this.mapAiringEpisode(node))),
       );
   }
 
@@ -68,7 +68,7 @@ export class AnilistService {
       );
   }
 
-  private mapAiringEpisode(node: AiringScheduleNode): AiringEpisode {
+  private mapAiringEpisode(node: LatestAiringNode): AiringEpisode {
     return {
       animeId: node.media.id,
       animeSlug: this.resolveSlug(node.media),
@@ -204,7 +204,7 @@ export class AnilistService {
     return title?.english ?? title?.romaji ?? 'Untitled';
   }
 
-  private getCurrentWeekWindow(): AiringScheduleWindow {
+  private getCurrentWeekWindow(): AiringWindow {
     const start = new Date();
     const end = new Date(start);
     end.setDate(start.getDate() + 7);
@@ -212,10 +212,10 @@ export class AnilistService {
   }
 }
 
-const AIRING_SCHEDULE_QUERY = `
-  query AiringSchedule($start: Int!, $end: Int!) {
+const LATEST_AIRING_QUERY = `
+  query LatestAiring($start: Int!, $end: Int!) {
     Page(perPage: 25) {
-      airingSchedules(airingAt_greater: $start, airingAt_lesser: $end, sort: TIME) {
+      latestAiring: airingSchedules(airingAt_greater: $start, airingAt_lesser: $end, sort: TIME) {
         airingAt
         episode
         media {
@@ -369,13 +369,13 @@ const ANIME_STATUS_VALUES: readonly AnimeStatus[] = [
   'HIATUS',
 ] as const;
 
-interface AiringScheduleQueryResponse {
+interface LatestAiringQueryResponse {
   readonly Page: {
-    readonly airingSchedules: readonly AiringScheduleNode[];
+    readonly latestAiring: readonly LatestAiringNode[];
   };
 }
 
-interface AiringScheduleNode {
+interface LatestAiringNode {
   readonly airingAt: number;
   readonly episode: number;
   readonly media: AnimeSummaryNode;

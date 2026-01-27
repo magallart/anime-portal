@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, tap } from 'rxjs';
-import { AiringScheduleListComponent } from '../../components/airing-schedule-list/airing-schedule-list.component';
+import { LastAiringAnimeListComponent } from '../../components/last-airing-anime-list/last-airing-anime-list.component';
 import { AnilistService } from '../../services/anilist.service';
 
 interface HomeHighlight {
@@ -13,7 +13,7 @@ interface HomeHighlight {
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [RouterLink, AiringScheduleListComponent],
+  imports: [RouterLink, LastAiringAnimeListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl space-y-10 px-gutter py-section">
@@ -52,9 +52,9 @@ interface HomeHighlight {
 
       <section class="rounded-2xl border border-border bg-card/70 p-card text-left">
         <div class="flex flex-col gap-2 text-left">
-          <h2 class="text-2xl font-heading text-foreground">Airing schedule spotlight</h2>
+          <h2 class="text-2xl font-heading text-foreground">Airing spotlight</h2>
           <p class="text-sm text-muted-foreground">
-            Episodes airing over the next week powered by the AniList schedule.
+            Episodes airing over the next week powered by the AniList feed.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ interface HomeHighlight {
             {{ error() }}
           </p>
         } @else {
-          <app-airing-schedule-list class="mt-6 block" [episodes]="airingEpisodes()" />
+          <app-last-airing-anime-list class="mt-6 block" [episodes]="airingEpisodes()" />
         }
       </section>
     </article>
@@ -78,7 +78,7 @@ export class HomePageComponent {
   protected readonly error = signal<string | null>(null);
 
   protected readonly airingEpisodes = toSignal(
-    this.anilistService.getAiringScheduleThisWeek().pipe(
+    this.anilistService.getAiringThisWeek().pipe(
       tap({
         next: () => {
           this.loading.set(false);
@@ -87,7 +87,7 @@ export class HomePageComponent {
       }),
       catchError(() => {
         this.loading.set(false);
-        this.error.set('Unable to load airing schedule right now.');
+        this.error.set('Unable to load the airing feed right now.');
         return of([]);
       }),
     ),
@@ -108,7 +108,7 @@ export class HomePageComponent {
     {
       title: 'Studio signals',
       description:
-        'Follow production houses you trust and receive detail cards outlining casts, schedule, and reviews.',
+        'Follow production houses you trust and receive detail cards outlining casts, timelines, and reviews.',
     },
   ];
 }

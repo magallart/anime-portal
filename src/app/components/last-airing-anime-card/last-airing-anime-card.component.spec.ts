@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it } from 'vitest';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
-import { AiringScheduleCardComponent } from './airing-schedule-card.component';
+import { LastAiringAnimeCardComponent } from './last-airing-anime-card.component';
 
 const episode: AiringEpisode = {
   animeId: 1,
@@ -14,13 +14,13 @@ const episode: AiringEpisode = {
   coverImage: 'cover.jpg',
 };
 
-describe('AiringScheduleCardComponent', () => {
+describe('LastAiringAnimeCardComponent', () => {
   it('renders episode information with router link', async () => {
     await TestBed.configureTestingModule({
-      imports: [AiringScheduleCardComponent, RouterTestingModule],
+      imports: [LastAiringAnimeCardComponent, RouterTestingModule],
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(AiringScheduleCardComponent);
+    const fixture = TestBed.createComponent(LastAiringAnimeCardComponent);
     fixture.componentRef.setInput('episode', episode);
     fixture.detectChanges();
 

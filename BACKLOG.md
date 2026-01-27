@@ -67,12 +67,12 @@
 
 ### Ticket AP-005 - AniList domain service & models
 
-**Description:** Build domain-level service abstractions that expose strongly typed methods for airing schedule, anime search, and anime detail data.
+**Description:** Build domain-level service abstractions that expose strongly typed methods for airing lineup, anime search, and anime detail data.
 **Checklist:**
 
 - [✔️] Define interfaces/models for `AnimeSummary`, `AiringEpisode`, `AnimeDetail`, `GenreFilter`, etc. under `src/app/interfaces/`.
 - [✔️] Implement `AnilistService` (or similar) that composes `GraphqlClientService` and houses query strings plus mapping helpers.
-- [✔️] Provide methods: `getAiringScheduleThisWeek()`, `getAnimeByFilters()`, `getAnimeDetailsById(id)` returning Observables or signals.
+- [✔️] Provide methods: `getAiringThisWeek()`, `getAnimeByFilters()`, `getAnimeDetailsById(id)` returning Observables or signals.
 - [✔️] Normalize/sanitize AniList HTML descriptions to safe strings.
 - [✔️] Write focused unit tests verifying correct GraphQL query payloads and mapping for each method.
   **Acceptance Criteria:**
@@ -83,20 +83,20 @@
 
 ### Ticket AP-006 - Home "Latest episodes this week" section
 
-**Description:** Use the domain service to fetch airing schedule data and display a scrollable list of latest episodes on the Home page.
+**Description:** Use the domain service to fetch airing lineup data and display a scrollable list of latest episodes on the Home page.
 **Checklist:**
 
-- [✔️] Create a dedicated `AiringScheduleListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
+- [✔️] Create a dedicated `LastAiringAnimeListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
 - [✔️] Inject data via signals/observables in `HomePageComponent`, triggering fetch on init.
 - [ ] Add loading skeletons and empty/error states.
 - [ ] Ensure list is keyboard navigable (aria roles, focus order) and responsive (stack/grid behavior).
 - [ ] Add component/unit tests covering rendering and state switches.
       **Acceptance Criteria:**
-- Home shows the most recent episodes airing within the current week (based on AniList schedule).
+- Home shows the most recent episodes airing within the current week (based on AniList feed).
 - Loading, empty, and error states are visible and styled.
 - Clicking a card navigates to `/anime/:slug`.
 - Tests or assertions cover data rendering.
-  **Files:** `src/app/pages/home/home.component.ts|html|css`, `src/app/components/airing-schedule-list/*`, `src/app/components/anime-card/*`, `src/app/pages/home/home.component.spec.ts`
+  **Files:** `src/app/pages/home/home.component.ts|html|css`, `src/app/components/last-airing-anime-list/*`, `src/app/components/anime-card/*`, `src/app/pages/home/home.component.spec.ts`
 
 ### Ticket AP-007 - Home "Common genres" grid & CTA
 

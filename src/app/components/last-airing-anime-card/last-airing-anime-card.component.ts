@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
 
 @Component({
-  selector: 'app-airing-schedule-card',
+  selector: 'app-last-airing-anime-card',
   standalone: true,
   imports: [DatePipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +37,6 @@ import type { AiringEpisode } from '../../interfaces/airing-episode';
     </a>
   `,
 })
-export class AiringScheduleCardComponent {
+export class LastAiringAnimeCardComponent {
   readonly episode = input.required<AiringEpisode>();
 }
