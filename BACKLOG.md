@@ -27,7 +27,7 @@
 - [✔️] Add responsive behavior (flex/stack) so header/footer adapt to mobile widths.
 - [✔️] Cover components with basic unit tests verifying rendering and navigation.
   **Acceptance Criteria:**
-- Header and footer render on `/`, `/genres`, and `/anime/:id`, sharing consistent spacing.
+- Header and footer render on `/`, `/genres`, and `/anime/:slug`, sharing consistent spacing.
 - Placeholder logo is visible and described via `aria-label`.
 - Navigation uses Angular routerLink and respects focus outlines.
 - Tests pass for header/footer components.
@@ -35,15 +35,15 @@
 
 ### Ticket AP-003 - Route scaffolding & page components
 
-**Description:** Create dedicated page components and configure Angular routing for Home, Genres, and Anime Detail pages.
+**Description:** Create dedicated page components and configure Angular routing for Home, Genres, and Anime Detail pages, using user-friendly anime name slugs (`/anime/:slug`) instead of numeric IDs.
 **Checklist:**
 
 - [ ] Generate `HomePageComponent`, `GenresPageComponent`, and `AnimeDetailPageComponent` under `src/app/pages/` with standalone setup.
-- [ ] Update `app.routes.ts` to define routes `/`, `/genres`, and `/anime/:id` (with route titles and data for breadcrumbs later).
+- [ ] Update `app.routes.ts` to define routes `/`, `/genres`, and `/anime/:slug` (with route titles and data for breadcrumbs later).
 - [ ] Provide placeholder templates per page referencing header/footer layout and simple copy so navigation works before data integration.
 - [ ] Add route-level tests or harness spec verifying router navigates to each component.
       **Acceptance Criteria:**
-- Visiting `/`, `/genres`, `/anime/123` renders the correct placeholder component.
+- Visiting `/`, `/genres`, `/anime/your-favorite-show` renders the correct placeholder component.
 - Routes include page titles/meta via `title` or `data`.
 - Specs confirming router configuration pass.
   **Files:** `src/app/app.routes.ts`, `src/app/pages/home/*`, `src/app/pages/genres/*`, `src/app/pages/anime-detail/*`, `src/app/app.spec.ts`
@@ -93,7 +93,7 @@
       **Acceptance Criteria:**
 - Home shows the most recent episodes airing within the current week (based on AniList schedule).
 - Loading, empty, and error states are visible and styled.
-- Clicking a card navigates to `/anime/:id`.
+- Clicking a card navigates to `/anime/:slug`.
 - Tests or assertions cover data rendering.
   **Files:** `src/app/pages/home/home.component.ts|html|css`, `src/app/components/airing-schedule-list/*`, `src/app/components/anime-card/*`, `src/app/pages/home/home.component.spec.ts`
 
@@ -148,15 +148,15 @@
 
 ### Ticket AP-010 - Anime detail data resolver
 
-**Description:** Ensure `/anime/:id` preloads anime data through a resolver to simplify the detail component and handle missing IDs.
+**Description:** Ensure `/anime/:slug` preloads anime data through a resolver to simplify the detail component and handle missing slugs.
 **Checklist:**
 
 - [ ] Create `AnimeDetailResolver` that reads the route param, calls `getAnimeDetailsById`, and resolves data or redirects on error.
-- [ ] Wire resolver into `app.routes.ts` for `/anime/:id`.
+- [ ] Wire resolver into `app.routes.ts` for `/anime/:slug`.
 - [ ] Surface resolved data to the component via `ActivatedRoute.data` or injection.
 - [ ] Add resolver unit tests for success/error cases.
       **Acceptance Criteria:**
-- Visiting `/anime/123` waits for data before rendering; invalid IDs redirect or show error page.
+- Visiting `/anime/your-favorite-show` waits for data before rendering; invalid slugs redirect or show error page.
 - Resolver errors are logged and handled gracefully.
 - Tests assert resolver behavior.
   **Files:** `src/app/pages/anime-detail/anime-detail.resolver.ts`, `src/app/app.routes.ts`, `src/app/services/anilist.service.ts`, `src/app/pages/anime-detail/anime-detail.resolver.spec.ts`
