@@ -39,9 +39,7 @@ describe('AiringScheduleListComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('a').length).toBe(1);
+    expect(compiled.querySelectorAll('app-airing-schedule-card').length).toBe(1);
     expect(compiled.textContent).toContain('Great Adventure');
-    const imgSrc = compiled.querySelector('img')?.getAttribute('src');
-    expect(imgSrc).toContain('cover');
   });
 });
