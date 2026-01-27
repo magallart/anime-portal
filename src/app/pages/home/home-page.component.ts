@@ -52,13 +52,11 @@ interface HomeHighlight {
     </article>
 
     <section class="mx-auto max-w-6xl px-gutter py-10">
-      @if (loading()) {
-        <p class="text-center text-sm text-muted-foreground">Loading latest episodes&hellip;</p>
-      } @else if (error()) {
-        <p class="text-center text-sm text-destructive">{{ error() }}</p>
-      } @else {
-        <app-last-airing-anime-list [episodes]="airingEpisodes()" />
-      }
+      <app-last-airing-anime-list
+        [episodes]="airingEpisodes()"
+        [loading]="loading()"
+        [error]="error()"
+      />
     </section>
   `,
 })

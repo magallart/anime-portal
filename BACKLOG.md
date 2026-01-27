@@ -88,10 +88,10 @@
 
 - [✔️] Create a dedicated `LastAiringAnimeListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
 - [✔️] Inject data via signals/observables in `HomePageComponent`, triggering fetch on init.
-- [ ] Add loading skeletons and empty/error states.
-- [ ] Ensure list is keyboard navigable (aria roles, focus order) and responsive (stack/grid behavior).
-- [ ] Add component/unit tests covering rendering and state switches.
-      **Acceptance Criteria:**
+- [✔️] Add loading skeletons and empty/error states.
+- [✔️] Ensure list is keyboard navigable (aria roles, focus order) and responsive (stack/grid behavior).
+- [✔️] Add component/unit tests covering rendering and state switches.
+  **Acceptance Criteria:**
 - Home shows the most recent episodes airing within the current week (based on AniList feed).
 - Loading, empty, and error states are visible and styled.
 - Clicking a card navigates to `/anime/:slug`.

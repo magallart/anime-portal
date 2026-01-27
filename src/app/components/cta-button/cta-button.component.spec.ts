@@ -16,6 +16,6 @@ describe('CtaButtonComponent', () => {
 
     const button = fixture.nativeElement as HTMLElement;
     expect(button.textContent).toContain('Ver más');
-    expect(button.querySelector('a')?.getAttribute('ng-reflect-router-link')).toContain('/section');
+    expect(fixture.componentRef.instance.link()).toEqual(['/section']);
   });
 });

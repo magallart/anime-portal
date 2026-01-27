@@ -44,7 +44,7 @@ describe('LastAiringAnimeListComponent', () => {
     expect(compiled.textContent).toContain('Great Adventure');
   });
 
-  it('limits visible episodes to the first 10 items', async () => {
+  it('limits visible episodes to the first 15 items', async () => {
     await TestBed.configureTestingModule({
       imports: [LastAiringAnimeListComponent, RouterTestingModule],
     }).compileComponents();
@@ -64,5 +64,31 @@ describe('LastAiringAnimeListComponent', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('article').length).toBe(15);
+  });
+
+  it('shows skeletons while loading', async () => {
+    await TestBed.configureTestingModule({
+      imports: [LastAiringAnimeListComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(LastAiringAnimeListComponent);
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('.animate-pulse').length).toBeGreaterThan(0);
+  });
+
+  it('renders error message when error input is provided', async () => {
+    await TestBed.configureTestingModule({
+      imports: [LastAiringAnimeListComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(LastAiringAnimeListComponent);
+    fixture.componentRef.setInput('error', 'Unable to load');
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Unable to load');
   });
 });
