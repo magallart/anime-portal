@@ -70,7 +70,7 @@
 **Description:** Build domain-level service abstractions that expose strongly typed methods for airing schedule, anime search, and anime detail data.
 **Checklist:**
 
-- [ ] Define interfaces/models for `AnimeSummary`, `AiringEpisode`, `AnimeDetail`, `GenreFilter`, etc. under `src/app/interfaces/`.
+- [✔️] Define interfaces/models for `AnimeSummary`, `AiringEpisode`, `AnimeDetail`, `GenreFilter`, etc. under `src/app/interfaces/`.
 - [ ] Implement `AnilistService` (or similar) that composes `GraphqlClientService` and houses query strings plus mapping helpers.
 - [ ] Provide methods: `getAiringScheduleThisWeek()`, `getAnimeByFilters()`, `getAnimeDetailsById(id)` returning Observables or signals.
 - [ ] Normalize/sanitize AniList HTML descriptions to safe strings.
