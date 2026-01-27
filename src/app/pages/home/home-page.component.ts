@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, of, tap } from 'rxjs';
+import { AiringScheduleListComponent } from '../../components/airing-schedule-list/airing-schedule-list.component';
+import { AnilistService } from '../../services/anilist.service';
 
 interface HomeHighlight {
   readonly title: string;
@@ -9,7 +13,7 @@ interface HomeHighlight {
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AiringScheduleListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl space-y-10 px-gutter py-section">
@@ -46,17 +50,50 @@ interface HomeHighlight {
         }
       </section>
 
-      <section class="rounded-2xl border border-dashed border-border bg-card/70 p-card text-left">
-        <h2 class="text-2xl font-heading text-foreground">Coming soon</h2>
-        <p class="mt-2 text-base text-muted-foreground">
-          This area will showcase airing schedules, collections, and personalized picks once the
-          data layer is wired in.
-        </p>
+      <section class="rounded-2xl border border-border bg-card/70 p-card text-left">
+        <div class="flex flex-col gap-2 text-left">
+          <h2 class="text-2xl font-heading text-foreground">Airing schedule spotlight</h2>
+          <p class="text-sm text-muted-foreground">
+            Episodes airing over the next week powered by the AniList schedule.
+          </p>
+        </div>
+
+        @if (loading()) {
+          <p class="mt-4 text-sm text-muted-foreground">Loading latest episodes&hellip;</p>
+        } @else if (error()) {
+          <p class="mt-4 text-sm text-destructive">
+            {{ error() }}
+          </p>
+        } @else {
+          <app-airing-schedule-list class="mt-6 block" [episodes]="airingEpisodes()" />
+        }
       </section>
     </article>
   `,
 })
 export class HomePageComponent {
+  private readonly anilistService = inject(AnilistService);
+
+  protected readonly loading = signal(true);
+  protected readonly error = signal<string | null>(null);
+
+  protected readonly airingEpisodes = toSignal(
+    this.anilistService.getAiringScheduleThisWeek().pipe(
+      tap({
+        next: () => {
+          this.loading.set(false);
+          this.error.set(null);
+        },
+      }),
+      catchError(() => {
+        this.loading.set(false);
+        this.error.set('Unable to load airing schedule right now.');
+        return of([]);
+      }),
+    ),
+    { initialValue: [] },
+  );
+
   protected readonly highlights: HomeHighlight[] = [
     {
       title: 'Fresh episodes',

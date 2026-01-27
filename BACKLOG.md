@@ -87,7 +87,7 @@
 **Checklist:**
 
 - [✔️] Create a dedicated `AiringScheduleListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
-- [ ] Inject data via signals/observables in `HomePageComponent`, triggering fetch on init.
+- [✔️] Inject data via signals/observables in `HomePageComponent`, triggering fetch on init.
 - [ ] Add loading skeletons and empty/error states.
 - [ ] Ensure list is keyboard navigable (aria roles, focus order) and responsive (stack/grid behavior).
 - [ ] Add component/unit tests covering rendering and state switches.

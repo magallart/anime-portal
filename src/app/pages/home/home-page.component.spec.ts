@@ -1,19 +1,61 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { of, throwError } from 'rxjs';
+import type { AiringEpisode } from '../../interfaces/airing-episode';
+import { AnilistService } from '../../services/anilist.service';
 import { HomePageComponent } from './home-page.component';
 
+const sampleEpisodes: AiringEpisode[] = [
+  {
+    animeId: 1,
+    animeSlug: 'great-adventure',
+    title: 'Great Adventure',
+    episodeNumber: 7,
+    airingAt: 1_700_000_000,
+    airingAtDate: new Date(1_700_000_000 * 1000),
+  },
+];
+
 describe('HomePageComponent', () => {
-  it('renders hero content and highlights', async () => {
+  const setup = async (returnValue = of(sampleEpisodes)) => {
+    const getScheduleMock = vi.fn().mockReturnValue(returnValue);
+
     await TestBed.configureTestingModule({
       imports: [HomePageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: {
+            getAiringScheduleThisWeek: getScheduleMock,
+          },
+        },
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(HomePageComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
+    return { fixture, getScheduleMock };
+  };
 
+  it('renders hero content, highlights, and airing schedule', async () => {
+    const { fixture, getScheduleMock } = await setup();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Discover');
     expect(compiled.querySelectorAll('[data-test="home-highlight"]').length).toBe(3);
+    expect(getScheduleMock).toHaveBeenCalled();
+    expect(compiled.querySelector('app-airing-schedule-list')).toBeTruthy();
+  });
+
+  it('surfaces an error message when airing schedule fails', async () => {
+    const { fixture } = await setup(throwError(() => new Error('fail')));
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Unable to load airing schedule');
   });
 });
