@@ -38,10 +38,10 @@
 **Description:** Create dedicated page components and configure Angular routing for Home, Genres, and Anime Detail pages, using user-friendly anime name slugs (`/anime/:slug`) instead of numeric IDs.
 **Checklist:**
 
-- [ ] Generate `HomePageComponent`, `GenresPageComponent`, and `AnimeDetailPageComponent` under `src/app/pages/` with standalone setup.
-- [ ] Update `app.routes.ts` to define routes `/`, `/genres`, and `/anime/:slug` (with route titles and data for breadcrumbs later).
-- [ ] Provide placeholder templates per page referencing header/footer layout and simple copy so navigation works before data integration.
-- [ ] Add route-level tests or harness spec verifying router navigates to each component.
+- [x] Generate `HomePageComponent`, `GenresPageComponent`, and `AnimeDetailPageComponent` under `src/app/pages/` with standalone setup.
+- [x] Update `app.routes.ts` to define routes `/`, `/genres`, and `/anime/:slug` (with route titles and data for breadcrumbs later).
+- [x] Provide placeholder templates per page referencing header/footer layout and simple copy so navigation works before data integration.
+- [x] Add route-level tests or harness spec verifying router navigates to each component.
       **Acceptance Criteria:**
 - Visiting `/`, `/genres`, `/anime/your-favorite-show` renders the correct placeholder component.
 - Routes include page titles/meta via `title` or `data`.
