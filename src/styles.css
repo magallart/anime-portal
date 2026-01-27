@@ -52,8 +52,8 @@
      ------------------------------------------------------------------------
      Use subtle defaults to avoid overly "heavy" UIs in a template.
   ------------------------------------------------------------------------ */
-  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 1px -1px rgb(0 0 0 / 0.06);
-  --shadow-medium: 0 10px 15px -3px rgb(0 0 0 / 0.12), 0 4px 6px -4px rgb(0 0 0 / 0.12);
+  --shadow-subtle: 0 15px 35px rgb(0 0 0 / 0.35);
+  --shadow-medium: 0 25px 50px rgb(0 0 0 / 0.45);
 
   /* ------------------------------------------------------------------------
      4) Semantic Color Tokens (HSL triples)
@@ -64,39 +64,39 @@
      - Do NOT use hex here unless you have a strong reason.
   ------------------------------------------------------------------------ */
 
-  /* Neutrals (Light Theme) */
-  --background: 0 0% 96%;
-  --foreground: 256 5% 30%;
+  /* Neutrals (Dark Theme) */
+  --background: 220 25% 4%;
+  --foreground: 210 20% 96%;
 
-  --card: 0 0% 100%;
-  --card-foreground: 256 5% 30%;
+  --card: 218 28% 10%;
+  --card-foreground: 210 20% 96%;
 
-  --muted: 0 0% 90%;
-  --muted-foreground: 265 11% 40%;
+  --muted: 220 18% 14%;
+  --muted-foreground: 215 12% 72%;
 
-  --border: 265 11% 80%;
-  --ink: 256 10% 12%;
+  --border: 218 18% 22%;
+  --ink: 210 15% 85%;
 
   /* Focus + spacing tokens */
-  --focus-ring: 45 70% 56%;
-  --focus-ring-offset: var(--background);
+  --focus-ring: 195 100% 60%;
+  --focus-ring-offset: 220 25% 4%;
   --space-gutter: clamp(1rem, 2vw, 2.5rem);
   --space-section-y: clamp(2.5rem, 5vw, 4.5rem);
   --space-gap: 1.5rem;
   --space-card-padding: 1.25rem;
 
   /* Brand */
-  --primary: 45 70% 56%;
-  --primary-foreground: 265 11% 22%;
+  --primary: 195 100% 60%;
+  --primary-foreground: 215 50% 10%;
 
-  --secondary: 37 72% 54%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 270 70% 55%;
+  --secondary-foreground: 220 20% 96%;
 
-  --accent: 265 11% 22%;
-  --accent-foreground: 0 0% 96%;
+  --accent: 222 35% 12%;
+  --accent-foreground: 210 20% 92%;
 
-  --destructive: 0 82% 60%;
-  --destructive-foreground: 0 0% 100%;
+  --destructive: 355 80% 60%;
+  --destructive-foreground: 0 0% 98%;
 }
 
 /* --------------------------------------------------------------------------
@@ -105,28 +105,28 @@
    Add class "dark" to <html> or <body> to enable dark mode.
 --------------------------------------------------------------------------- */
 .dark {
-  --background: 265 11% 12%;
-  --foreground: 0 0% 96%;
+  --background: 220 20% 3%;
+  --foreground: 0 0% 98%;
 
-  --card: 265 11% 18%;
+  --card: 220 26% 9%;
   --card-foreground: 0 0% 96%;
 
-  --muted: 265 10% 30%;
-  --muted-foreground: 0 0% 85%;
+  --muted: 220 16% 13%;
+  --muted-foreground: 215 12% 70%;
 
-  --border: 265 11% 35%;
-  --ink: 0 0% 96%;
+  --border: 220 16% 20%;
+  --ink: 210 15% 87%;
 
-  --primary: 45 70% 56%;
-  --primary-foreground: 265 11% 18%;
+  --primary: 195 100% 60%;
+  --primary-foreground: 220 40% 10%;
 
-  --secondary: 37 72% 54%;
-  --secondary-foreground: 265 11% 18%;
+  --secondary: 270 70% 55%;
+  --secondary-foreground: 0 0% 96%;
 
-  --accent: 0 0% 96%;
-  --accent-foreground: 265 11% 18%;
+  --accent: 222 35% 12%;
+  --accent-foreground: 0 0% 96%;
 
-  --destructive: 0 78% 58%;
+  --destructive: 355 80% 58%;
   --destructive-foreground: 0 0% 98%;
 }
 
@@ -134,11 +134,11 @@
    6) Base document styles (minimal)
 --------------------------------------------------------------------------- */
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
-html.dark {
-  color-scheme: dark;
+html.light {
+  color-scheme: light;
 }
 
 body {

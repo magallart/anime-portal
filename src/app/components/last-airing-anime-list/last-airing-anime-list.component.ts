@@ -9,7 +9,9 @@ import { CtaButtonComponent } from '../cta-button/cta-button.component';
   imports: [RouterLink, CtaButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="relative left-1/2 w-screen -translate-x-1/2 bg-accent text-accent-foreground">
+    <section
+      class="relative left-1/2 w-screen -translate-x-1/2 border-b border-accent/40 bg-accent/95 text-accent-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/80"
+    >
       <div class="mx-auto max-w-6xl space-y-8 px-gutter py-12">
         <header class="flex flex-wrap items-center justify-between gap-4">
           <h2 class="text-3xl font-heading font-semibold text-white">
