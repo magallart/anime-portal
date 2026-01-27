@@ -49,26 +49,17 @@ interface HomeHighlight {
           </article>
         }
       </section>
-
-      <section class="rounded-2xl border border-border bg-card/70 p-card text-left">
-        <div class="flex flex-col gap-2 text-left">
-          <h2 class="text-2xl font-heading text-foreground">Airing spotlight</h2>
-          <p class="text-sm text-muted-foreground">
-            Episodes airing over the next week powered by the AniList feed.
-          </p>
-        </div>
-
-        @if (loading()) {
-          <p class="mt-4 text-sm text-muted-foreground">Loading latest episodes&hellip;</p>
-        } @else if (error()) {
-          <p class="mt-4 text-sm text-destructive">
-            {{ error() }}
-          </p>
-        } @else {
-          <app-last-airing-anime-list class="mt-6 block" [episodes]="airingEpisodes()" />
-        }
-      </section>
     </article>
+
+    <section class="mx-auto max-w-6xl px-gutter py-10">
+      @if (loading()) {
+        <p class="text-center text-sm text-muted-foreground">Loading latest episodes&hellip;</p>
+      } @else if (error()) {
+        <p class="text-center text-sm text-destructive">{{ error() }}</p>
+      } @else {
+        <app-last-airing-anime-list [episodes]="airingEpisodes()" />
+      }
+    </section>
   `,
 })
 export class HomePageComponent {
