@@ -33,7 +33,7 @@ describe('AnilistService', () => {
               episode: 5,
               media: {
                 id: 123,
-                slug: 'sample-show',
+                siteUrl: 'https://anilist.co/anime/123/sample-show/',
                 title: { english: 'Sample Show', romaji: 'Sample' },
                 coverImage: { large: 'large.jpg', medium: 'med.jpg', extraLarge: 'xl.jpg' },
                 genres: ['Action'],
@@ -68,7 +68,7 @@ describe('AnilistService', () => {
           media: [
             {
               id: 999,
-              slug: 'cool-show',
+              siteUrl: 'https://anilist.co/anime/999/cool-show/',
               title: { romaji: 'Cool Show' },
               coverImage: { large: 'cover.png' },
               genres: ['Drama'],
@@ -106,7 +106,7 @@ describe('AnilistService', () => {
       of({
         Media: {
           id: 456,
-          slug: 'detail-anime',
+          siteUrl: 'https://anilist.co/anime/456/detail-anime/',
           title: { english: 'Detail' },
           coverImage: { large: 'cover.jpg' },
           description: '<p>Strong <em>story</em></p>',
@@ -119,7 +119,7 @@ describe('AnilistService', () => {
     const result = await firstValueFrom(service.getAnimeDetailsBySlug('detail-anime'));
 
     expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('AnimeDetail'), {
-      slug: 'detail-anime',
+      slug: 'detail anime',
     });
     expect(result.description).toBe('Strong story');
     expect(result.studios[0]).toEqual({

@@ -14,6 +14,7 @@ const sampleEpisodes: AiringEpisode[] = [
     episodeNumber: 7,
     airingAt: 1_700_000_000,
     airingAtDate: new Date(1_700_000_000 * 1000),
+    coverImage: 'cover.jpg',
   },
 ];
 

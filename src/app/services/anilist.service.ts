@@ -54,7 +54,7 @@ export class AnilistService {
   getAnimeDetailsBySlug(slug: string): Observable<AnimeDetail> {
     return this.client
       .execute<AnimeDetailQueryResponse, AnimeDetailQueryVariables>(ANIME_DETAIL_QUERY, {
-        slug,
+        slug: this.toSearchTerm(slug),
       })
       .pipe(
         map((response) => {
@@ -174,17 +174,30 @@ export class AnilistService {
 
   private resolveSlug(media: {
     id: number;
-    slug?: string | null;
+    siteUrl?: string | null;
     title?: { romaji?: string };
   }): string {
-    if (media.slug) {
-      return media.slug;
+    const slugFromUrl = this.parseSlugFromSiteUrl(media.siteUrl);
+    if (slugFromUrl) {
+      return slugFromUrl;
     }
     const base = media.title?.romaji ?? String(media.id);
     return base
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '');
+  }
+
+  private parseSlugFromSiteUrl(siteUrl?: string | null): string | undefined {
+    if (!siteUrl) {
+      return undefined;
+    }
+    const match = siteUrl.match(/anime\/\d+\/([^/?#]+)/i);
+    return match?.[1]?.toLowerCase();
+  }
+
+  private toSearchTerm(slug: string): string {
+    return slug.replace(/-/g, ' ').trim();
   }
 
   private resolveTitle(title: { english?: string; romaji?: string } | undefined): string {
@@ -207,7 +220,7 @@ const AIRING_SCHEDULE_QUERY = `
         episode
         media {
           id
-          slug
+          siteUrl
           title {
             english
             romaji
@@ -215,6 +228,7 @@ const AIRING_SCHEDULE_QUERY = `
           coverImage {
             large
             medium
+            extraLarge
           }
         }
       }
@@ -246,7 +260,7 @@ const SEARCH_QUERY = `
         type: ANIME
       ) {
         id
-        slug
+        siteUrl
         title {
           english
           romaji
@@ -276,7 +290,7 @@ const ANIME_DETAIL_QUERY = `
   query AnimeDetail($slug: String!) {
     Media(search: $slug, type: ANIME) {
       id
-      slug
+      siteUrl
       title {
         english
         romaji
@@ -387,7 +401,7 @@ interface SearchQueryVariables {
 
 interface AnimeSummaryNode {
   readonly id: number;
-  readonly slug?: string | null;
+  readonly siteUrl?: string | null;
   readonly title: {
     readonly english?: string;
     readonly romaji?: string;
