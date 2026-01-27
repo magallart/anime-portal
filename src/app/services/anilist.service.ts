@@ -78,7 +78,11 @@ export class AnilistService {
       episodeNumber: node.episode,
       airingAt: node.airingAt,
       airingAtDate: new Date(node.airingAt * 1000),
-      coverImage: node.media.coverImage?.large ?? node.media.coverImage?.medium,
+      coverImage:
+        node.media.coverImage?.extraLarge ??
+        node.media.coverImage?.large ??
+        node.media.coverImage?.medium ??
+        undefined,
     };
   }
 

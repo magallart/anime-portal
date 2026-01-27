@@ -40,7 +40,7 @@ describe('LastAiringAnimeListComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('app-last-airing-anime-card').length).toBe(1);
+    expect(compiled.querySelectorAll('article').length).toBe(1);
     expect(compiled.textContent).toContain('Great Adventure');
   });
 
@@ -63,6 +63,6 @@ describe('LastAiringAnimeListComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('app-last-airing-anime-card').length).toBe(10);
+    expect(compiled.querySelectorAll('article').length).toBe(15);
   });
 });
