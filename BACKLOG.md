@@ -86,7 +86,7 @@
 **Description:** Use the domain service to fetch airing schedule data and display a scrollable list of latest episodes on the Home page.
 **Checklist:**
 
-- [ ] Create a dedicated `AiringScheduleListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
+- [✔️] Create a dedicated `AiringScheduleListComponent` to render cards (cover, title, episode number, airing time) using Tailwind.
 - [ ] Inject data via signals/observables in `HomePageComponent`, triggering fetch on init.
 - [ ] Add loading skeletons and empty/error states.
 - [ ] Ensure list is keyboard navigable (aria roles, focus order) and responsive (stack/grid behavior).
