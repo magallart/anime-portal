@@ -73,6 +73,8 @@ export class AnilistService {
       animeId: node.media.id,
       animeSlug: this.resolveSlug(node.media),
       title: this.resolveTitle(node.media.title),
+      titleNative: node.media.title?.native ?? undefined,
+      titleRomaji: node.media.title?.romaji ?? undefined,
       episodeNumber: node.episode,
       airingAt: node.airingAt,
       airingAtDate: new Date(node.airingAt * 1000),
@@ -224,6 +226,7 @@ const LATEST_AIRING_QUERY = `
           title {
             english
             romaji
+            native
           }
           coverImage {
             large

@@ -25,7 +25,7 @@ import { LastAiringAnimeCardComponent } from '../last-airing-anime-card/last-air
         </div>
       } @else {
         <div class="grid gap-4 md:grid-cols-2">
-          @for (episode of episodes(); track episodeKey(episode)) {
+          @for (episode of visibleEpisodes(); track episodeKey(episode)) {
             <app-last-airing-anime-card [episode]="episode" />
           }
         </div>
@@ -35,7 +35,7 @@ import { LastAiringAnimeCardComponent } from '../last-airing-anime-card/last-air
 })
 export class LastAiringAnimeListComponent {
   readonly episodes = input<readonly AiringEpisode[]>([]);
-
+  protected readonly visibleEpisodes = computed(() => this.episodes().slice(0, 10));
   protected readonly isEmpty = computed(() => this.episodes().length === 0);
 
   protected episodeKey(episode: AiringEpisode): string {

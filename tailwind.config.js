@@ -68,6 +68,8 @@ module.exports = {
           foreground: 'hsl(var(--accent-foreground))',
         },
 
+        ink: 'hsl(var(--ink))',
+
         // Destructive actions (delete, danger)
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

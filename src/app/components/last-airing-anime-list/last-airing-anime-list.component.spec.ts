@@ -9,6 +9,7 @@ const sampleEpisodes: AiringEpisode[] = [
     animeId: 1,
     animeSlug: 'great-adventure',
     title: 'Great Adventure',
+    titleRomaji: 'Great Adventure',
     episodeNumber: 7,
     airingAt: 1_700_000_000,
     airingAtDate: new Date(1_700_000_000 * 1000),
@@ -41,5 +42,27 @@ describe('LastAiringAnimeListComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('app-last-airing-anime-card').length).toBe(1);
     expect(compiled.textContent).toContain('Great Adventure');
+  });
+
+  it('limits visible episodes to the first 10 items', async () => {
+    await TestBed.configureTestingModule({
+      imports: [LastAiringAnimeListComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(LastAiringAnimeListComponent);
+    const episodes = Array.from({ length: 15 }, (_, index) => ({
+      animeId: index + 1,
+      animeSlug: `slug-${index + 1}`,
+      title: `Anime ${index + 1}`,
+      episodeNumber: index + 1,
+      airingAt: 1_700_000_000 + index,
+      airingAtDate: new Date((1_700_000_000 + index) * 1000),
+    })) satisfies readonly AiringEpisode[];
+
+    fixture.componentRef.setInput('episodes', episodes);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('app-last-airing-anime-card').length).toBe(10);
   });
 });
