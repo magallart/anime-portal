@@ -15,7 +15,7 @@ interface NavLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header
-      class="fixed left-0 right-0 top-0 z-30 w-full border-b border-border bg-gradient-to-r from-accent/80 via-background/90 to-accent/80 text-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/60"
+      class="sticky top-0 z-30 w-full border-b border-border bg-gradient-to-r from-accent/80 via-background/90 to-accent/80 text-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/60"
     >
       <div class="mx-auto grid max-w-6xl grid-cols-[auto_1fr] items-center gap-4 px-gutter py-3">
         <a
