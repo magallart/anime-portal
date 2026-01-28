@@ -17,9 +17,7 @@ interface NavLink {
     <header
       class="fixed left-0 right-0 top-0 z-30 w-full border-b border-border bg-gradient-to-r from-accent/80 via-background/90 to-accent/80 text-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/60"
     >
-      <div
-        class="mx-auto grid max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-gutter py-3"
-      >
+      <div class="mx-auto grid max-w-6xl grid-cols-[auto_1fr] items-center gap-4 px-gutter py-3">
         <a
           routerLink="/"
           class="group inline-flex items-center gap-3 rounded-xl text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -38,12 +36,12 @@ interface NavLink {
           </div>
         </a>
 
-        <nav aria-label="Primary navigation" class="hidden justify-center md:flex">
+        <nav aria-label="Primary navigation" class="hidden justify-end md:flex">
           <ul class="flex items-center gap-3 text-sm font-medium">
             <li *ngFor="let link of navLinks">
               <a
                 [routerLink]="link.path"
-                routerLinkActive="text-primary"
+                routerLinkActive="text-primary-bright hover:text-primary-bright font-semibold"
                 [routerLinkActiveOptions]="{ exact: link.path === '/' }"
                 class="rounded-xl px-4 py-2 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 [attr.data-test]="link.testId"
@@ -53,15 +51,6 @@ interface NavLink {
             </li>
           </ul>
         </nav>
-
-        <div class="flex justify-end">
-          <a
-            routerLink="/genres"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-subtle transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            Get Started
-          </a>
-        </div>
       </div>
     </header>
   `,

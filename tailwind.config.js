@@ -53,6 +53,7 @@ module.exports = {
         // Primary brand color
         primary: {
           DEFAULT: 'hsl(var(--primary))',
+          bright: 'hsl(var(--primary-bright))',
           foreground: 'hsl(var(--primary-foreground))',
         },
 

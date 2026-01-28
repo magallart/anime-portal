@@ -87,6 +87,7 @@
 
   /* Brand / Actions (purple-indigo glow, controlled saturation) */
   --primary: 252 60% 54%;
+  --primary-bright: 252 68% 62%;
   --primary-foreground: 220 22% 96%;
 
   --secondary: 254 42% 38%;
@@ -123,6 +124,7 @@
   --ink: 220 16% 82%;
 
   --primary: 252 60% 54%;
+  --primary-bright: 252 68% 60%;
   --primary-foreground: 220 22% 96%;
 
   --secondary: 254 42% 38%;

@@ -89,6 +89,7 @@ No hex colors. No inline CSS colors. No `var()` in `className`.
 
 - Primary:
   - Background: `bg-primary` (purple brand glow)
+  - Bright text: `text-primary-bright` (active navigation highlight)
   - Text: `text-primary-foreground` (soft white)
 - Secondary:
   - Background: `bg-secondary` (indigo-violet support)
