@@ -54,7 +54,7 @@ export interface AnimeCardData {
 
         <div class="flex flex-1 flex-col gap-3 p-4">
           <div class="space-y-1">
-            <h3 class="line-clamp-2 text-base font-semibold text-foreground">
+            <h3 class="truncate text-base font-semibold text-foreground">
               {{ card().title }}
             </h3>
             @if (card().season || card().rating) {
