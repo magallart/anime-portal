@@ -8,4 +8,5 @@ export interface AiringEpisode {
   readonly airingAt: number;
   readonly airingAtDate: Date;
   readonly coverImage?: string;
+  readonly genres?: readonly string[];
 }

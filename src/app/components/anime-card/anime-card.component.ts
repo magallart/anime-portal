@@ -54,15 +54,9 @@ export interface AnimeCardData {
             <h3 class="line-clamp-2 text-base font-semibold text-foreground">
               {{ card().title }}
             </h3>
-            <p class="text-xs text-muted-foreground">
-              @if (card().year) {
-                {{ card().year }}
-              }
-              @if (card().year && card().meta) {
-                <span class="px-2">-</span>
-              }
-              {{ card().meta }}
-            </p>
+            @if (card().meta) {
+              <p class="text-xs text-muted-foreground">{{ card().meta }}</p>
+            }
           </div>
 
           @if (card().tags?.length) {

@@ -94,16 +94,36 @@ export class HomePageComponent {
   );
 
   private mapEpisodeToCard(episode: AiringEpisode): AnimeCardData {
-    const year = episode.airingAtDate?.getFullYear();
+    const seasonLabel = this.resolveSeasonLabel(episode.airingAtDate);
     return {
       id: episode.animeId,
       slug: episode.animeSlug,
       title: episode.title,
       imageUrl: episode.coverImage,
       badge: `EP ${episode.episodeNumber}`,
-      meta: `Episode ${episode.episodeNumber}`,
-      year,
-      tags: ['Airing', 'This week'],
+      meta: seasonLabel,
+      tags: episode.genres?.slice(0, 2) ?? [],
     };
+  }
+
+  private resolveSeasonLabel(date: Date | undefined): string {
+    if (!date) {
+      return 'Season TBD';
+    }
+
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const season =
+      month <= 1
+        ? 'Winter'
+        : month <= 4
+          ? 'Spring'
+          : month <= 7
+            ? 'Summer'
+            : month <= 10
+              ? 'Fall'
+              : 'Winter';
+
+    return `${season} ${year}`;
   }
 }

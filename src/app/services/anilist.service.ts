@@ -83,6 +83,7 @@ export class AnilistService {
         node.media.coverImage?.large ??
         node.media.coverImage?.medium ??
         undefined,
+      genres: node.media.genres ?? [],
     };
   }
 
@@ -237,6 +238,7 @@ const LATEST_AIRING_QUERY = `
             medium
             extraLarge
           }
+          genres
         }
       }
     }
