@@ -76,6 +76,16 @@ module.exports = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
 
+        // Success / warning (feedback)
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+        },
+
         // Muted / subtle UI
         muted: {
           DEFAULT: 'hsl(var(--muted))',

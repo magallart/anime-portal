@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a
-      class="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-[0_4px_15px_rgb(14_165_233/0.35)] transition hover:bg-primary/90 hover:shadow-[0_8px_25px_rgb(14_165_233/0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
+      class="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-subtle transition hover:bg-primary/90 hover:shadow-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       [routerLink]="link()"
       [attr.aria-label]="label()"
     >

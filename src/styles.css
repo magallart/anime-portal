@@ -64,39 +64,44 @@
      - Do NOT use hex here unless you have a strong reason.
   ------------------------------------------------------------------------ */
 
-  /* Neutrals (Dark Theme) */
-  --background: 220 25% 4%;
-  --foreground: 210 20% 96%;
+  /* Neutrals / Surfaces (cinematic dark base) */
+  --background: 230 34% 12%;
+  --foreground: 220 22% 92%;
 
-  --card: 218 28% 10%;
-  --card-foreground: 210 20% 96%;
+  --card: 228 30% 17%;
+  --card-foreground: 220 22% 92%;
 
-  --muted: 220 18% 14%;
-  --muted-foreground: 215 12% 72%;
+  --muted: 228 22% 21%;
+  --muted-foreground: 222 12% 70%;
 
-  --border: 218 18% 22%;
-  --ink: 210 15% 85%;
+  --border: 228 18% 23%;
+  --ink: 220 16% 84%;
 
   /* Focus + spacing tokens */
-  --focus-ring: 195 100% 60%;
-  --focus-ring-offset: 220 25% 4%;
+  --focus-ring: 252 55% 60%;
+  --focus-ring-offset: 230 34% 12%;
   --space-gutter: clamp(1rem, 2vw, 2.5rem);
   --space-section-y: clamp(2.5rem, 5vw, 4.5rem);
   --space-gap: 1.5rem;
   --space-card-padding: 1.25rem;
 
-  /* Brand */
-  --primary: 195 100% 60%;
-  --primary-foreground: 215 50% 10%;
+  /* Brand / Actions (purple-indigo glow, controlled saturation) */
+  --primary: 252 60% 54%;
+  --primary-foreground: 220 22% 96%;
 
-  --secondary: 270 70% 55%;
-  --secondary-foreground: 220 20% 96%;
+  --secondary: 254 42% 38%;
+  --secondary-foreground: 220 22% 96%;
 
-  --accent: 222 35% 12%;
-  --accent-foreground: 210 20% 92%;
+  --accent: 244 24% 24%;
+  --accent-foreground: 220 22% 92%;
 
-  --destructive: 355 80% 60%;
-  --destructive-foreground: 0 0% 98%;
+  /* Feedback */
+  --success: 152 40% 42%;
+  --success-foreground: 220 22% 96%;
+  --warning: 36 62% 54%;
+  --warning-foreground: 220 22% 96%;
+  --destructive: 0 64% 54%;
+  --destructive-foreground: 220 22% 96%;
 }
 
 /* --------------------------------------------------------------------------
@@ -105,29 +110,33 @@
    Add class "dark" to <html> or <body> to enable dark mode.
 --------------------------------------------------------------------------- */
 .dark {
-  --background: 220 20% 3%;
-  --foreground: 0 0% 98%;
+  --background: 230 34% 11%;
+  --foreground: 220 22% 94%;
 
-  --card: 220 26% 9%;
-  --card-foreground: 0 0% 96%;
+  --card: 228 30% 15%;
+  --card-foreground: 220 22% 94%;
 
-  --muted: 220 16% 13%;
-  --muted-foreground: 215 12% 70%;
+  --muted: 228 22% 18%;
+  --muted-foreground: 222 12% 68%;
 
-  --border: 220 16% 20%;
-  --ink: 210 15% 87%;
+  --border: 228 18% 20%;
+  --ink: 220 16% 82%;
 
-  --primary: 195 100% 60%;
-  --primary-foreground: 220 40% 10%;
+  --primary: 252 60% 54%;
+  --primary-foreground: 220 22% 96%;
 
-  --secondary: 270 70% 55%;
-  --secondary-foreground: 0 0% 96%;
+  --secondary: 254 42% 38%;
+  --secondary-foreground: 220 22% 96%;
 
-  --accent: 222 35% 12%;
-  --accent-foreground: 0 0% 96%;
+  --accent: 244 24% 24%;
+  --accent-foreground: 220 22% 92%;
 
-  --destructive: 355 80% 58%;
-  --destructive-foreground: 0 0% 98%;
+  --success: 152 40% 40%;
+  --success-foreground: 220 22% 96%;
+  --warning: 36 62% 52%;
+  --warning-foreground: 220 22% 96%;
+  --destructive: 0 64% 52%;
+  --destructive-foreground: 220 22% 96%;
 }
 
 /* --------------------------------------------------------------------------

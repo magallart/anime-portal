@@ -17,7 +17,7 @@ These tokens define the app identity and must be reflected in Tailwind config/th
 ### Identity
 
 - App name: `Anime Portal`
-- Tone: `Electric neon energy`
+- Tone: `Cinematic nocturne`
 - Density: `Standard`
 
 ### Typography (Font Names)
@@ -62,15 +62,15 @@ Layout:
 
 ## 1. Brand Intent
 
-Anime Portal now leans into a cinematic night-mode inspired by Crunchyroll’s hero shelves: deep obsidian canvases, neon blue highlights, and glassy cards that float above the darkness. Typography remains clean and modern, but color pops come from luminous cyan strokes and ultraviolet secondary accents.
+Anime Portal now leans into a cinematic night-mode: deep bluish-purple canvases, indigo brand glow, and soft-contrast cards that float above the darkness. Typography remains clean and modern, but color pops come from controlled purple accents instead of neon.
 
-- Tone: Electric, high-contrast, premium streaming vibes
+- Tone: Cinematic, premium streaming vibes
 - Visual density: Standard (large artwork tiles remain the hero)
 - Corners: Rounded-xl across surfaces
-- Shadows: Atmospheric glows that lift cards from the black canvas
+- Shadows: Atmospheric glows that lift cards from the dark canvas
 - Motion: Minimal — fade/slide micro-interactions only
 
-> Revisit accent saturation whenever new feature art lands to keep the neon ramp balanced across promos.
+> Revisit accent saturation whenever new feature art lands to keep the glow balanced across promos.
 
 ## 2. Color System (Semantic Tokens)
 
@@ -79,26 +79,26 @@ No hex colors. No inline CSS colors. No `var()` in `className`.
 
 ### Neutrals
 
-- Page background: `bg-background` (deep obsidian black)
-- Card background: `bg-card` (charcoal glass)
-- Foreground text: `text-foreground` (soft ice-white)
-- Muted text: `text-muted-foreground` (cool slate)
-- Borders: `border-border` (midnight graphite)
+- Page background: `bg-background` (very dark bluish-purple)
+- Card background: `bg-card` (slightly lighter than background)
+- Foreground text: `text-foreground` (cool near-white)
+- Muted text: `text-muted-foreground` (subdued cool slate)
+- Borders: `border-border` (low-contrast graphite)
 
 ### Brand Colors
 
 - Primary:
-  - Background: `bg-primary` (neon cyan blue)
-  - Text: `text-primary-foreground` (inky midnight)
+  - Background: `bg-primary` (purple brand glow)
+  - Text: `text-primary-foreground` (soft white)
 - Secondary:
-  - Background: `bg-secondary` (ultraviolet glow)
+  - Background: `bg-secondary` (indigo-violet support)
   - Text: `text-secondary-foreground` (soft white)
 - Accent:
-  - Background: `bg-accent` (graphite panel)
+  - Background: `bg-accent` (subtle purple panel)
   - Text: `text-accent-foreground` (cool white)
 - Destructive:
-  - Background: `bg-destructive` (plasma red)
-  - Text: `text-destructive-foreground` (white)
+  - Background: `bg-destructive` (crimson alert)
+  - Text: `text-destructive-foreground` (soft white)
 
 ### Examples
 
