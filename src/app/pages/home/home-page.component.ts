@@ -96,13 +96,15 @@ export class HomePageComponent {
 
   private mapEpisodeToCard(episode: AiringEpisode): AnimeCardData {
     const seasonLabel = this.resolveSeasonLabel(episode.startDate);
+    const rating = this.formatRating(episode.averageScore);
     return {
       id: episode.animeId,
       slug: episode.animeSlug,
       title: episode.title,
       imageUrl: episode.coverImage,
       badge: `EP ${episode.episodeNumber}`,
-      meta: seasonLabel,
+      season: seasonLabel,
+      rating,
       tags: episode.genres?.slice(0, 2) ?? [],
     };
   }
@@ -126,5 +128,13 @@ export class HomePageComponent {
               : 'Winter';
 
     return `${season} ${year}`;
+  }
+
+  private formatRating(score: number | undefined): string | undefined {
+    if (!score || Number.isNaN(score)) {
+      return undefined;
+    }
+
+    return (score / 10).toFixed(1);
   }
 }

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { IconCalendarComponent } from '../icons/icon-calendar.component';
+import { IconStarComponent } from '../icons/icon-star.component';
 
 export interface AnimeCardData {
   readonly id: number;
@@ -7,7 +9,8 @@ export interface AnimeCardData {
   readonly title: string;
   readonly imageUrl?: string;
   readonly badge?: string;
-  readonly meta?: string;
+  readonly season?: string;
+  readonly rating?: string;
   readonly year?: number;
   readonly tags?: readonly string[];
 }
@@ -15,7 +18,7 @@ export interface AnimeCardData {
 @Component({
   selector: 'app-anime-card',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, IconCalendarComponent, IconStarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="group">
@@ -54,8 +57,25 @@ export interface AnimeCardData {
             <h3 class="line-clamp-2 text-base font-semibold text-foreground">
               {{ card().title }}
             </h3>
-            @if (card().meta) {
-              <p class="text-xs text-muted-foreground">{{ card().meta }}</p>
+            @if (card().season || card().rating) {
+              <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                @if (card().season) {
+                  <span class="inline-flex items-center gap-1">
+                    <span class="text-primary">
+                      <app-icon-calendar />
+                    </span>
+                    {{ card().season }}
+                  </span>
+                }
+                @if (card().rating) {
+                  <span class="inline-flex items-center gap-1">
+                    <span class="text-primary">
+                      <app-icon-star />
+                    </span>
+                    {{ card().rating }}
+                  </span>
+                }
+              </div>
             }
           </div>
 

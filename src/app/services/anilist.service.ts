@@ -85,6 +85,7 @@ export class AnilistService {
         undefined,
       genres: node.media.genres ?? [],
       startDate: node.media.startDate ?? undefined,
+      averageScore: node.media.averageScore ?? undefined,
     };
   }
 
@@ -245,6 +246,7 @@ const LATEST_AIRING_QUERY = `
             month
             day
           }
+          averageScore
         }
       }
     }

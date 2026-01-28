@@ -12,4 +12,5 @@ export interface AiringEpisode {
   readonly coverImage?: string;
   readonly genres?: readonly string[];
   readonly startDate?: AnimeFuzzyDate;
+  readonly averageScore?: number;
 }
