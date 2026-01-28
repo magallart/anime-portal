@@ -12,7 +12,7 @@ import { AnimeCardComponent, type AnimeCardData } from '../anime-card/anime-card
       <header class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <span
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent/70 text-primary"
+            class="inline-flex h-11 w-11 items-center justify-center text-primary"
             aria-hidden="true"
           >
             <ng-container *ngComponentOutlet="icon()" />

@@ -24,7 +24,7 @@ import type { AiringEpisode } from '../../interfaces/airing-episode';
   template: `
     <app-hero-section />
 
-    <section class="mx-auto max-w-6xl space-y-16 px-gutter py-section">
+    <section class="mx-auto max-w-6xl space-y-20 px-gutter py-section">
       <app-anime-section
         title="Most viewed anime"
         subtitle="Fan favorites climbing the charts right now"
