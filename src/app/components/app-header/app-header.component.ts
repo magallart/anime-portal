@@ -15,35 +15,37 @@ interface NavLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header
-      class="fixed left-0 right-0 top-0 z-30 w-full border-b border-accent/40 bg-accent/95 text-accent-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/80"
+      class="fixed left-0 right-0 top-0 z-30 w-full border-b border-border bg-gradient-to-r from-accent/80 via-background/90 to-accent/80 text-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/60"
     >
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-gutter py-4">
+      <div
+        class="mx-auto grid max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-gutter py-3"
+      >
         <a
           routerLink="/"
-          class="group flex items-center gap-3 rounded-full text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          class="group inline-flex items-center gap-3 rounded-xl text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           aria-label="Anime Portal home"
         >
           <span
-            class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/90 text-lg font-semibold text-primary-foreground shadow-subtle transition group-hover:scale-105"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/90 text-lg font-semibold text-primary-foreground shadow-subtle transition group-hover:scale-105"
           >
             AP
           </span>
           <div class="hidden sm:block">
-            <p class="font-heading text-lg leading-tight text-accent-foreground">Anime Portal</p>
-            <p class="text-xs uppercase tracking-[0.35em] text-accent-foreground/70">
+            <p class="font-heading text-lg leading-tight text-foreground">Anime Portal</p>
+            <p class="text-xs uppercase tracking-[0.35em] text-muted-foreground">
               Curate your queue
             </p>
           </div>
         </a>
 
-        <nav aria-label="Primary navigation">
+        <nav aria-label="Primary navigation" class="hidden justify-center md:flex">
           <ul class="flex items-center gap-3 text-sm font-medium">
             <li *ngFor="let link of navLinks">
               <a
                 [routerLink]="link.path"
                 routerLinkActive="text-primary"
                 [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-                class="rounded-full px-4 py-2 text-accent-foreground transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                class="rounded-xl px-4 py-2 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 [attr.data-test]="link.testId"
               >
                 {{ link.label }}
@@ -51,6 +53,15 @@ interface NavLink {
             </li>
           </ul>
         </nav>
+
+        <div class="flex justify-end">
+          <a
+            routerLink="/genres"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-subtle transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            Get Started
+          </a>
+        </div>
       </div>
     </header>
   `,
