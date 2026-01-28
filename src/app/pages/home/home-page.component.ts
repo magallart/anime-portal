@@ -24,26 +24,31 @@ import type { AiringEpisode } from '../../interfaces/airing-episode';
   template: `
     <app-hero-section />
 
-    <section class="mx-auto max-w-6xl space-y-20 px-gutter py-section">
-      <app-anime-section
-        title="Most viewed anime"
-        subtitle="Fan favorites climbing the charts right now"
-        [icon]="mostViewedIcon"
-        [items]="mostViewedCards()"
-        [loading]="loading()"
-        [error]="error()"
-        gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-      />
+    <section class="space-y-20 pb-section">
+      <div class="w-full border-y border-border bg-accent/70">
+        <div class="mx-auto max-w-6xl px-gutter pb-16 pt-14">
+          <app-anime-section
+            title="More viewed anime"
+            [icon]="mostViewedIcon"
+            [items]="mostViewedCards()"
+            [loading]="loading()"
+            [error]="error()"
+            gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          />
+        </div>
+      </div>
 
-      <app-anime-section
-        title="Latest releases"
-        subtitle="Fresh episodes and new arrivals this week"
-        [icon]="latestReleaseIcon"
-        [items]="latestReleaseCards()"
-        [loading]="loading()"
-        [error]="error()"
-        gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-      />
+      <div class="mx-auto max-w-6xl px-gutter">
+        <app-anime-section
+          title="Latest releases"
+          subtitle="Fresh episodes and new arrivals this week"
+          [icon]="latestReleaseIcon"
+          [items]="latestReleaseCards()"
+          [loading]="loading()"
+          [error]="error()"
+          gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+        />
+      </div>
     </section>
 
     <app-stats-strip />

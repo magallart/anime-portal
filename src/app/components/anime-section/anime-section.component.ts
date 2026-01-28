@@ -12,13 +12,13 @@ import { AnimeCardComponent, type AnimeCardData } from '../anime-card/anime-card
       <header class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <span
-            class="inline-flex h-11 w-11 items-center justify-center text-primary"
+            class="inline-flex h-12 w-12 items-center justify-center text-primary"
             aria-hidden="true"
           >
             <ng-container *ngComponentOutlet="icon()" />
           </span>
           <div>
-            <h2 class="text-2xl font-heading text-foreground">{{ title() }}</h2>
+            <h2 class="text-4xl font-heading text-foreground">{{ title() }}</h2>
             @if (subtitle()) {
               <p class="text-sm text-muted-foreground">{{ subtitle() }}</p>
             }
