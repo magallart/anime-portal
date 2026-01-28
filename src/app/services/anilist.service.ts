@@ -84,6 +84,7 @@ export class AnilistService {
         node.media.coverImage?.medium ??
         undefined,
       genres: node.media.genres ?? [],
+      startDate: node.media.startDate ?? undefined,
     };
   }
 
@@ -239,6 +240,11 @@ const LATEST_AIRING_QUERY = `
             extraLarge
           }
           genres
+          startDate {
+            year
+            month
+            day
+          }
         }
       }
     }
@@ -427,6 +433,11 @@ interface AnimeSummaryNode {
   readonly averageScore?: number | null;
   readonly popularity?: number | null;
   readonly genres?: readonly string[];
+  readonly startDate?: {
+    readonly year?: number;
+    readonly month?: number;
+    readonly day?: number;
+  };
   readonly nextAiringEpisode?: {
     readonly airingAt: number;
     readonly episode: number;

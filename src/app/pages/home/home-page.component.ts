@@ -10,6 +10,7 @@ import { StatsStripComponent } from '../../components/stats-strip/stats-strip.co
 import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
+import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
 
 @Component({
   selector: 'app-home-page',
@@ -94,7 +95,7 @@ export class HomePageComponent {
   );
 
   private mapEpisodeToCard(episode: AiringEpisode): AnimeCardData {
-    const seasonLabel = this.resolveSeasonLabel(episode.airingAtDate);
+    const seasonLabel = this.resolveSeasonLabel(episode.startDate);
     return {
       id: episode.animeId,
       slug: episode.animeSlug,
@@ -106,21 +107,21 @@ export class HomePageComponent {
     };
   }
 
-  private resolveSeasonLabel(date: Date | undefined): string {
-    if (!date) {
+  private resolveSeasonLabel(date: AnimeFuzzyDate | undefined): string {
+    if (!date?.year || !date.month) {
       return 'Season TBD';
     }
 
-    const month = date.getMonth();
-    const year = date.getFullYear();
+    const month = date.month;
+    const year = date.year;
     const season =
-      month <= 1
+      month <= 3
         ? 'Winter'
-        : month <= 4
+        : month <= 6
           ? 'Spring'
-          : month <= 7
+          : month <= 9
             ? 'Summer'
-            : month <= 10
+            : month <= 12
               ? 'Fall'
               : 'Winter';
 

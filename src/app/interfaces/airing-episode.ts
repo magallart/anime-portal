@@ -1,3 +1,5 @@
+import type { AnimeFuzzyDate } from './anime-fuzzy-date';
+
 export interface AiringEpisode {
   readonly animeId: number;
   readonly animeSlug: string;
@@ -9,4 +11,5 @@ export interface AiringEpisode {
   readonly airingAtDate: Date;
   readonly coverImage?: string;
   readonly genres?: readonly string[];
+  readonly startDate?: AnimeFuzzyDate;
 }
