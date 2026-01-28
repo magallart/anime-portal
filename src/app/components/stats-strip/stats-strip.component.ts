@@ -1,0 +1,33 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+interface StatItem {
+  readonly value: string;
+  readonly label: string;
+}
+
+@Component({
+  selector: 'app-stats-strip',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <section class="mx-auto max-w-6xl px-gutter py-12">
+      <div class="grid gap-4 md:grid-cols-3">
+        @for (stat of stats; track stat.label) {
+          <div
+            class="rounded-xl border border-border bg-gradient-to-br from-primary/10 via-card to-secondary/10 p-6 text-center shadow-subtle"
+          >
+            <p class="text-3xl font-heading font-semibold text-foreground">{{ stat.value }}</p>
+            <p class="mt-2 text-sm text-muted-foreground">{{ stat.label }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  `,
+})
+export class StatsStripComponent {
+  protected readonly stats: StatItem[] = [
+    { value: '1000+', label: 'Available Anime' },
+    { value: '50K+', label: 'Active Users' },
+    { value: '100+', label: 'Weekly Releases' },
+  ];
+}
