@@ -98,7 +98,24 @@
 - Tests or assertions cover data rendering.
   **Files:** `src/app/pages/home/home.component.ts|html|css`, `src/app/components/last-airing-anime-list/*`, `src/app/components/anime-card/*`, `src/app/pages/home/home.component.spec.ts`
 
-### Ticket AP-007 - Home "Common genres" grid & CTA
+### Ticket AP-007 - Redefine UI & finish Home page
+
+**Description:** Redefine the UI of the entire application and complete the Home page UI per DESIGN.md.
+**Checklist:**
+
+- [ ] Audit current UI against DESIGN.md and update global layout, typography, spacing, and component recipes as needed.
+- [ ] Redesign Home page layout/sections to match the new visual direction and improve hierarchy.
+- [ ] Update shared components (header, footer, cards, buttons) to align with the redefined UI.
+- [ ] Ensure responsive behavior and accessibility remain correct after UI changes.
+- [ ] Add or update tests impacted by UI restructuring.
+      **Acceptance Criteria:**
+- Global UI matches the updated DESIGN.md tokens and component recipes.
+- Home page feels finished with consistent spacing, typography, and visual hierarchy.
+- Responsive and accessibility checks pass for updated UI.
+- Tests remain green.
+  **Files:** `DESIGN.md`, `src/app/app.html`, `src/app/app.css`, `src/app/pages/home/*`, `src/app/components/**/*`
+
+### Ticket AP-008 - Home "Common genres" grid & CTA
 
 **Description:** Surface a curated list of genres with representative anime cards and link to the Genres page.
 **Checklist:**
@@ -114,7 +131,7 @@
 - CTA navigates to `/genres` and is focusable.
   **Files:** `src/app/pages/home/home.component.*`, `src/app/components/anime-card/*`, `src/app/components/genre-grid/*`
 
-### Ticket AP-008 - Genres page layout & random load
+### Ticket AP-009 - Genres page layout & random load
 
 **Description:** Build the Genres page structure and initial random anime fetch so the page is functional before filters.
 **Checklist:**
@@ -130,7 +147,7 @@
 - Tests validate service call and render.
   **Files:** `src/app/pages/genres/genres.component.*`, `src/app/components/anime-card/*`, `src/app/pages/genres/genres.component.spec.ts`
 
-### Ticket AP-009 - Genres filter bar & querying
+### Ticket AP-010 - Genres filter bar & querying
 
 **Description:** Implement interactive filtering by genre, release year, and status with live updates to the anime grid.
 **Checklist:**
@@ -147,7 +164,7 @@
 - Tests cover filter changes and service calls.
   **Files:** `src/app/components/filter-bar/*`, `src/app/pages/genres/genres.component.*`, `src/app/pages/genres/genres.component.spec.ts`
 
-### Ticket AP-010 - Anime detail data resolver
+### Ticket AP-011 - Anime detail data resolver
 
 **Description:** Ensure `/anime/:slug` preloads anime data through a resolver to simplify the detail component and handle missing slugs.
 **Checklist:**
@@ -162,7 +179,7 @@
 - Tests assert resolver behavior.
   **Files:** `src/app/pages/anime-detail/anime-detail.resolver.ts`, `src/app/app.routes.ts`, `src/app/services/anilist.service.ts`, `src/app/pages/anime-detail/anime-detail.resolver.spec.ts`
 
-### Ticket AP-011 - Anime detail page UI
+### Ticket AP-012 - Anime detail page UI
 
 **Description:** Build the detail page layout showcasing cover, synopsis, studio, episode count, and other metadata using Tailwind plus DESIGN tokens.
 **Checklist:**
@@ -179,7 +196,7 @@
 - Tests confirm rendering of provided dataset.
   **Files:** `src/app/pages/anime-detail/anime-detail.component.ts|html|css|spec.ts`, `src/app/components/anime-meta/*`
 
-### Ticket AP-012 - Polish, responsiveness, and QA
+### Ticket AP-013 - Polish, responsiveness, and QA
 
 **Description:** Finalize cross-page polish, add regression tests, and document verification steps.
 **Checklist:**
