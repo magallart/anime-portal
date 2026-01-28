@@ -37,6 +37,23 @@ describe('AnilistService', () => {
                 title: { english: 'Sample Show', romaji: 'Sample' },
                 coverImage: { large: 'large.jpg', medium: 'med.jpg', extraLarge: 'xl.jpg' },
                 genres: ['Action'],
+                isAdult: false,
+              },
+            },
+            {
+              airingAt: 1_700_000_100,
+              episode: 6,
+              media: {
+                id: 999,
+                siteUrl: 'https://anilist.co/anime/999/adult-show/',
+                title: { english: 'Adult Show', romaji: 'Adult' },
+                coverImage: {
+                  large: 'adult.jpg',
+                  medium: 'adult-med.jpg',
+                  extraLarge: 'adult-xl.jpg',
+                },
+                genres: ['Action'],
+                isAdult: true,
               },
             },
           ],
@@ -72,6 +89,7 @@ describe('AnilistService', () => {
               title: { romaji: 'Cool Show' },
               coverImage: { large: 'cover.png' },
               genres: ['Drama'],
+              isAdult: false,
             },
           ],
         },
@@ -97,8 +115,27 @@ describe('AnilistService', () => {
       status: undefined,
       format: undefined,
       sort: 'SCORE_DESC',
+      isAdult: false,
     });
     expect(result[0]).toMatchObject({ id: 999, slug: 'cool-show', genres: ['Drama'] });
+  });
+
+  it('rejects adult anime detail results', async () => {
+    executeSpy.mockReturnValue(
+      of({
+        Media: {
+          id: 777,
+          isAdult: true,
+          siteUrl: 'https://anilist.co/anime/777/adult-show/',
+          title: { english: 'Adult Show' },
+          coverImage: { large: 'adult.jpg' },
+        },
+      }),
+    );
+
+    await expect(firstValueFrom(service.getAnimeDetailsBySlug('adult-show'))).rejects.toThrow(
+      'Anime not found',
+    );
   });
 
   it('sanitizes descriptions for anime detail lookups', async () => {

@@ -29,7 +29,11 @@ export class AnilistService {
     return this.client
       .execute<LatestAiringQueryResponse, typeof variables>(LATEST_AIRING_QUERY, variables)
       .pipe(
-        map((response) => response.Page.latestAiring.map((node) => this.mapAiringEpisode(node))),
+        map((response) =>
+          response.Page.latestAiring
+            .filter((node) => !node.media.isAdult)
+            .map((node) => this.mapAiringEpisode(node)),
+        ),
       );
   }
 
@@ -44,6 +48,7 @@ export class AnilistService {
       status: filter.status,
       format: filter.format,
       sort: filter.sort ?? 'POPULARITY_DESC',
+      isAdult: false,
     };
 
     return this.client
@@ -59,7 +64,7 @@ export class AnilistService {
       .pipe(
         map((response) => {
           const media = response.Media;
-          if (!media) {
+          if (!media || media.isAdult) {
             throw new Error('Anime not found');
           }
 
@@ -241,6 +246,7 @@ const LATEST_AIRING_QUERY = `
             extraLarge
           }
           genres
+          isAdult
           startDate {
             year
             month
@@ -264,6 +270,7 @@ const SEARCH_QUERY = `
     $status: MediaStatus
     $format: MediaFormat
     $sort: [MediaSort!]
+    $isAdult: Boolean
   ) {
     Page(page: $page, perPage: $perPage) {
       media(
@@ -274,6 +281,7 @@ const SEARCH_QUERY = `
         status: $status
         format: $format
         sort: $sort
+        isAdult: $isAdult
         type: ANIME
       ) {
         id
@@ -294,6 +302,7 @@ const SEARCH_QUERY = `
         averageScore
         popularity
         genres
+        isAdult
         nextAiringEpisode {
           airingAt
           episode
@@ -319,6 +328,7 @@ const ANIME_DETAIL_QUERY = `
         medium
         color
       }
+      isAdult
       bannerImage
       format
       status
@@ -414,6 +424,7 @@ interface SearchQueryVariables {
   readonly status?: string;
   readonly format?: string;
   readonly sort?: string;
+  readonly isAdult?: boolean;
 }
 
 interface AnimeSummaryNode {
@@ -435,6 +446,7 @@ interface AnimeSummaryNode {
   readonly averageScore?: number | null;
   readonly popularity?: number | null;
   readonly genres?: readonly string[];
+  readonly isAdult?: boolean | null;
   readonly startDate?: {
     readonly year?: number;
     readonly month?: number;
