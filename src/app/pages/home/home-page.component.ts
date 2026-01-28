@@ -1,63 +1,53 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, tap } from 'rxjs';
-import { LastAiringAnimeListComponent } from '../../components/last-airing-anime-list/last-airing-anime-list.component';
+import { IconClockComponent } from '../../components/icons/icon-clock.component';
+import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up.component';
+import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
+import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
+import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
+import { StatsStripComponent } from '../../components/stats-strip/stats-strip.component';
+import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
-
-interface HomeHighlight {
-  readonly title: string;
-  readonly description: string;
-}
+import type { AiringEpisode } from '../../interfaces/airing-episode';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [RouterLink, LastAiringAnimeListComponent],
+  imports: [
+    AnimeSectionComponent,
+    HeroSectionComponent,
+    StatsStripComponent,
+    CommunityFooterComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <article class="mx-auto max-w-6xl space-y-10 px-gutter py-section">
-      <header class="space-y-4 text-center">
-        <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">Now streaming</p>
-        <h1 class="text-4xl font-heading tracking-tight text-foreground">
-          Discover the latest anime drops this week
-        </h1>
-        <p class="mx-auto max-w-3xl text-base leading-relaxed text-muted-foreground">
-          Anime Portal spotlights curated releases, genre deep dives, and production stories so you
-          can decide what deserves your queue.
-        </p>
-        <a
-          routerLink="/genres"
-          class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-subtle transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          Browse genres
-        </a>
-      </header>
+    <app-hero-section />
 
-      <section class="grid gap-4 md:grid-cols-3">
-        @for (highlight of highlights; track highlight.title) {
-          <article
-            class="rounded-xl border border-border bg-card p-card text-left shadow-subtle"
-            data-test="home-highlight"
-          >
-            <p class="text-sm font-semibold uppercase tracking-wide text-primary">
-              {{ highlight.title }}
-            </p>
-            <p class="mt-2 text-sm text-muted-foreground">
-              {{ highlight.description }}
-            </p>
-          </article>
-        }
-      </section>
-    </article>
-
-    <section class="mx-auto max-w-6xl px-gutter py-10">
-      <app-last-airing-anime-list
-        [episodes]="airingEpisodes()"
+    <section class="mx-auto max-w-6xl space-y-16 px-gutter py-section">
+      <app-anime-section
+        title="Most viewed anime"
+        subtitle="Fan favorites climbing the charts right now"
+        [icon]="mostViewedIcon"
+        [items]="mostViewedCards()"
         [loading]="loading()"
         [error]="error()"
+        gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      />
+
+      <app-anime-section
+        title="Latest releases"
+        subtitle="Fresh episodes and new arrivals this week"
+        [icon]="latestReleaseIcon"
+        [items]="latestReleaseCards()"
+        [loading]="loading()"
+        [error]="error()"
+        gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
       />
     </section>
+
+    <app-stats-strip />
+    <app-community-footer />
   `,
 })
 export class HomePageComponent {
@@ -83,21 +73,32 @@ export class HomePageComponent {
     { initialValue: [] },
   );
 
-  protected readonly highlights: HomeHighlight[] = [
-    {
-      title: 'Fresh episodes',
-      description:
-        'Track simulcasts airing this week and see which studios are behind the drop before anyone else.',
-    },
-    {
-      title: 'Genre deep dives',
-      description:
-        'Preview curated playlists for action, drama, and slice-of-life moods with moodboards and staff notes.',
-    },
-    {
-      title: 'Studio signals',
-      description:
-        'Follow production houses you trust and receive detail cards outlining casts, timelines, and reviews.',
-    },
-  ];
+  protected readonly mostViewedIcon = IconTrendingUpComponent;
+  protected readonly latestReleaseIcon = IconClockComponent;
+
+  protected readonly mostViewedCards = computed(() =>
+    this.airingEpisodes()
+      .slice(0, 8)
+      .map((episode) => this.mapEpisodeToCard(episode)),
+  );
+
+  protected readonly latestReleaseCards = computed(() =>
+    this.airingEpisodes()
+      .slice(8, 20)
+      .map((episode) => this.mapEpisodeToCard(episode)),
+  );
+
+  private mapEpisodeToCard(episode: AiringEpisode): AnimeCardData {
+    const year = episode.airingAtDate?.getFullYear();
+    return {
+      id: episode.animeId,
+      slug: episode.animeSlug,
+      title: episode.title,
+      imageUrl: episode.coverImage,
+      badge: `EP ${episode.episodeNumber}`,
+      meta: `Episode ${episode.episodeNumber}`,
+      year,
+      tags: ['Airing', 'This week'],
+    };
+  }
 }

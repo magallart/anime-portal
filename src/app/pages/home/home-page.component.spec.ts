@@ -39,16 +39,16 @@ describe('HomePageComponent', () => {
     return { fixture, getAiringMock };
   };
 
-  it('renders hero content, highlights, and airing list', async () => {
+  it('renders hero content and anime sections', async () => {
     const { fixture, getAiringMock } = await setup();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Discover');
-    expect(compiled.querySelectorAll('[data-test="home-highlight"]').length).toBe(3);
+    expect(compiled.querySelector('h1')?.textContent).toContain('Discover the World of Anime');
+    expect(compiled.textContent).toContain('Most viewed anime');
+    expect(compiled.textContent).toContain('Latest releases');
     expect(getAiringMock).toHaveBeenCalled();
-    expect(compiled.querySelector('app-last-airing-anime-list')).toBeTruthy();
   });
 
   it('surfaces an error message when airing feed fails', async () => {
