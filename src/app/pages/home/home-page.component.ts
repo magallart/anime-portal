@@ -90,7 +90,7 @@ export class HomePageComponent {
 
   protected readonly latestReleaseCards = computed(() =>
     this.airingEpisodes()
-      .slice(8, 20)
+      .slice(8, 23)
       .map((episode) => this.mapEpisodeToCard(episode, { hideTags: true })),
   );
 
