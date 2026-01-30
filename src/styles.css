@@ -267,6 +267,16 @@ body {
     color: hsl(var(--primary-foreground));
   }
 
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option .mat-pseudo-checkbox {
+    --mat-pseudo-checkbox-checked-color: hsl(var(--primary-foreground));
+    --mat-pseudo-checkbox-checked-checkmark-color: hsl(var(--primary-foreground));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option .mat-pseudo-checkbox::after {
+    border-color: hsl(var(--primary-foreground));
+  }
+
   .mat-mdc-select-panel.genre-filters-panel::-webkit-scrollbar {
     width: 18px;
   }
