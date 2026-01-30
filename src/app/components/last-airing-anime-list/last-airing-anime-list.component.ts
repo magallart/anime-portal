@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
-import { CtaButtonComponent } from '../cta-button/cta-button.component';
+import { AppButtonComponent } from '../app-button/app-button.component';
+import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
+import { IconChevronRightComponent } from '../icons/icon-chevron-right.component';
 
 @Component({
   selector: 'app-last-airing-anime-list',
   standalone: true,
-  imports: [RouterLink, CtaButtonComponent],
+  imports: [RouterLink, AppButtonComponent, AppButtonIconDirective, IconChevronRightComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section
@@ -18,7 +20,9 @@ import { CtaButtonComponent } from '../cta-button/cta-button.component';
             Últimos animes de la semana
           </h2>
 
-          <app-cta-button label="Ver más" [link]="['/genres']" />
+          <app-button label="Ver más" [link]="['/genres']" iconPosition="right">
+            <app-icon-chevron-right appButtonIcon />
+          </app-button>
         </header>
 
         @if (loading()) {

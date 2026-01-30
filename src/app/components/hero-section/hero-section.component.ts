@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CtaButtonComponent } from '../cta-button/cta-button.component';
+import { AppButtonComponent } from '../app-button/app-button.component';
+import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
+import { IconChevronRightComponent } from '../icons/icon-chevron-right.component';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CtaButtonComponent],
+  imports: [AppButtonComponent, AppButtonIconDirective, IconChevronRightComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section
@@ -24,7 +26,9 @@ import { CtaButtonComponent } from '../cta-button/cta-button.component';
           Explore curated seasonal highlights, most-viewed hits, and weekly drops in a cinematic,
           night-inspired experience tailored for anime fans.
         </p>
-        <app-cta-button label="Explore Genres" [link]="['/genres']" />
+        <app-button label="Explore Genres" [link]="['/genres']" size="sm" iconPosition="right">
+          <app-icon-chevron-right appButtonIcon />
+        </app-button>
       </div>
     </section>
   `,

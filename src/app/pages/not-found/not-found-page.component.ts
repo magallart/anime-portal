@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { AppButtonComponent } from '../../components/app-button/app-button.component';
+import { AppButtonIconDirective } from '../../components/app-button/app-button-icon.directive';
+import { IconChevronRightComponent } from '../../components/icons/icon-chevron-right.component';
 
 @Component({
   selector: 'app-not-found-page',
   standalone: true,
-  imports: [RouterLink],
+  imports: [AppButtonComponent, AppButtonIconDirective, IconChevronRightComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section
@@ -19,20 +21,17 @@ import { RouterLink } from '@angular/router';
         we guide you back to safe navigation.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3">
-        <a
-          routerLink="/"
-          class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-subtle transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          data-test="not-found-home"
+        <app-button label="Go home" [link]="['/']" size="sm" testId="not-found-home" />
+        <app-button
+          label="Explore genres"
+          [link]="['/genres']"
+          size="sm"
+          variant="outline"
+          testId="not-found-genres"
+          iconPosition="right"
         >
-          Go home
-        </a>
-        <a
-          routerLink="/genres"
-          class="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          data-test="not-found-genres"
-        >
-          Explore genres
-        </a>
+          <app-icon-chevron-right appButtonIcon />
+        </app-button>
       </div>
     </section>
   `,

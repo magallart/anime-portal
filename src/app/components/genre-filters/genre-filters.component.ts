@@ -5,11 +5,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { ANILIST_GENRE_OPTIONS } from '../../constants/anilist-genres';
 import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
 import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
+import { AppButtonComponent } from '../app-button/app-button.component';
+import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
+import { IconFilterComponent } from '../icons/icon-filter.component';
 
 @Component({
   selector: 'app-genre-filters',
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    AppButtonComponent,
+    AppButtonIconDirective,
+    IconFilterComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="genre-filters rounded-2xl border border-border bg-card/70 p-card shadow-subtle">
@@ -67,6 +76,12 @@ import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
             }
           </mat-select>
         </mat-form-field>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <app-button label="Apply filters" size="sm">
+          <app-icon-filter appButtonIcon />
+        </app-button>
       </div>
     </section>
   `,

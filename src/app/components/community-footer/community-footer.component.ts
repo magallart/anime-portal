@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AppButtonComponent } from '../app-button/app-button.component';
+import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
 import { IconBrandDiscordComponent } from '../icons/icon-brand-discord.component';
 import { IconBrandFacebookComponent } from '../icons/icon-brand-facebook.component';
 import { IconBrandInstagramComponent } from '../icons/icon-brand-instagram.component';
@@ -16,6 +18,8 @@ interface SocialLink {
   selector: 'app-community-footer',
   standalone: true,
   imports: [
+    AppButtonComponent,
+    AppButtonIconDirective,
     StatsStripComponent,
     IconBrandDiscordComponent,
     IconBrandFacebookComponent,
@@ -35,15 +39,15 @@ interface SocialLink {
           <p class="max-w-2xl text-sm text-muted-foreground">
             Connect with fellow fans, share watchlists, and get early access to upcoming features.
           </p>
-          <a
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-subtle transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          <app-button
+            label="Join Discord"
             href="https://discord.com"
-            target="_blank"
-            rel="noopener"
+            [external]="true"
+            size="sm"
+            iconPosition="left"
           >
-            <app-icon-brand-discord />
-            Join Discord
-          </a>
+            <app-icon-brand-discord appButtonIcon />
+          </app-button>
 
           <div class="flex flex-wrap items-center justify-center gap-3">
             @for (link of socialLinks; track link.label) {
