@@ -2,6 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
+import { ANILIST_GENRE_OPTIONS } from '../../constants/anilist-genres';
+import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
+import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
+
 @Component({
   selector: 'app-genre-filters',
   standalone: true,
@@ -28,11 +32,9 @@ import { MatSelectModule } from '@angular/material/select';
           <mat-label>Genre</mat-label>
           <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
-            <mat-option value="action">Action</mat-option>
-            <mat-option value="comedy">Comedy</mat-option>
-            <mat-option value="drama">Drama</mat-option>
-            <mat-option value="fantasy">Fantasy</mat-option>
-            <mat-option value="sci-fi">Sci-Fi</mat-option>
+            @for (option of genreOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
 
@@ -45,11 +47,9 @@ import { MatSelectModule } from '@angular/material/select';
           <mat-label>Year</mat-label>
           <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
-            <mat-option value="2026">2026</mat-option>
-            <mat-option value="2025">2025</mat-option>
-            <mat-option value="2024">2024</mat-option>
-            <mat-option value="2023">2023</mat-option>
-            <mat-option value="2022">2022</mat-option>
+            @for (option of yearOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
 
@@ -62,13 +62,17 @@ import { MatSelectModule } from '@angular/material/select';
           <mat-label>Status</mat-label>
           <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
-            <mat-option value="airing">Airing</mat-option>
-            <mat-option value="finished">Finished</mat-option>
-            <mat-option value="upcoming">Upcoming</mat-option>
+            @for (option of statusOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>
     </section>
   `,
 })
-export class GenreFiltersComponent {}
+export class GenreFiltersComponent {
+  readonly genreOptions = ANILIST_GENRE_OPTIONS;
+  readonly yearOptions = ANILIST_YEAR_OPTIONS;
+  readonly statusOptions = ANILIST_STATUS_OPTIONS;
+}
