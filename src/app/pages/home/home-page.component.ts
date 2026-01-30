@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, forkJoin, of, tap } from 'rxjs';
 import { IconClockComponent } from '../../components/icons/icon-clock.component';
 import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up.component';
 import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
@@ -11,6 +11,8 @@ import { CommunityFooterComponent } from '../../components/community-footer/comm
 import { AnilistService } from '../../services/anilist.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
 import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
+import type { AnimeSummary } from '../../interfaces/anime-summary';
+import type { AnimeTitle } from '../../interfaces/anime-title';
 
 @Component({
   selector: 'app-home-page',
@@ -62,8 +64,11 @@ export class HomePageComponent {
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
 
-  protected readonly airingEpisodes = toSignal(
-    this.anilistService.getAiringThisWeek().pipe(
+  private readonly homeFeed = toSignal(
+    forkJoin({
+      latest: this.anilistService.getAiringThisWeek(),
+      mostViewed: this.anilistService.getMostViewedAnime(8),
+    }).pipe(
       tap({
         next: () => {
           this.loading.set(false);
@@ -72,25 +77,23 @@ export class HomePageComponent {
       }),
       catchError(() => {
         this.loading.set(false);
-        this.error.set('Unable to load the airing feed right now.');
-        return of([]);
+        this.error.set('Unable to load the home feed right now.');
+        return of({ latest: [], mostViewed: [] });
       }),
     ),
-    { initialValue: [] },
+    { initialValue: { latest: [], mostViewed: [] } },
   );
 
   protected readonly mostViewedIcon = IconTrendingUpComponent;
   protected readonly latestReleaseIcon = IconClockComponent;
 
   protected readonly mostViewedCards = computed(() =>
-    this.airingEpisodes()
-      .slice(0, 8)
-      .map((episode) => this.mapEpisodeToCard(episode)),
+    this.homeFeed().mostViewed.map((anime) => this.mapSummaryToCard(anime)),
   );
 
   protected readonly latestReleaseCards = computed(() =>
-    this.airingEpisodes()
-      .slice(8, 23)
+    this.homeFeed()
+      .latest.slice(0, 15)
       .map((episode) => this.mapEpisodeToCard(episode, { hideTags: true })),
   );
 
@@ -141,5 +144,20 @@ export class HomePageComponent {
     }
 
     return (score / 10).toFixed(1);
+  }
+
+  private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
+    return {
+      id: anime.id,
+      slug: anime.slug,
+      title: this.resolveSummaryTitle(anime.title),
+      imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
+      rating: this.formatRating(anime.averageScore),
+      tags: anime.genres?.slice(0, 2) ?? [],
+    };
+  }
+
+  private resolveSummaryTitle(title: AnimeTitle): string {
+    return title.english ?? title.romaji ?? 'Untitled';
   }
 }

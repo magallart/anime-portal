@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { of, throwError } from 'rxjs';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
+import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { AnilistService } from '../../services/anilist.service';
 import { HomePageComponent } from './home-page.component';
 
@@ -17,10 +18,25 @@ const sampleEpisodes: AiringEpisode[] = [
     coverImage: 'cover.jpg',
   },
 ];
+const sampleMostViewed: AnimeSummary[] = [
+  {
+    id: 99,
+    slug: 'top-hit',
+    title: { english: 'Top Hit' },
+    coverImage: { extraLarge: 'top.jpg' },
+    genres: ['Action'],
+    popularity: 100,
+    averageScore: 85,
+  },
+];
 
 describe('HomePageComponent', () => {
-  const setup = async (returnValue = of(sampleEpisodes)) => {
+  const setup = async (
+    returnValue = of(sampleEpisodes),
+    mostViewedValue = of(sampleMostViewed),
+  ) => {
     const getAiringMock = vi.fn().mockReturnValue(returnValue);
+    const getMostViewedMock = vi.fn().mockReturnValue(mostViewedValue);
 
     await TestBed.configureTestingModule({
       imports: [HomePageComponent, RouterTestingModule],
@@ -29,6 +45,7 @@ describe('HomePageComponent', () => {
           provide: AnilistService,
           useValue: {
             getAiringThisWeek: getAiringMock,
+            getMostViewedAnime: getMostViewedMock,
           },
         },
       ],
@@ -36,11 +53,11 @@ describe('HomePageComponent', () => {
 
     const fixture = TestBed.createComponent(HomePageComponent);
     fixture.detectChanges();
-    return { fixture, getAiringMock };
+    return { fixture, getAiringMock, getMostViewedMock };
   };
 
   it('renders hero content and anime sections', async () => {
-    const { fixture, getAiringMock } = await setup();
+    const { fixture, getAiringMock, getMostViewedMock } = await setup();
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -49,6 +66,7 @@ describe('HomePageComponent', () => {
     expect(compiled.textContent).toContain('Most viewed anime');
     expect(compiled.textContent).toContain('Latest releases');
     expect(getAiringMock).toHaveBeenCalled();
+    expect(getMostViewedMock).toHaveBeenCalled();
   });
 
   it('surfaces an error message when airing feed fails', async () => {
@@ -57,6 +75,6 @@ describe('HomePageComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Unable to load the airing feed right now.');
+    expect(compiled.textContent).toContain('Unable to load the home feed right now.');
   });
 });
