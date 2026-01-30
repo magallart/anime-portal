@@ -104,11 +104,11 @@
 **Checklist:**
 
 - [✔️] Audit current UI against DESIGN.md and update global layout, typography, spacing, and component recipes as needed.
-- [ ] Redesign Home page layout/sections to match the new visual direction and improve hierarchy.
-- [ ] Update shared components (header, footer, cards, buttons) to align with the redefined UI.
-- [ ] Ensure responsive behavior and accessibility remain correct after UI changes.
-- [ ] Add or update tests impacted by UI restructuring.
-      **Acceptance Criteria:**
+- [✔️] Redesign Home page layout/sections to match the new visual direction and improve hierarchy.
+- [✔️] Update shared components (header, footer, cards, buttons) to align with the redefined UI.
+- [✔️] Ensure responsive behavior and accessibility remain correct after UI changes.
+- [✔️] Add or update tests impacted by UI restructuring.
+  **Acceptance Criteria:**
 - Global UI matches the updated DESIGN.md tokens and component recipes.
 - Home page feels finished with consistent spacing, typography, and visual hierarchy.
 - Responsive and accessibility checks pass for updated UI.
