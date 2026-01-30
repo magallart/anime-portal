@@ -26,7 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
           class="w-full"
         >
           <mat-label>Genre</mat-label>
-          <mat-select>
+          <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
             <mat-option value="action">Action</mat-option>
             <mat-option value="comedy">Comedy</mat-option>
@@ -43,7 +43,7 @@ import { MatSelectModule } from '@angular/material/select';
           class="w-full"
         >
           <mat-label>Year</mat-label>
-          <mat-select>
+          <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
             <mat-option value="2026">2026</mat-option>
             <mat-option value="2025">2025</mat-option>
@@ -60,7 +60,7 @@ import { MatSelectModule } from '@angular/material/select';
           class="w-full"
         >
           <mat-label>Status</mat-label>
-          <mat-select>
+          <mat-select panelClass="genre-filters-panel">
             <mat-option value="all">All</mat-option>
             <mat-option value="airing">Airing</mat-option>
             <mat-option value="finished">Finished</mat-option>

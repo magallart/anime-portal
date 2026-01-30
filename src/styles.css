@@ -246,6 +246,45 @@ body {
   .genre-filters .mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-arrow svg {
     color: hsl(var(--primary-bright));
   }
+
+  .mat-mdc-select-panel.genre-filters-panel {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--primary-bright));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option {
+    color: hsl(var(--primary-foreground));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option:hover,
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option.mdc-list-item--selected,
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option.mdc-list-item--activated {
+    background-color: hsl(var(--primary));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel .mat-mdc-option .mdc-list-item__primary-text {
+    color: hsl(var(--primary-foreground));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel::-webkit-scrollbar {
+    width: 18px;
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel::-webkit-scrollbar-track {
+    background-color: hsl(var(--accent));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary-bright));
+    border-radius: 999px;
+    border: 2px solid hsl(var(--accent));
+  }
+
+  .mat-mdc-select-panel.genre-filters-panel {
+    scrollbar-color: hsl(var(--primary-bright)) hsl(var(--accent));
+    scrollbar-width: thin;
+  }
 }
 
 @layer utilities {
