@@ -11,7 +11,7 @@ import { CtaButtonComponent } from '../cta-button/cta-button.component';
       class="border-b border-border bg-gradient-to-b from-accent/80 via-background to-background"
     >
       <div
-        class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-gutter pb-16 pt-6 text-center sm:pb-24 sm:pt-10"
+        class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-gutter py-section text-center"
       >
         <p class="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
           Now streaming

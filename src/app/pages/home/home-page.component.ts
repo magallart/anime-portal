@@ -21,9 +21,9 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
   template: `
     <app-hero-section />
 
-    <section class="space-y-20 pb-section">
+    <section>
       <div class="w-full border-y border-border bg-accent/70">
-        <div class="mx-auto max-w-6xl px-gutter pb-16 pt-14">
+        <div class="mx-auto max-w-6xl px-gutter py-section">
           <app-anime-section
             title="Most viewed anime"
             [icon]="mostViewedIcon"
@@ -35,7 +35,7 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
         </div>
       </div>
 
-      <div class="mx-auto max-w-6xl px-gutter">
+      <div class="mx-auto max-w-6xl px-gutter py-section">
         <app-anime-section
           title="Latest releases"
           [icon]="latestReleaseIcon"
