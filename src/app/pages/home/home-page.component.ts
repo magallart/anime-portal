@@ -29,7 +29,7 @@ import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
       <div class="w-full border-y border-border bg-accent/70">
         <div class="mx-auto max-w-6xl px-gutter pb-16 pt-14">
           <app-anime-section
-            title="More viewed anime"
+            title="Most viewed anime"
             [icon]="mostViewedIcon"
             [items]="mostViewedCards()"
             [loading]="loading()"

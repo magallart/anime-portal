@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconCalendarComponent } from '../icons/icon-calendar.component';
 import { IconStarComponent } from '../icons/icon-star.component';
@@ -79,17 +79,15 @@ export interface AnimeCardData {
             }
           </div>
 
-          @if (card().tags?.length) {
-            <ul class="flex flex-wrap gap-2" aria-label="Tags">
-              @for (tag of card().tags; track tag) {
-                <li
-                  class="rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground"
-                >
-                  {{ tag }}
-                </li>
-              }
-            </ul>
-          }
+          <ul class="flex flex-wrap gap-2" aria-label="Tags">
+            @for (tag of displayTags(); track tag) {
+              <li
+                class="rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground"
+              >
+                {{ tag }}
+              </li>
+            }
+          </ul>
         </div>
       </a>
     </article>
@@ -97,4 +95,8 @@ export interface AnimeCardData {
 })
 export class AnimeCardComponent {
   readonly card = input.required<AnimeCardData>();
+  protected readonly displayTags = computed(() => {
+    const tags = this.card().tags ?? [];
+    return tags.length ? tags : ['Anime'];
+  });
 }
