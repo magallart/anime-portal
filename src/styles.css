@@ -178,6 +178,12 @@ body {
 @layer components {
   .genre-filters .mat-mdc-form-field {
     @apply w-full text-foreground;
+    --mdc-outlined-text-field-outline-color: hsl(var(--primary-bright));
+    --mdc-outlined-text-field-hover-outline-color: hsl(var(--primary-bright));
+    --mdc-outlined-text-field-focus-outline-color: hsl(var(--primary-bright));
+    --mdc-outlined-text-field-label-text-color: hsl(var(--primary-bright));
+    --mdc-outlined-text-field-focus-label-text-color: hsl(var(--primary-bright));
+    --mdc-outlined-text-field-caret-color: hsl(var(--primary-bright));
   }
 
   .genre-filters .mat-mdc-form-field .mdc-text-field--outlined {
@@ -196,28 +202,29 @@ body {
   .genre-filters .mdc-notched-outline__leading,
   .genre-filters .mdc-notched-outline__notch,
   .genre-filters .mdc-notched-outline__trailing {
-    @apply border-primary;
+    border-color: hsl(var(--primary-bright)) !important;
   }
 
   .genre-filters .mat-mdc-form-field:hover .mdc-notched-outline__leading,
   .genre-filters .mat-mdc-form-field:hover .mdc-notched-outline__notch,
   .genre-filters .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
-    @apply border-primary-bright;
+    border-color: hsl(var(--primary-bright)) !important;
   }
 
   .genre-filters .mdc-text-field--focused .mdc-notched-outline__leading,
   .genre-filters .mdc-text-field--focused .mdc-notched-outline__notch,
   .genre-filters .mdc-text-field--focused .mdc-notched-outline__trailing {
-    @apply border-primary-bright;
+    border-color: hsl(var(--primary-bright)) !important;
   }
 
   .genre-filters .mat-mdc-floating-label {
-    @apply text-xs font-semibold uppercase tracking-[0.35em] text-primary-bright;
+    @apply text-xs font-semibold uppercase tracking-[0.35em];
+    color: hsl(var(--primary-bright)) !important;
   }
 
   .genre-filters .mdc-text-field--focused .mat-mdc-floating-label,
   .genre-filters .mat-mdc-form-field:hover .mat-mdc-floating-label {
-    @apply text-primary-bright;
+    color: hsl(var(--primary-bright)) !important;
   }
 
   .genre-filters .mat-mdc-form-field-infix {
@@ -227,16 +234,17 @@ body {
   .genre-filters .mat-mdc-select-value-text,
   .genre-filters .mat-mdc-select-min-line,
   .genre-filters .mat-mdc-select-placeholder {
-    @apply text-sm text-primary-bright;
+    @apply text-sm;
+    color: hsl(var(--primary-bright));
   }
 
   .genre-filters .mat-mdc-select-arrow svg {
-    @apply text-primary-bright;
+    color: hsl(var(--primary-bright));
   }
 
   .genre-filters .mat-mdc-select:hover .mat-mdc-select-arrow svg,
   .genre-filters .mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-arrow svg {
-    @apply text-primary-bright;
+    color: hsl(var(--primary-bright));
   }
 }
 
