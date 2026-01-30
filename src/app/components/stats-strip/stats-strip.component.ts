@@ -10,7 +10,7 @@ interface StatItem {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="mx-auto max-w-6xl px-gutter py-12">
+    <section class="mx-auto max-w-6xl px-gutter py-6">
       <div class="grid gap-4 md:grid-cols-3">
         @for (stat of stats; track stat.label) {
           <div

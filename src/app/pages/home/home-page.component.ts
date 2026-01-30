@@ -6,7 +6,6 @@ import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up
 import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
 import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
-import { StatsStripComponent } from '../../components/stats-strip/stats-strip.component';
 import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
@@ -17,12 +16,7 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [
-    AnimeSectionComponent,
-    HeroSectionComponent,
-    StatsStripComponent,
-    CommunityFooterComponent,
-  ],
+  imports: [AnimeSectionComponent, HeroSectionComponent, CommunityFooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-hero-section />
@@ -53,7 +47,6 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
       </div>
     </section>
 
-    <app-stats-strip />
     <app-community-footer />
   `,
 })
