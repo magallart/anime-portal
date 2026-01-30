@@ -91,10 +91,13 @@ export class HomePageComponent {
   protected readonly latestReleaseCards = computed(() =>
     this.airingEpisodes()
       .slice(8, 20)
-      .map((episode) => this.mapEpisodeToCard(episode)),
+      .map((episode) => this.mapEpisodeToCard(episode, { hideTags: true })),
   );
 
-  private mapEpisodeToCard(episode: AiringEpisode): AnimeCardData {
+  private mapEpisodeToCard(
+    episode: AiringEpisode,
+    options: { compactTags?: boolean; hideTags?: boolean } = {},
+  ): AnimeCardData {
     const seasonLabel = this.resolveSeasonLabel(episode.startDate);
     const rating = this.formatRating(episode.averageScore);
     return {
@@ -106,6 +109,8 @@ export class HomePageComponent {
       season: seasonLabel,
       rating,
       tags: episode.genres?.slice(0, 2) ?? [],
+      compactTags: options.compactTags,
+      hideTags: options.hideTags,
     };
   }
 

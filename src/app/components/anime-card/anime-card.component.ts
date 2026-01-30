@@ -13,6 +13,8 @@ export interface AnimeCardData {
   readonly rating?: string;
   readonly year?: number;
   readonly tags?: readonly string[];
+  readonly compactTags?: boolean;
+  readonly hideTags?: boolean;
 }
 
 @Component({
@@ -79,15 +81,15 @@ export interface AnimeCardData {
             }
           </div>
 
-          <ul class="flex flex-wrap gap-2" aria-label="Tags">
-            @for (tag of displayTags(); track tag) {
-              <li
-                class="rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground"
-              >
-                {{ tag }}
-              </li>
-            }
-          </ul>
+          @if (!card().hideTags) {
+            <ul [class]="tagListClass()" aria-label="Tags">
+              @for (tag of displayTags(); track tag) {
+                <li [class]="tagClass()">
+                  {{ tag }}
+                </li>
+              }
+            </ul>
+          }
         </div>
       </a>
     </article>
@@ -99,4 +101,12 @@ export class AnimeCardComponent {
     const tags = this.card().tags ?? [];
     return tags.length ? tags : ['Anime'];
   });
+  protected readonly tagListClass = computed(() =>
+    this.card().compactTags ? 'flex flex-wrap gap-1.5' : 'flex flex-wrap gap-2',
+  );
+  protected readonly tagClass = computed(() =>
+    this.card().compactTags
+      ? 'rounded-full bg-accent/70 px-2 py-0.5 text-xs font-semibold uppercase leading-none tracking-wide text-accent-foreground'
+      : 'rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground',
+  );
 }

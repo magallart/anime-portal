@@ -37,4 +37,34 @@ describe('AnimeCardComponent', () => {
     expect(compiled.textContent).toContain('Action');
     expect(compiled.textContent).not.toContain('Anime');
   });
+
+  it('renders compact tag styles when enabled', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AnimeCardComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(AnimeCardComponent);
+    fixture.componentRef.setInput('card', { ...baseCard, tags: ['Action'], compactTags: true });
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const tagList = compiled.querySelector('ul');
+    const tag = compiled.querySelector('li');
+    expect(tagList?.className).toContain('gap-1.5');
+    expect(tag?.className).toContain('py-0.5');
+  });
+
+  it('hides tags when configured', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AnimeCardComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(AnimeCardComponent);
+    fixture.componentRef.setInput('card', { ...baseCard, tags: ['Action'], hideTags: true });
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('ul')).toBeNull();
+    expect(compiled.textContent).not.toContain('Action');
+  });
 });
