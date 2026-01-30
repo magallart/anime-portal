@@ -44,7 +44,6 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
       <div class="mx-auto max-w-6xl px-gutter">
         <app-anime-section
           title="Latest releases"
-          subtitle="Fresh episodes and new arrivals this week"
           [icon]="latestReleaseIcon"
           [items]="latestReleaseCards()"
           [loading]="loading()"
