@@ -13,14 +13,14 @@ interface GenresPrimer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl space-y-10 px-gutter py-section">
-      <header class="space-y-3 text-center">
-        <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">Genres</p>
+      <header class="space-y-3 text-left">
+        <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">Explore by genres</p>
         <h1 class="text-4xl font-heading tracking-tight text-foreground">
-          Plan your next watchlist by vibe
+          Find your next watchlist by vibe
         </h1>
-        <p class="mx-auto max-w-3xl text-base leading-relaxed text-muted-foreground">
-          Filter by mood, theme, or pacing. This placeholder describes how curation and filters will
-          operate once AniList data flows through the view.
+        <p class="max-w-3xl text-base leading-relaxed text-muted-foreground">
+          Browse AniList&apos;s catalog and fine-tune the results by genre, year, and status to
+          match your mood.
         </p>
       </header>
 
