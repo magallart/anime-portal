@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 type ButtonVariant = 'primary' | 'outline';
@@ -28,9 +29,16 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <ng-template #buttonContent>
+      <span class="inline-flex items-center" [class]="iconClasses()">
+        <ng-content select="[appButtonIcon]" />
+      </span>
+      <span>{{ label() }}</span>
+    </ng-template>
+
     @if (href()) {
       <a
         [href]="href()!"
@@ -40,10 +48,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
         [attr.data-test]="testId()"
         [class]="buttonClasses()"
       >
-        <span class="inline-flex items-center" [class]="iconClasses()">
-          <ng-content select="[appButtonIcon]" />
-        </span>
-        <span>{{ label() }}</span>
+        <ng-container [ngTemplateOutlet]="buttonContent" />
       </a>
     } @else if (link()) {
       <a
@@ -52,10 +57,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
         [attr.data-test]="testId()"
         [class]="buttonClasses()"
       >
-        <span class="inline-flex items-center" [class]="iconClasses()">
-          <ng-content select="[appButtonIcon]" />
-        </span>
-        <span>{{ label() }}</span>
+        <ng-container [ngTemplateOutlet]="buttonContent" />
       </a>
     } @else {
       <button
@@ -64,10 +66,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
         [attr.data-test]="testId()"
         [class]="buttonClasses()"
       >
-        <span class="inline-flex items-center" [class]="iconClasses()">
-          <ng-content select="[appButtonIcon]" />
-        </span>
-        <span>{{ label() }}</span>
+        <ng-container [ngTemplateOutlet]="buttonContent" />
       </button>
     }
   `,
