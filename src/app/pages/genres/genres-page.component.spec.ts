@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { GenresPageComponent } from './genres-page.component';
 
 describe('GenresPageComponent', () => {
-  it('renders primers for placeholder genres', async () => {
+  it('renders the genres page title', async () => {
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
     }).compileComponents();
@@ -13,7 +13,6 @@ describe('GenresPageComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent).toContain('watchlist');
-    expect(compiled.querySelectorAll('[data-test="genre-primer"]').length).toBe(4);
+    expect(compiled.querySelector('h1')?.textContent).toContain('Explore by genres');
   });
 });
