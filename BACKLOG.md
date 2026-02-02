@@ -139,7 +139,7 @@
 - [✔️] Create page hero/heading describing filters and dataset.
 - [✔️] Request a random page (for example, RNG of page number) sorted by `POPULARITY_DESC` and display 20 anime cards in a responsive grid.
 - [✔️] Show loading/empty/error placeholders.
-- [ ] Instrument basic pagination or "Load more" button placeholder for later.
+- [✔️] Instrument basic pagination or "Load more" button placeholder for later.
 - [ ] Unit or component tests checking fetch trigger and card count.
       **Acceptance Criteria:**
 - Navigating to `/genres` loads 20 random popular anime and displays them as cards.
