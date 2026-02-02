@@ -101,6 +101,7 @@ describe('GenresPageComponent', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('app-icon-square-rounded-plus')).toBeTruthy();
+    expect(compiled.textContent).toContain('Showing 20 of 20');
   });
 
   it('shows loading skeletons before results resolve', async () => {

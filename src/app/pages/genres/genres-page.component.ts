@@ -72,14 +72,17 @@ import { AnilistService } from '../../services/anilist.service';
             }
           </div>
           <div class="mt-8 flex justify-center">
-            <app-button
-              label="Load more"
-              size="sm"
-              [disabled]="!canLoadMore()"
-              (click)="loadMore()"
-            >
-              <app-icon-square-rounded-plus appButtonIcon />
-            </app-button>
+            <div class="flex flex-col items-center gap-3">
+              <p class="text-xs text-muted-foreground">{{ countLabel() }}</p>
+              <app-button
+                label="Load more"
+                size="sm"
+                [disabled]="!canLoadMore()"
+                (click)="loadMore()"
+              >
+                <app-icon-square-rounded-plus appButtonIcon />
+              </app-button>
+            </div>
           </div>
         }
       </section>
@@ -116,6 +119,9 @@ export class GenresPageComponent {
   );
   protected readonly visibleCards = computed(() => this.cards().slice(0, this.visibleCount()));
   protected readonly canLoadMore = computed(() => this.visibleCards().length < this.cards().length);
+  protected readonly countLabel = computed(
+    () => `Showing ${this.visibleCards().length} of ${this.cards().length}`,
+  );
   protected readonly skeletonSlots = Array.from({ length: 20 }, (_, index) => index);
 
   private buildRandomFilter(): GenreFilter {
