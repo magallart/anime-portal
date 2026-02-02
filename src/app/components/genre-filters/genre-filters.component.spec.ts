@@ -23,7 +23,7 @@ describe('GenreFiltersComponent', () => {
     ]);
   });
 
-  it('hides the clear filters button until a filter is selected', async () => {
+  it('disables action buttons until a filter is selected', async () => {
     await TestBed.configureTestingModule({
       imports: [GenreFiltersComponent, RouterTestingModule],
     }).compileComponents();
@@ -32,12 +32,18 @@ describe('GenreFiltersComponent', () => {
     fixture.detectChanges();
 
     let compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).not.toContain('Clear filters');
+    const buttons = compiled.querySelectorAll('button');
+    expect(buttons.length).toBeGreaterThan(1);
+    buttons.forEach((button) => {
+      expect(button.disabled).toBe(true);
+    });
 
     fixture.componentInstance.onGenreChange({ value: 'Action' } as MatSelectChange);
     fixture.detectChanges();
 
     compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Clear filters');
+    compiled.querySelectorAll('button').forEach((button) => {
+      expect(button.disabled).toBe(false);
+    });
   });
 });

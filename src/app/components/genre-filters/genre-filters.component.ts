@@ -23,19 +23,7 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="genre-filters rounded-2xl border border-border bg-card/70 p-card shadow-subtle">
-      <div class="flex flex-wrap items-center justify-end gap-4">
-        @if (hasActiveFilters()) {
-          <button
-            type="button"
-            class="text-xs font-semibold uppercase tracking-[0.35em] text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            (click)="clearFilters()"
-          >
-            Clear filters
-          </button>
-        }
-      </div>
-
-      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <mat-form-field
           appearance="outline"
           floatLabel="always"
@@ -113,10 +101,19 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
         </mat-form-field>
       </div>
 
-      <div class="mt-6 flex justify-end">
-        <app-button label="Apply filters" size="sm">
-          <app-icon-filter appButtonIcon />
-        </app-button>
+      <div class="mt-6 flex justify-center">
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <app-button label="Apply filters" size="sm" [disabled]="!hasActiveFilters()">
+            <app-icon-filter appButtonIcon />
+          </app-button>
+          <app-button
+            label="Clear filters"
+            size="sm"
+            variant="outline"
+            [disabled]="!hasActiveFilters()"
+            (click)="clearFilters()"
+          />
+        </div>
       </div>
     </section>
   `,
