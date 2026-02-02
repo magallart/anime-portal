@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+  computed,
+  signal,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, type MatSelectChange } from '@angular/material/select';
 
@@ -105,7 +112,12 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
 
       <div class="mt-6 flex justify-center">
         <div class="flex flex-wrap items-center justify-center gap-3">
-          <app-button label="Apply filters" size="sm" [disabled]="!hasActiveFilters()">
+          <app-button
+            label="Apply filters"
+            size="sm"
+            [disabled]="!hasActiveFilters()"
+            (click)="applyFilters()"
+          >
             <app-icon-filter appButtonIcon />
           </app-button>
           <button
@@ -123,6 +135,8 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
   `,
 })
 export class GenreFiltersComponent {
+  @Output() readonly filtersApplied = new EventEmitter<GenreFilterSelections>();
+
   readonly genreOptions = ANILIST_GENRE_OPTIONS;
   readonly yearOptions = ANILIST_YEAR_OPTIONS;
   readonly statusOptions = ANILIST_STATUS_OPTIONS;
@@ -157,13 +171,36 @@ export class GenreFiltersComponent {
     this.ratingSelection.set(event.value as FilterSelection);
   }
 
+  applyFilters(): void {
+    if (!this.hasActiveFilters()) {
+      return;
+    }
+    this.filtersApplied.emit(this.buildSelections());
+  }
+
   clearFilters(): void {
     this.genreSelection.set(FILTER_ALL);
     this.yearSelection.set(FILTER_ALL);
     this.statusSelection.set(FILTER_ALL);
     this.ratingSelection.set(FILTER_ALL);
+    this.filtersApplied.emit(this.buildSelections());
+  }
+
+  private buildSelections(): GenreFilterSelections {
+    return {
+      genre: this.genreSelection(),
+      year: this.yearSelection(),
+      status: this.statusSelection(),
+      rating: this.ratingSelection(),
+    };
   }
 }
 
-const FILTER_ALL = 'all' as const;
-type FilterSelection = typeof FILTER_ALL | number | string;
+export const FILTER_ALL = 'all' as const;
+export type FilterSelection = typeof FILTER_ALL | number | string;
+export interface GenreFilterSelections {
+  readonly genre: FilterSelection;
+  readonly year: FilterSelection;
+  readonly status: FilterSelection;
+  readonly rating: FilterSelection;
+}

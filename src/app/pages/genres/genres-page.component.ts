@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of, tap } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
 import {
   ANIME_CARD_BADGE_ICON,
@@ -8,9 +8,18 @@ import {
 } from '../../components/anime-card/anime-card.component';
 import { AppButtonComponent } from '../../components/app-button/app-button.component';
 import { AppButtonIconDirective } from '../../components/app-button/app-button-icon.directive';
-import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
+import {
+  FILTER_ALL,
+  GenreFiltersComponent,
+  type FilterSelection,
+  type GenreFilterSelections,
+} from '../../components/genre-filters/genre-filters.component';
+import { ANILIST_RATING_FILTERS } from '../../constants/anilist-rating-filters';
+import { DEFAULT_FILTER_SELECTIONS } from '../../constants/genre-filter-defaults';
 import { IconSquareRoundedPlusComponent } from '../../components/icons/icon-square-rounded-plus.component';
+import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
+import type { AnimeStatus } from '../../interfaces/anime-status';
 import type { GenreFilter } from '../../interfaces/genre-filter';
 import type { AnimeTitle } from '../../interfaces/anime-title';
 import { AnilistService } from '../../services/anilist.service';
@@ -28,7 +37,7 @@ import { AnilistService } from '../../services/anilist.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl px-gutter pb-section pt-6">
-      <app-genre-filters />
+      <app-genre-filters (filtersApplied)="onFiltersApplied($event)" />
 
       <section class="mt-6">
         @if (loading()) {
@@ -97,25 +106,37 @@ export class GenresPageComponent {
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
   protected readonly visibleCount = signal(this.pageSize);
+  protected readonly appliedFilters = signal<GenreFilterSelections>(DEFAULT_FILTER_SELECTIONS);
 
-  private readonly randomResults = toSignal(
-    this.anilistService.getAnimeByFilters(this.buildRandomFilter()).pipe(
+  private readonly filterResults = toSignal(
+    toObservable(this.appliedFilters).pipe(
       tap(() => {
-        this.loading.set(false);
+        this.loading.set(true);
         this.error.set(null);
+        this.visibleCount.set(this.pageSize);
       }),
-      catchError((error) => {
-        console.error('Unable to load random anime results.', error);
-        this.loading.set(false);
-        this.error.set('Unable to load the genres list right now.');
-        return of([]);
-      }),
+      switchMap((filters) =>
+        this.anilistService.getAnimeByFilters(this.buildFilterPayload(filters)).pipe(
+          tap(() => {
+            this.loading.set(false);
+          }),
+          catchError((error) => {
+            console.error('Unable to load filtered anime results.', error);
+            this.loading.set(false);
+            this.error.set('Unable to load the genres list right now.');
+            return of([]);
+          }),
+        ),
+      ),
     ),
     { initialValue: [] },
   );
 
+  protected readonly filteredResults = computed(() =>
+    this.applyRatingFilter(this.filterResults(), this.appliedFilters().rating),
+  );
   protected readonly cards = computed(() =>
-    this.randomResults().map((anime) => this.mapSummaryToCard(anime)),
+    this.filteredResults().map((anime) => this.mapSummaryToCard(anime)),
   );
   protected readonly visibleCards = computed(() => this.cards().slice(0, this.visibleCount()));
   protected readonly canLoadMore = computed(() => this.visibleCards().length < this.cards().length);
@@ -124,13 +145,59 @@ export class GenresPageComponent {
   );
   protected readonly skeletonSlots = Array.from({ length: 20 }, (_, index) => index);
 
-  private buildRandomFilter(): GenreFilter {
+  protected onFiltersApplied(filters: GenreFilterSelections): void {
+    this.appliedFilters.set(filters);
+  }
+
+  private buildFilterPayload(filters: GenreFilterSelections): GenreFilter {
+    const status = this.isStatusSelection(filters.status) ? filters.status : undefined;
     return {
-      genres: [],
+      genres:
+        typeof filters.genre === 'string' && !this.isAllSelection(filters.genre)
+          ? [filters.genre]
+          : [],
+      year: typeof filters.year === 'number' ? filters.year : undefined,
+      status,
       page: 1,
       perPage: this.maxResults,
       sort: 'POPULARITY_DESC',
     };
+  }
+
+  private applyRatingFilter(
+    results: readonly AnimeSummary[],
+    selection: FilterSelection,
+  ): readonly AnimeSummary[] {
+    if (this.isAllSelection(selection)) {
+      return results;
+    }
+
+    return results.filter((anime) => {
+      if (!anime.averageScore || Number.isNaN(anime.averageScore)) {
+        return false;
+      }
+      const normalizedScore = anime.averageScore / 10;
+      if (selection === ANILIST_RATING_FILTERS.LT_5) {
+        return normalizedScore < 5;
+      }
+      if (selection === ANILIST_RATING_FILTERS.BETWEEN_5_7) {
+        return normalizedScore >= 5 && normalizedScore <= 7;
+      }
+      if (selection === ANILIST_RATING_FILTERS.GT_8) {
+        return normalizedScore > 8;
+      }
+      return true;
+    });
+  }
+
+  private isStatusSelection(value: FilterSelection): value is AnimeStatus {
+    return (
+      typeof value === 'string' && ANILIST_STATUS_OPTIONS.some((option) => option.value === value)
+    );
+  }
+
+  private isAllSelection(value: FilterSelection): value is typeof FILTER_ALL {
+    return value === FILTER_ALL;
   }
 
   protected loadMore(): void {

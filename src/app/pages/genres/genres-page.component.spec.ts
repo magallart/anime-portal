@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { NEVER, of, throwError } from 'rxjs';
+import {
+  FILTER_ALL,
+  GenreFiltersComponent,
+} from '../../components/genre-filters/genre-filters.component';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { AnilistService } from '../../services/anilist.service';
 import { GenresPageComponent } from './genres-page.component';
@@ -43,6 +48,8 @@ describe('GenresPageComponent', () => {
     expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
     expect(getAnimeByFilters).toHaveBeenCalledWith({
       genres: [],
+      year: undefined,
+      status: undefined,
       page: 1,
       perPage: 200,
       sort: 'POPULARITY_DESC',
@@ -168,5 +175,115 @@ describe('GenresPageComponent', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('No anime matched this selection. Try another refresh.');
+  });
+
+  it('requests filtered anime when selections are applied', async () => {
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(10)));
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const filterComponent = fixture.debugElement.query(By.directive(GenreFiltersComponent))
+      .componentInstance as GenreFiltersComponent;
+    filterComponent.filtersApplied.emit({
+      genre: 'Drama',
+      year: 2020,
+      status: 'RELEASING',
+      rating: FILTER_ALL,
+    });
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(getAnimeByFilters).toHaveBeenLastCalledWith({
+      genres: ['Drama'],
+      year: 2020,
+      status: 'RELEASING',
+      page: 1,
+      perPage: 200,
+      sort: 'POPULARITY_DESC',
+    });
+  });
+
+  it('filters the grid by the selected rating range', async () => {
+    const ratedAnime: AnimeSummary[] = [
+      {
+        id: 1,
+        slug: 'low-score',
+        title: { english: 'Low Score' },
+        coverImage: { extraLarge: 'cover-1.jpg' },
+        format: 'TV',
+        status: 'RELEASING',
+        averageScore: 40,
+        popularity: 500,
+        genres: ['Action'],
+      },
+      {
+        id: 2,
+        slug: 'mid-score',
+        title: { english: 'Mid Score' },
+        coverImage: { extraLarge: 'cover-2.jpg' },
+        format: 'TV',
+        status: 'RELEASING',
+        averageScore: 65,
+        popularity: 600,
+        genres: ['Action'],
+      },
+      {
+        id: 3,
+        slug: 'high-score',
+        title: { english: 'High Score' },
+        coverImage: { extraLarge: 'cover-3.jpg' },
+        format: 'TV',
+        status: 'RELEASING',
+        averageScore: 92,
+        popularity: 700,
+        genres: ['Action'],
+      },
+    ];
+
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(ratedAnime));
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const filterComponent = fixture.debugElement.query(By.directive(GenreFiltersComponent))
+      .componentInstance as GenreFiltersComponent;
+    filterComponent.filtersApplied.emit({
+      genre: FILTER_ALL,
+      year: FILTER_ALL,
+      status: FILTER_ALL,
+      rating: 'gt-8',
+    });
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('app-anime-card').length).toBe(1);
+    expect(compiled.textContent).toContain('High Score');
   });
 });

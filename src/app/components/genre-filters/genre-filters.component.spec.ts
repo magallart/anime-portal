@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { MatSelectChange } from '@angular/material/select';
 import { GenreFiltersComponent } from './genre-filters.component';
 
@@ -116,5 +116,30 @@ describe('GenreFiltersComponent', () => {
     );
     expect(buttons).toContain('Apply filters');
     expect(buttons).toContain('Clear filters');
+  });
+
+  it('emits the current selections when filters are applied', async () => {
+    await TestBed.configureTestingModule({
+      imports: [GenreFiltersComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenreFiltersComponent);
+    fixture.detectChanges();
+
+    const component = fixture.componentInstance;
+    const emitSpy = vi.spyOn(component.filtersApplied, 'emit');
+    component.onGenreChange({ value: 'Action' } as MatSelectChange);
+    component.onYearChange({ value: 2022 } as MatSelectChange);
+    component.onStatusChange({ value: 'RELEASING' } as MatSelectChange);
+    component.onRatingChange({ value: '5-7' } as MatSelectChange);
+
+    component.applyFilters();
+
+    expect(emitSpy).toHaveBeenCalledWith({
+      genre: 'Action',
+      year: 2022,
+      status: 'RELEASING',
+      rating: '5-7',
+    });
   });
 });
