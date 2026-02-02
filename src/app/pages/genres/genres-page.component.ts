@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
 import {
   ANIME_CARD_BADGE_ICON,
@@ -22,11 +22,45 @@ import { AnilistService } from '../../services/anilist.service';
       <app-genre-filters />
 
       <section class="mt-6">
-        <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
-          @for (card of cards(); track card.id) {
-            <app-anime-card [card]="card" />
-          }
-        </div>
+        @if (loading()) {
+          <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
+            @for (slot of skeletonSlots; track slot) {
+              <div
+                class="rounded-xl border border-border bg-card/60 p-4 shadow-subtle animate-pulse"
+              >
+                <div class="aspect-[2/3] w-full rounded-xl bg-muted/60"></div>
+                <div class="mt-4 h-3 w-3/4 rounded bg-muted/70"></div>
+                <div class="mt-2 h-3 w-1/2 rounded bg-muted/50"></div>
+                <div class="mt-4 flex gap-2">
+                  <span class="h-5 w-16 rounded-full bg-accent/60"></span>
+                  <span class="h-5 w-12 rounded-full bg-accent/50"></span>
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (error()) {
+          <div
+            class="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive-foreground"
+            role="status"
+            aria-live="polite"
+          >
+            {{ error() }}
+          </div>
+        } @else if (!cards().length) {
+          <div
+            class="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground"
+            role="status"
+            aria-live="polite"
+          >
+            No anime matched this selection. Try another refresh.
+          </div>
+        } @else {
+          <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
+            @for (card of cards(); track card.id) {
+              <app-anime-card [card]="card" />
+            }
+          </div>
+        }
       </section>
     </article>
   `,
@@ -34,11 +68,20 @@ import { AnilistService } from '../../services/anilist.service';
 export class GenresPageComponent {
   private readonly anilistService = inject(AnilistService);
 
+  protected readonly loading = signal(true);
+  protected readonly error = signal<string | null>(null);
+
   private readonly randomPage = this.pickRandomPage();
   private readonly randomResults = toSignal(
     this.anilistService.getAnimeByFilters(this.buildRandomFilter()).pipe(
+      tap(() => {
+        this.loading.set(false);
+        this.error.set(null);
+      }),
       catchError((error) => {
         console.error('Unable to load random anime results.', error);
+        this.loading.set(false);
+        this.error.set('Unable to load the genres list right now.');
         return of([]);
       }),
     ),
@@ -48,6 +91,7 @@ export class GenresPageComponent {
   protected readonly cards = computed(() =>
     this.randomResults().map((anime) => this.mapSummaryToCard(anime)),
   );
+  protected readonly skeletonSlots = Array.from({ length: 20 }, (_, index) => index);
 
   private buildRandomFilter(): GenreFilter {
     return {
