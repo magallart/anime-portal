@@ -174,7 +174,9 @@ describe('GenresPageComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('No anime matched this selection. Try another refresh.');
+    expect(compiled.textContent).toContain('Genre gremlins ate the results.');
+    expect(compiled.textContent).toContain('Tweak the filters and we’ll try again.');
+    expect(compiled.querySelector('img[src="/images/no-results.png"]')).toBeTruthy();
   });
 
   it('requests filtered anime when selections are applied', async () => {

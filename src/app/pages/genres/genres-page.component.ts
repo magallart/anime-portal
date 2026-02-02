@@ -66,11 +66,25 @@ import { AnilistService } from '../../services/anilist.service';
           </div>
         } @else if (!visibleCards().length) {
           <div
-            class="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground"
+            class="flex flex-col items-center gap-4 p-6 text-center text-sm text-muted-foreground"
             role="status"
             aria-live="polite"
           >
-            No anime matched this selection. Try another refresh.
+            <div class="space-y-2">
+              <p class="text-2xl font-semibold text-foreground sm:text-3xl">
+                Genre gremlins ate the results.
+              </p>
+              <p class="text-lg text-muted-foreground sm:text-xl">
+                Tweak the filters and we’ll try again.
+              </p>
+            </div>
+            <img
+              src="/images/no-results.png"
+              alt=""
+              class="w-80 max-w-full sm:w-[26rem]"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         } @else {
           <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
