@@ -135,9 +135,10 @@ export class GenresPageComponent {
   protected readonly filteredResults = computed(() =>
     this.applyRatingFilter(this.filterResults(), this.appliedFilters().rating),
   );
-  protected readonly cards = computed(() =>
-    this.filteredResults().map((anime) => this.mapSummaryToCard(anime)),
-  );
+  protected readonly cards = computed(() => {
+    const activeGenre = this.resolveActiveGenre(this.appliedFilters().genre);
+    return this.filteredResults().map((anime) => this.mapSummaryToCard(anime, activeGenre));
+  });
   protected readonly visibleCards = computed(() => this.cards().slice(0, this.visibleCount()));
   protected readonly canLoadMore = computed(() => this.visibleCards().length < this.cards().length);
   protected readonly countLabel = computed(
@@ -209,10 +210,11 @@ export class GenresPageComponent {
     this.visibleCount.set(Math.min(nextCount, this.cards().length));
   }
 
-  private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
+  private mapSummaryToCard(anime: AnimeSummary, activeGenre?: string): AnimeCardData {
     const title = this.resolveSummaryTitle(anime.title);
     const subtitle = this.resolveRomajiSubtitle(anime.title);
     const rating = this.formatRating(anime.averageScore);
+    const tags = this.resolveCardTags(anime.genres ?? [], activeGenre);
     return {
       id: anime.id,
       slug: anime.slug,
@@ -221,8 +223,34 @@ export class GenresPageComponent {
       imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
       badge: rating,
       badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
-      tags: anime.genres?.slice(0, 2) ?? [],
+      tags,
     };
+  }
+
+  private resolveActiveGenre(selection: FilterSelection): string | undefined {
+    if (typeof selection !== 'string' || this.isAllSelection(selection)) {
+      return undefined;
+    }
+
+    return selection;
+  }
+
+  private resolveCardTags(genres: readonly string[], activeGenre?: string): readonly string[] {
+    if (!genres.length) {
+      return [];
+    }
+
+    const normalizedActive = activeGenre?.toLowerCase();
+    const hasActive = normalizedActive
+      ? genres.some((genre) => genre.toLowerCase() === normalizedActive)
+      : false;
+
+    if (!activeGenre || !hasActive) {
+      return genres.slice(0, 2);
+    }
+
+    const remaining = genres.filter((genre) => genre.toLowerCase() !== normalizedActive);
+    return [activeGenre, ...remaining].slice(0, 2);
   }
 
   private resolveSummaryTitle(title: AnimeTitle): string {

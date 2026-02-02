@@ -286,4 +286,53 @@ describe('GenresPageComponent', () => {
     expect(compiled.querySelectorAll('app-anime-card').length).toBe(1);
     expect(compiled.textContent).toContain('High Score');
   });
+
+  it('surfaces the selected genre in the card tags when filtering', async () => {
+    const getAnimeByFilters = vi.fn().mockReturnValue(
+      of([
+        {
+          id: 1,
+          slug: 'genre-test',
+          title: { english: 'Genre Test' },
+          coverImage: { extraLarge: 'cover-1.jpg' },
+          format: 'TV',
+          status: 'RELEASING',
+          averageScore: 78,
+          popularity: 800,
+          genres: ['Action', 'Drama'],
+        },
+      ]),
+    );
+
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const filterComponent = fixture.debugElement.query(By.directive(GenreFiltersComponent))
+      .componentInstance as GenreFiltersComponent;
+    filterComponent.filtersApplied.emit({
+      genre: 'Drama',
+      year: FILTER_ALL,
+      status: FILTER_ALL,
+      rating: FILTER_ALL,
+    });
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Drama');
+  });
 });
