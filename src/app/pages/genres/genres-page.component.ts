@@ -2,7 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
 import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
-import { AnimeCardComponent } from '../../components/anime-card/anime-card.component';
+import {
+  ANIME_CARD_BADGE_ICON,
+  AnimeCardComponent,
+} from '../../components/anime-card/anime-card.component';
 import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import type { GenreFilter } from '../../interfaces/genre-filter';
@@ -61,18 +64,28 @@ export class GenresPageComponent {
   }
 
   private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
+    const title = this.resolveSummaryTitle(anime.title);
+    const subtitle = this.resolveRomajiSubtitle(anime.title);
+    const rating = this.formatRating(anime.averageScore);
     return {
       id: anime.id,
       slug: anime.slug,
-      title: this.resolveSummaryTitle(anime.title),
+      title,
+      subtitle,
       imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
-      rating: this.formatRating(anime.averageScore),
+      badge: rating,
+      badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
       tags: anime.genres?.slice(0, 2) ?? [],
     };
   }
 
   private resolveSummaryTitle(title: AnimeTitle): string {
     return title.english ?? title.romaji ?? 'Untitled';
+  }
+
+  private resolveRomajiSubtitle(title: AnimeTitle): string | undefined {
+    const romaji = title.romaji?.trim();
+    return romaji ? romaji : undefined;
   }
 
   private formatRating(score: number | undefined): string | undefined {
