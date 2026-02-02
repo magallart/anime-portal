@@ -6,7 +6,10 @@ import {
   ANIME_CARD_BADGE_ICON,
   AnimeCardComponent,
 } from '../../components/anime-card/anime-card.component';
+import { AppButtonComponent } from '../../components/app-button/app-button.component';
+import { AppButtonIconDirective } from '../../components/app-button/app-button-icon.directive';
 import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
+import { IconSquareRoundedPlusComponent } from '../../components/icons/icon-square-rounded-plus.component';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import type { GenreFilter } from '../../interfaces/genre-filter';
 import type { AnimeTitle } from '../../interfaces/anime-title';
@@ -15,7 +18,13 @@ import { AnilistService } from '../../services/anilist.service';
 @Component({
   selector: 'app-genres-page',
   standalone: true,
-  imports: [GenreFiltersComponent, AnimeCardComponent],
+  imports: [
+    GenreFiltersComponent,
+    AnimeCardComponent,
+    AppButtonComponent,
+    AppButtonIconDirective,
+    IconSquareRoundedPlusComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl px-gutter pb-section pt-6">
@@ -61,15 +70,14 @@ import { AnilistService } from '../../services/anilist.service';
             }
           </div>
           <div class="mt-8 flex justify-center">
-            <button
-              type="button"
-              class="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
-              (click)="loadMore()"
+            <app-button
+              label="Load more"
+              size="sm"
               [disabled]="!canLoadMore()"
-              [attr.aria-disabled]="!canLoadMore()"
+              (click)="loadMore()"
             >
-              Load more
-            </button>
+              <app-icon-square-rounded-plus appButtonIcon />
+            </app-button>
           </div>
         }
       </section>

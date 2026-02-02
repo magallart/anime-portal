@@ -7,7 +7,7 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 type IconPosition = 'left' | 'right';
 
 const BASE_CLASSES =
-  'inline-flex items-center justify-center rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+  'inline-flex items-center justify-center rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-primary text-primary-foreground shadow-subtle hover:bg-primary/90',
@@ -64,6 +64,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
         [attr.type]="type()"
         [attr.aria-label]="ariaLabel() ?? label()"
         [attr.data-test]="testId()"
+        [disabled]="disabled()"
         [class]="buttonClasses()"
       >
         <ng-container [ngTemplateOutlet]="buttonContent" />
@@ -79,6 +80,7 @@ export class AppButtonComponent {
   readonly href = input<string | null>(null);
   readonly link = input<readonly unknown[] | string | null>(null);
   readonly type = input<'button' | 'submit' | 'reset'>('button');
+  readonly disabled = input(false);
   readonly external = input(false);
   readonly testId = input<string | null>(null);
   readonly ariaLabel = input<string | null>(null);

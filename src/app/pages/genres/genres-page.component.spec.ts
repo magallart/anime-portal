@@ -81,6 +81,28 @@ describe('GenresPageComponent', () => {
     expect(compiled.querySelectorAll('app-anime-card').length).toBe(40);
   });
 
+  it('renders the load more button with the plus icon', async () => {
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(20)));
+
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-icon-square-rounded-plus')).toBeTruthy();
+  });
+
   it('shows loading skeletons before results resolve', async () => {
     const getAnimeByFilters = vi.fn().mockReturnValue(NEVER);
 
