@@ -304,4 +304,19 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .anime-card-reveal {
+    animation: anime-card-reveal 320ms ease-out both;
+  }
+
+  @keyframes anime-card-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

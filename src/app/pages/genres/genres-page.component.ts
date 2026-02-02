@@ -66,7 +66,9 @@ import { AnilistService } from '../../services/anilist.service';
         } @else {
           <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
             @for (card of visibleCards(); track card.id) {
-              <app-anime-card [card]="card" />
+              <div class="anime-card-reveal">
+                <app-anime-card [card]="card" />
+              </div>
             }
           </div>
           <div class="mt-8 flex justify-center">
