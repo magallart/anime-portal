@@ -18,7 +18,7 @@ const sampleEpisodes: AiringEpisode[] = [
     coverImage: 'cover.jpg',
   },
 ];
-const sampleMostViewed: AnimeSummary[] = [
+const sampleHighestRated: AnimeSummary[] = [
   {
     id: 99,
     slug: 'top-hit',
@@ -33,10 +33,10 @@ const sampleMostViewed: AnimeSummary[] = [
 describe('HomePageComponent', () => {
   const setup = async (
     returnValue = of(sampleEpisodes),
-    mostViewedValue = of(sampleMostViewed),
+    highestRatedValue = of(sampleHighestRated),
   ) => {
     const getAiringMock = vi.fn().mockReturnValue(returnValue);
-    const getMostViewedMock = vi.fn().mockReturnValue(mostViewedValue);
+    const getHighestRatedMock = vi.fn().mockReturnValue(highestRatedValue);
 
     await TestBed.configureTestingModule({
       imports: [HomePageComponent, RouterTestingModule],
@@ -45,7 +45,7 @@ describe('HomePageComponent', () => {
           provide: AnilistService,
           useValue: {
             getAiringThisWeek: getAiringMock,
-            getMostViewedAnime: getMostViewedMock,
+            getHighestRatedAnime: getHighestRatedMock,
           },
         },
       ],
@@ -53,20 +53,20 @@ describe('HomePageComponent', () => {
 
     const fixture = TestBed.createComponent(HomePageComponent);
     fixture.detectChanges();
-    return { fixture, getAiringMock, getMostViewedMock };
+    return { fixture, getAiringMock, getHighestRatedMock };
   };
 
   it('renders hero content and anime sections', async () => {
-    const { fixture, getAiringMock, getMostViewedMock } = await setup();
+    const { fixture, getAiringMock, getHighestRatedMock } = await setup();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Discover the World of Anime');
-    expect(compiled.textContent).toContain('Most viewed anime');
+    expect(compiled.textContent).toContain('Highest-rated anime');
     expect(compiled.textContent).toContain('Latest releases');
     expect(getAiringMock).toHaveBeenCalled();
-    expect(getMostViewedMock).toHaveBeenCalled();
+    expect(getHighestRatedMock).toHaveBeenCalledWith(30);
   });
 
   it('surfaces an error message when airing feed fails', async () => {

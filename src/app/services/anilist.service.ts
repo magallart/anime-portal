@@ -69,6 +69,19 @@ export class AnilistService {
       .pipe(map((response) => response.Page.media.map((media) => this.mapAnimeSummary(media))));
   }
 
+  getHighestRatedAnime(perPage = 30): Observable<AnimeSummary[]> {
+    const variables: SearchQueryVariables = {
+      page: 1,
+      perPage,
+      sort: 'SCORE_DESC',
+      isAdult: false,
+    };
+
+    return this.client
+      .execute<SearchQueryResponse, SearchQueryVariables>(SEARCH_QUERY, variables)
+      .pipe(map((response) => response.Page.media.map((media) => this.mapAnimeSummary(media))));
+  }
+
   getAnimeDetailsBySlug(slug: string): Observable<AnimeDetail> {
     return this.client
       .execute<AnimeDetailQueryResponse, AnimeDetailQueryVariables>(ANIME_DETAIL_QUERY, {

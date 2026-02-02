@@ -26,7 +26,7 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
       <div class="w-full border-y border-border bg-accent/70">
         <div class="mx-auto max-w-6xl px-gutter py-section">
           <app-anime-section
-            title="Most viewed anime"
+            title="Highest-rated anime"
             [icon]="mostViewedIcon"
             [items]="mostViewedCards()"
             [loading]="loading()"
@@ -60,7 +60,7 @@ export class HomePageComponent {
   private readonly homeFeed = toSignal(
     forkJoin({
       latest: this.anilistService.getAiringThisWeek(),
-      mostViewed: this.anilistService.getMostViewedAnime(8),
+      mostViewed: this.anilistService.getHighestRatedAnime(30),
     }).pipe(
       tap({
         next: () => {
@@ -81,7 +81,9 @@ export class HomePageComponent {
   protected readonly latestReleaseIcon = IconClockComponent;
 
   protected readonly mostViewedCards = computed(() =>
-    this.homeFeed().mostViewed.map((anime) => this.mapSummaryToCard(anime)),
+    this.pickRandomCards(this.homeFeed().mostViewed, 8).map((anime) =>
+      this.mapSummaryToCard(anime),
+    ),
   );
 
   protected readonly latestReleaseCards = computed(() =>
@@ -162,5 +164,18 @@ export class HomePageComponent {
   private resolveRomajiSubtitle(title: AnimeTitle): string | undefined {
     const romaji = title.romaji?.trim();
     return romaji ? romaji : undefined;
+  }
+
+  private pickRandomCards(items: readonly AnimeSummary[], count: number): readonly AnimeSummary[] {
+    if (items.length <= count) {
+      return items;
+    }
+
+    const shuffled = [...items];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+    }
+    return shuffled.slice(0, count);
   }
 }
