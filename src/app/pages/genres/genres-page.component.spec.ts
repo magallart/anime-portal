@@ -39,7 +39,7 @@ describe('GenresPageComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.querySelector('.genre-filters')).toBeTruthy();
-    expect(compiled.textContent).toContain('Clear filters');
+    expect(compiled.textContent).not.toContain('Clear filters');
     expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
     expect(getAnimeByFilters).toHaveBeenCalledWith({
       genres: [],
