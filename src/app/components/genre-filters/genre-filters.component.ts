@@ -9,6 +9,7 @@ import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
 import { AppButtonComponent } from '../app-button/app-button.component';
 import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
 import { IconFilterComponent } from '../icons/icon-filter.component';
+import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.component';
 
 @Component({
   selector: 'app-genre-filters',
@@ -19,6 +20,7 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
     AppButtonComponent,
     AppButtonIconDirective,
     IconFilterComponent,
+    IconWashDrycleanOffComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -106,13 +108,15 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
           <app-button label="Apply filters" size="sm" [disabled]="!hasActiveFilters()">
             <app-icon-filter appButtonIcon />
           </app-button>
-          <app-button
-            label="Clear filters"
-            size="sm"
-            variant="outline"
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/10 hover:text-primary-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
             [disabled]="!hasActiveFilters()"
             (click)="clearFilters()"
-          />
+          >
+            <app-icon-wash-dryclean-off />
+            Clear filters
+          </button>
         </div>
       </div>
     </section>
