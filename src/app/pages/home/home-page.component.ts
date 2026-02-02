@@ -5,6 +5,7 @@ import { IconClockComponent } from '../../components/icons/icon-clock.component'
 import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up.component';
 import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
 import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
+import { ANIME_CARD_BADGE_ICON } from '../../components/anime-card/anime-card.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
@@ -139,17 +140,27 @@ export class HomePageComponent {
   }
 
   private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
+    const title = this.resolveSummaryTitle(anime.title);
+    const subtitle = this.resolveRomajiSubtitle(anime.title);
+    const rating = this.formatRating(anime.averageScore);
     return {
       id: anime.id,
       slug: anime.slug,
-      title: this.resolveSummaryTitle(anime.title),
+      title,
+      subtitle,
       imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
-      rating: this.formatRating(anime.averageScore),
+      badge: rating,
+      badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
       tags: anime.genres?.slice(0, 2) ?? [],
     };
   }
 
   private resolveSummaryTitle(title: AnimeTitle): string {
     return title.english ?? title.romaji ?? 'Untitled';
+  }
+
+  private resolveRomajiSubtitle(title: AnimeTitle): string | undefined {
+    const romaji = title.romaji?.trim();
+    return romaji ? romaji : undefined;
   }
 }
