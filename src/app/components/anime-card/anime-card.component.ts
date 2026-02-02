@@ -73,9 +73,9 @@ export interface AnimeCardData {
             <h3 class="truncate text-base font-semibold text-foreground">
               {{ card().title }}
             </h3>
-            @if (card().subtitle) {
+            @if (hasSubtitle()) {
               <p class="truncate text-xs text-muted-foreground">{{ card().subtitle }}</p>
-            } @else if (card().season || card().rating) {
+            } @else if (hasMeta()) {
               <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 @if (card().season) {
                   <span class="inline-flex items-center gap-1">
@@ -94,6 +94,8 @@ export interface AnimeCardData {
                   </span>
                 }
               </div>
+            } @else {
+              <p class="min-h-4 text-xs text-muted-foreground" aria-hidden="true"></p>
             }
           </div>
 
@@ -119,6 +121,8 @@ export class AnimeCardComponent {
       ? 'bg-warning text-warning-foreground'
       : 'bg-primary/90 text-primary-foreground',
   );
+  protected readonly hasSubtitle = computed(() => Boolean(this.card().subtitle));
+  protected readonly hasMeta = computed(() => Boolean(this.card().season || this.card().rating));
   protected readonly displayTags = computed(() => {
     const tags = this.card().tags ?? [];
     return tags.length ? tags : ['Anime'];

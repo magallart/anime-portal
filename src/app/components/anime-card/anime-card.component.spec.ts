@@ -88,4 +88,17 @@ describe('AnimeCardComponent', () => {
     expect(compiled.querySelector('app-icon-star')).toBeTruthy();
     expect(compiled.querySelector('.anime-card-badge')?.className).toContain('bg-warning');
   });
+
+  it('renders a placeholder subtitle line when no subtitle or meta exists', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AnimeCardComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(AnimeCardComponent);
+    fixture.componentRef.setInput('card', { ...baseCard, hideTags: true });
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('p[aria-hidden="true"]')).toBeTruthy();
+  });
 });
