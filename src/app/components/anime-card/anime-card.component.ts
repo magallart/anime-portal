@@ -3,12 +3,20 @@ import { RouterLink } from '@angular/router';
 import { IconCalendarComponent } from '../icons/icon-calendar.component';
 import { IconStarComponent } from '../icons/icon-star.component';
 
+const ANIME_CARD_BADGE_ICON = {
+  STAR: 'star',
+} as const;
+
+type AnimeCardBadgeIcon = (typeof ANIME_CARD_BADGE_ICON)[keyof typeof ANIME_CARD_BADGE_ICON];
+
 export interface AnimeCardData {
   readonly id: number;
   readonly slug: string;
   readonly title: string;
+  readonly subtitle?: string;
   readonly imageUrl?: string;
   readonly badge?: string;
+  readonly badgeIcon?: AnimeCardBadgeIcon;
   readonly season?: string;
   readonly rating?: string;
   readonly year?: number;
@@ -47,8 +55,14 @@ export interface AnimeCardData {
 
           @if (card().badge) {
             <span
-              class="absolute right-3 top-3 inline-flex items-center rounded-full bg-primary/90 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground"
+              class="anime-card-badge absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide"
+              [class]="badgeClass()"
             >
+              @if (card().badgeIcon === badgeIconValues.STAR) {
+                <span class="text-warning-foreground">
+                  <app-icon-star />
+                </span>
+              }
               {{ card().badge }}
             </span>
           }
@@ -59,7 +73,9 @@ export interface AnimeCardData {
             <h3 class="truncate text-base font-semibold text-foreground">
               {{ card().title }}
             </h3>
-            @if (card().season || card().rating) {
+            @if (card().subtitle) {
+              <p class="truncate text-xs text-muted-foreground">{{ card().subtitle }}</p>
+            } @else if (card().season || card().rating) {
               <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 @if (card().season) {
                   <span class="inline-flex items-center gap-1">
@@ -97,6 +113,12 @@ export interface AnimeCardData {
 })
 export class AnimeCardComponent {
   readonly card = input.required<AnimeCardData>();
+  protected readonly badgeIconValues = ANIME_CARD_BADGE_ICON;
+  protected readonly badgeClass = computed(() =>
+    this.card().badgeIcon === ANIME_CARD_BADGE_ICON.STAR
+      ? 'bg-warning text-warning-foreground'
+      : 'bg-primary/90 text-primary-foreground',
+  );
   protected readonly displayTags = computed(() => {
     const tags = this.card().tags ?? [];
     return tags.length ? tags : ['Anime'];
@@ -110,3 +132,5 @@ export class AnimeCardComponent {
       : 'rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground',
   );
 }
+
+export { ANIME_CARD_BADGE_ICON, type AnimeCardBadgeIcon };

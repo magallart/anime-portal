@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it } from 'vitest';
 import type { AnimeCardData } from './anime-card.component';
-import { AnimeCardComponent } from './anime-card.component';
+import { ANIME_CARD_BADGE_ICON, AnimeCardComponent } from './anime-card.component';
 
 const baseCard: AnimeCardData = {
   id: 1,
@@ -66,5 +66,26 @@ describe('AnimeCardComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('ul')).toBeNull();
     expect(compiled.textContent).not.toContain('Action');
+  });
+
+  it('renders subtitle and badge when provided', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AnimeCardComponent, RouterTestingModule],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(AnimeCardComponent);
+    fixture.componentRef.setInput('card', {
+      ...baseCard,
+      subtitle: 'Misutikku Jaanii',
+      badge: '8.6',
+      badgeIcon: ANIME_CARD_BADGE_ICON.STAR,
+    });
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Misutikku Jaanii');
+    expect(compiled.textContent).toContain('8.6');
+    expect(compiled.querySelector('app-icon-star')).toBeTruthy();
+    expect(compiled.querySelector('.anime-card-badge')?.className).toContain('bg-warning');
   });
 });
