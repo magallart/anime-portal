@@ -152,7 +152,7 @@
 **Description:** Implement interactive filtering by genre, release year, and status with live updates to the anime grid.
 **Checklist:**
 
-- [ ] Build `FilterBarComponent` with select inputs (genre multi-select or chips), year dropdown, and status toggle (airing/finished/all).
+- [✔️] Build `FilterBarComponent` with select inputs (genre multi-select or chips), year dropdown, and status toggle (airing/finished/all).
 - [ ] Connect filters to query params/state management (signals or component store) to drive `AnilistService.getAnimeByFilters` calls.
 - [ ] Debounce/filter submissions, show loading indicators, and manage no-results messaging.
 - [ ] Persist filter selections in the URL (query params) for shareable state.
