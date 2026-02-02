@@ -21,38 +21,64 @@ describe('GenresPageComponent', () => {
     }));
 
   it('renders the genre filters surface and random anime grid', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(20)));
-    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.25);
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(40)));
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
 
-    try {
-      await TestBed.configureTestingModule({
-        imports: [GenresPageComponent, RouterTestingModule],
-        providers: [
-          {
-            provide: AnilistService,
-            useValue: { getAnimeByFilters },
-          },
-        ],
-      }).compileComponents();
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
 
-      const fixture = TestBed.createComponent(GenresPageComponent);
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.genre-filters')).toBeTruthy();
+    expect(compiled.textContent).toContain('Clear filters');
+    expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
+    expect(getAnimeByFilters).toHaveBeenCalledWith({
+      genres: [],
+      page: 1,
+      perPage: 200,
+      sort: 'POPULARITY_DESC',
+    });
+  });
 
-      expect(compiled.querySelector('.genre-filters')).toBeTruthy();
-      expect(compiled.textContent).toContain('Clear filters');
-      expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
-      expect(getAnimeByFilters).toHaveBeenCalledWith({
-        genres: [],
-        page: 6,
-        perPage: 20,
-        sort: 'POPULARITY_DESC',
-      });
-    } finally {
-      randomSpy.mockRestore();
-    }
+  it('loads 20 more anime when clicking load more', async () => {
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(40)));
+
+    await TestBed.configureTestingModule({
+      imports: [GenresPageComponent, RouterTestingModule],
+      providers: [
+        {
+          provide: AnilistService,
+          useValue: { getAnimeByFilters },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(GenresPageComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    let compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
+
+    const loadMoreButton = Array.from(compiled.querySelectorAll('button')).find((button) =>
+      button.textContent?.includes('Load more'),
+    );
+    expect(loadMoreButton).toBeTruthy();
+    (loadMoreButton as HTMLButtonElement).click();
+
+    fixture.detectChanges();
+    compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('app-anime-card').length).toBe(40);
   });
 
   it('shows loading skeletons before results resolve', async () => {

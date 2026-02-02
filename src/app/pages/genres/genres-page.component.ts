@@ -46,7 +46,7 @@ import { AnilistService } from '../../services/anilist.service';
           >
             {{ error() }}
           </div>
-        } @else if (!cards().length) {
+        } @else if (!visibleCards().length) {
           <div
             class="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground"
             role="status"
@@ -56,9 +56,20 @@ import { AnilistService } from '../../services/anilist.service';
           </div>
         } @else {
           <div class="grid grid-cols-2 gap-layout sm:grid-cols-3 lg:grid-cols-4">
-            @for (card of cards(); track card.id) {
+            @for (card of visibleCards(); track card.id) {
               <app-anime-card [card]="card" />
             }
+          </div>
+          <div class="mt-8 flex justify-center">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
+              (click)="loadMore()"
+              [disabled]="!canLoadMore()"
+              [attr.aria-disabled]="!canLoadMore()"
+            >
+              Load more
+            </button>
           </div>
         }
       </section>
@@ -67,11 +78,13 @@ import { AnilistService } from '../../services/anilist.service';
 })
 export class GenresPageComponent {
   private readonly anilistService = inject(AnilistService);
+  private readonly pageSize = 20;
+  private readonly maxResults = 200;
 
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+  protected readonly visibleCount = signal(this.pageSize);
 
-  private readonly randomPage = this.pickRandomPage();
   private readonly randomResults = toSignal(
     this.anilistService.getAnimeByFilters(this.buildRandomFilter()).pipe(
       tap(() => {
@@ -91,20 +104,26 @@ export class GenresPageComponent {
   protected readonly cards = computed(() =>
     this.randomResults().map((anime) => this.mapSummaryToCard(anime)),
   );
+  protected readonly visibleCards = computed(() => this.cards().slice(0, this.visibleCount()));
+  protected readonly canLoadMore = computed(() => this.visibleCards().length < this.cards().length);
   protected readonly skeletonSlots = Array.from({ length: 20 }, (_, index) => index);
 
   private buildRandomFilter(): GenreFilter {
     return {
       genres: [],
-      page: this.randomPage,
-      perPage: 20,
+      page: 1,
+      perPage: this.maxResults,
       sort: 'POPULARITY_DESC',
     };
   }
 
-  private pickRandomPage(): number {
-    const maxPage = 20;
-    return Math.floor(Math.random() * maxPage) + 1;
+  protected loadMore(): void {
+    if (!this.canLoadMore()) {
+      return;
+    }
+
+    const nextCount = this.visibleCount() + this.pageSize;
+    this.visibleCount.set(Math.min(nextCount, this.cards().length));
   }
 
   private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
