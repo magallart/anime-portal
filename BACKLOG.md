@@ -136,8 +136,8 @@
 **Description:** Build the Genres page structure and initial random anime fetch so the page is functional before filters.
 **Checklist:**
 
-- [ ] Create page hero/heading describing filters and dataset.
-- [ ] Request a random page (for example, RNG of page number) sorted by `POPULARITY_DESC` and display 20 anime cards in a responsive grid.
+- [✔️] Create page hero/heading describing filters and dataset.
+- [✔️] Request a random page (for example, RNG of page number) sorted by `POPULARITY_DESC` and display 20 anime cards in a responsive grid.
 - [ ] Show loading/empty/error placeholders.
 - [ ] Instrument basic pagination or "Load more" button placeholder for later.
 - [ ] Unit or component tests checking fetch trigger and card count.
