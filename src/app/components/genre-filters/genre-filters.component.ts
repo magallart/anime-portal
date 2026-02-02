@@ -3,6 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 import { ANILIST_GENRE_OPTIONS } from '../../constants/anilist-genres';
+import { ANILIST_RATING_OPTIONS } from '../../constants/anilist-ratings';
 import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
 import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
 import { AppButtonComponent } from '../app-button/app-button.component';
@@ -31,7 +32,7 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
         </button>
       </div>
 
-      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <mat-form-field
           appearance="outline"
           floatLabel="always"
@@ -76,6 +77,21 @@ import { IconFilterComponent } from '../icons/icon-filter.component';
             }
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          subscriptSizing="dynamic"
+          class="w-full"
+        >
+          <mat-label>Rating</mat-label>
+          <mat-select panelClass="genre-filters-panel">
+            <mat-option value="all">All</mat-option>
+            @for (option of ratingOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="mt-6 flex justify-end">
@@ -90,4 +106,5 @@ export class GenreFiltersComponent {
   readonly genreOptions = ANILIST_GENRE_OPTIONS;
   readonly yearOptions = ANILIST_YEAR_OPTIONS;
   readonly statusOptions = ANILIST_STATUS_OPTIONS;
+  readonly ratingOptions = ANILIST_RATING_OPTIONS;
 }
