@@ -154,10 +154,9 @@
 
 - [✔️] Build `FilterBarComponent` with select inputs (genre multi-select or chips), year dropdown, and status toggle (airing/finished/all).
 - [✔️] Connect filters to query params/state management (signals or component store) to drive `AnilistService.getAnimeByFilters` calls.
-- [ ] Debounce/filter submissions, show loading indicators, and manage no-results messaging.
-- [ ] Persist filter selections in the URL (query params) for shareable state.
-- [ ] Add tests for filtering logic and query param sync.
-      **Acceptance Criteria:**
+- [✔️] Debounce/filter submissions, show loading indicators, and manage no-results messaging.
+- [✔️] Add tests for filtering logic and query param sync.
+  **Acceptance Criteria:**
 - Changing any filter triggers a new AniList request and updates the grid.
 - URL reflects filters, and reloading preserves the state.
 - Accessibility: filter controls are labeled and keyboard friendly.
