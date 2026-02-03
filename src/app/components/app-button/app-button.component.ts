@@ -40,7 +40,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
       <span class="inline-flex items-center" [class]="iconClasses()">
         <ng-content select="[appButtonIcon]" />
       </span>
-      <span>{{ label() }}</span>
+      <span [class]="labelClasses()">{{ label() }}</span>
     </ng-template>
 
     @if (href()) {
@@ -93,6 +93,7 @@ export class AppButtonComponent {
   readonly ariaLabel = input<string | null>(null);
   readonly ariaCurrent = input<string | null>(null);
   readonly className = input<string | null>(null);
+  readonly labelClassName = input<string | null>(null);
 
   protected readonly buttonClasses = computed(() => {
     const variant = VARIANT_CLASSES[this.variant()];
@@ -103,4 +104,5 @@ export class AppButtonComponent {
   });
 
   protected readonly iconClasses = computed(() => ICON_SIZE_CLASSES[this.size()]);
+  protected readonly labelClasses = computed(() => this.labelClassName() ?? '');
 }

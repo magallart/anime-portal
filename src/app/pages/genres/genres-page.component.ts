@@ -83,7 +83,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
               </div>
             }
           </div>
-          <div class="mt-8 flex justify-center">
+          <div class="mt-12 flex justify-center">
             <app-pagination
               [currentPage]="currentPage()"
               [totalPages]="totalPages()"

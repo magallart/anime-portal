@@ -28,12 +28,13 @@ type PageItem =
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="flex justify-center" aria-label="Pagination">
-      <div class="inline-flex items-center gap-1">
+      <div class="inline-flex items-center gap-3">
         <app-button
           label="Previous"
           size="xs"
           variant="ghost"
           className="text-xl leading-none"
+          labelClassName="text-xl leading-none"
           [disabled]="!canGoPrevious()"
           (click)="goToPrevious()"
         >
@@ -48,7 +49,8 @@ type PageItem =
               [label]="item.page.toString()"
               size="xs"
               [variant]="item.isCurrent ? 'ghost-active' : 'ghost'"
-              className="leading-none"
+              className="text-sm leading-none"
+              labelClassName="text-sm leading-none"
               [ariaLabel]="'Go to page ' + item.page"
               [ariaCurrent]="item.isCurrent ? 'page' : null"
               (click)="goToPage(item.page)"
@@ -62,6 +64,7 @@ type PageItem =
           variant="ghost"
           iconPosition="right"
           className="text-xl leading-none"
+          labelClassName="text-xl leading-none"
           [disabled]="!canGoNext()"
           (click)="goToNext()"
         >
