@@ -16,13 +16,15 @@ import {
 } from '../../components/genre-filters/genre-filters.component';
 import { ANILIST_RATING_FILTERS } from '../../constants/anilist-rating-filters';
 import { DEFAULT_FILTER_SELECTIONS } from '../../constants/genre-filter-defaults';
-import { IconSquareRoundedPlusComponent } from '../../components/icons/icon-square-rounded-plus.component';
 import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
+import type { AnimeSearchPage } from '../../interfaces/anime-search-page';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import type { AnimeStatus } from '../../interfaces/anime-status';
 import type { GenreFilter } from '../../interfaces/genre-filter';
 import type { AnimeTitle } from '../../interfaces/anime-title';
 import { AnilistService } from '../../services/anilist.service';
+import { IconChevronLeftComponent } from '../../components/icons/icon-chevron-left.component';
+import { IconChevronRightComponent } from '../../components/icons/icon-chevron-right.component';
 
 @Component({
   selector: 'app-genres-page',
@@ -32,7 +34,8 @@ import { AnilistService } from '../../services/anilist.service';
     AnimeCardComponent,
     AppButtonComponent,
     AppButtonIconDirective,
-    IconSquareRoundedPlusComponent,
+    IconChevronLeftComponent,
+    IconChevronRightComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -95,17 +98,33 @@ import { AnilistService } from '../../services/anilist.service';
             }
           </div>
           <div class="mt-8 flex justify-center">
-            <div class="flex flex-col items-center gap-3">
+            <nav class="flex flex-col items-center gap-3" aria-label="Pagination">
               <p class="text-xs text-muted-foreground">{{ countLabel() }}</p>
-              <app-button
-                label="Load more"
-                size="sm"
-                [disabled]="!canLoadMore()"
-                (click)="loadMore()"
-              >
-                <app-icon-square-rounded-plus appButtonIcon />
-              </app-button>
-            </div>
+              <div class="flex flex-wrap items-center justify-center gap-2">
+                <app-button
+                  label="Previous"
+                  size="sm"
+                  variant="outline"
+                  [disabled]="!canGoPrevious()"
+                  (click)="goToPrevious()"
+                >
+                  <app-icon-chevron-left appButtonIcon />
+                </app-button>
+                <span class="text-xs text-muted-foreground">
+                  Page {{ currentPage() }} of {{ totalPages() }}
+                </span>
+                <app-button
+                  label="Next"
+                  size="sm"
+                  variant="outline"
+                  iconPosition="right"
+                  [disabled]="!canGoNext()"
+                  (click)="goToNext()"
+                >
+                  <app-icon-chevron-right appButtonIcon />
+                </app-button>
+              </div>
+            </nav>
           </div>
         }
       </section>
@@ -115,22 +134,32 @@ import { AnilistService } from '../../services/anilist.service';
 export class GenresPageComponent {
   private readonly anilistService = inject(AnilistService);
   private readonly pageSize = 20;
-  private readonly maxResults = 200;
+  private readonly initialPageInfo = {
+    currentPage: 1,
+    lastPage: 1,
+    hasNextPage: false,
+    total: 0,
+    perPage: this.pageSize,
+  };
 
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
-  protected readonly visibleCount = signal(this.pageSize);
+  protected readonly currentPage = signal(1);
   protected readonly appliedFilters = signal<GenreFilterSelections>(DEFAULT_FILTER_SELECTIONS);
 
-  private readonly filterResults = toSignal(
-    toObservable(this.appliedFilters).pipe(
+  private readonly searchResults = toSignal(
+    toObservable(
+      computed(() => ({
+        filters: this.appliedFilters(),
+        page: this.currentPage(),
+      })),
+    ).pipe(
       tap(() => {
         this.loading.set(true);
         this.error.set(null);
-        this.visibleCount.set(this.pageSize);
       }),
-      switchMap((filters) =>
-        this.anilistService.getAnimeByFilters(this.buildFilterPayload(filters)).pipe(
+      switchMap(({ filters, page }) =>
+        this.anilistService.getAnimeByFilters(this.buildFilterPayload(filters, page)).pipe(
           tap(() => {
             this.loading.set(false);
           }),
@@ -138,33 +167,50 @@ export class GenresPageComponent {
             console.error('Unable to load filtered anime results.', error);
             this.loading.set(false);
             this.error.set('Unable to load the genres list right now.');
-            return of([]);
+            return of(this.emptySearchResults());
           }),
         ),
       ),
     ),
-    { initialValue: [] },
+    { initialValue: this.emptySearchResults() },
   );
 
   protected readonly filteredResults = computed(() =>
-    this.applyRatingFilter(this.filterResults(), this.appliedFilters().rating),
+    this.applyRatingFilter(this.searchResults().items, this.appliedFilters().rating),
   );
   protected readonly cards = computed(() => {
     const activeGenre = this.resolveActiveGenre(this.appliedFilters().genre);
     return this.filteredResults().map((anime) => this.mapSummaryToCard(anime, activeGenre));
   });
-  protected readonly visibleCards = computed(() => this.cards().slice(0, this.visibleCount()));
-  protected readonly canLoadMore = computed(() => this.visibleCards().length < this.cards().length);
-  protected readonly countLabel = computed(
-    () => `Showing ${this.visibleCards().length} of ${this.cards().length}`,
-  );
-  protected readonly skeletonSlots = Array.from({ length: 20 }, (_, index) => index);
+  protected readonly visibleCards = computed(() => this.cards());
+  protected readonly pageInfo = computed(() => this.searchResults().pageInfo);
+  protected readonly totalPages = computed(() => Math.max(this.pageInfo().lastPage, 1));
+  protected readonly canGoNext = computed(() => this.pageInfo().hasNextPage);
+  protected readonly canGoPrevious = computed(() => this.currentPage() > 1);
+  protected readonly countLabel = computed(() => {
+    const visibleCount = this.visibleCards().length;
+    if (!visibleCount) {
+      return 'Showing 0 results';
+    }
+
+    const ratingSelection = this.appliedFilters().rating;
+    if (!this.isAllSelection(ratingSelection)) {
+      return `Showing ${visibleCount} result${visibleCount === 1 ? '' : 's'} on this page`;
+    }
+
+    const total = this.pageInfo().total;
+    const start = (this.currentPage() - 1) * this.pageInfo().perPage + 1;
+    const end = start + visibleCount - 1;
+    return `Showing ${start}-${end} of ${total}`;
+  });
+  protected readonly skeletonSlots = Array.from({ length: this.pageSize }, (_, index) => index);
 
   protected onFiltersApplied(filters: GenreFilterSelections): void {
     this.appliedFilters.set(filters);
+    this.currentPage.set(1);
   }
 
-  private buildFilterPayload(filters: GenreFilterSelections): GenreFilter {
+  private buildFilterPayload(filters: GenreFilterSelections, page: number): GenreFilter {
     const status = this.isStatusSelection(filters.status) ? filters.status : undefined;
     return {
       genres:
@@ -173,8 +219,8 @@ export class GenresPageComponent {
           : [],
       year: typeof filters.year === 'number' ? filters.year : undefined,
       status,
-      page: 1,
-      perPage: this.maxResults,
+      page,
+      perPage: this.pageSize,
       sort: 'POPULARITY_DESC',
     };
   }
@@ -215,13 +261,27 @@ export class GenresPageComponent {
     return value === FILTER_ALL;
   }
 
-  protected loadMore(): void {
-    if (!this.canLoadMore()) {
+  protected goToNext(): void {
+    if (!this.canGoNext()) {
       return;
     }
 
-    const nextCount = this.visibleCount() + this.pageSize;
-    this.visibleCount.set(Math.min(nextCount, this.cards().length));
+    this.currentPage.set(this.currentPage() + 1);
+  }
+
+  protected goToPrevious(): void {
+    if (!this.canGoPrevious()) {
+      return;
+    }
+
+    this.currentPage.set(this.currentPage() - 1);
+  }
+
+  private emptySearchResults(): AnimeSearchPage {
+    return {
+      items: [],
+      pageInfo: this.initialPageInfo,
+    };
   }
 
   private mapSummaryToCard(anime: AnimeSummary, activeGenre?: string): AnimeCardData {

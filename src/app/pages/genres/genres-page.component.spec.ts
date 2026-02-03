@@ -7,6 +7,7 @@ import {
   FILTER_ALL,
   GenreFiltersComponent,
 } from '../../components/genre-filters/genre-filters.component';
+import type { AnimeSearchPageInfo } from '../../interfaces/anime-search-page';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { AnilistService } from '../../services/anilist.service';
 import { GenresPageComponent } from './genres-page.component';
@@ -25,8 +26,23 @@ describe('GenresPageComponent', () => {
       genres: ['Action'],
     }));
 
+  const buildSearchPage = (
+    items: AnimeSummary[],
+    overrides: Partial<AnimeSearchPageInfo> = {},
+  ) => ({
+    items,
+    pageInfo: {
+      total: items.length,
+      perPage: 20,
+      currentPage: 1,
+      lastPage: 1,
+      hasNextPage: false,
+      ...overrides,
+    },
+  });
+
   it('renders the genre filters surface and random anime grid', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(40)));
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSearchPage(buildSampleAnime(20))));
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
       providers: [
@@ -51,13 +67,33 @@ describe('GenresPageComponent', () => {
       year: undefined,
       status: undefined,
       page: 1,
-      perPage: 200,
+      perPage: 20,
       sort: 'POPULARITY_DESC',
     });
   });
 
-  it('loads 20 more anime when clicking load more', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(40)));
+  it('requests the next page when clicking next', async () => {
+    const getAnimeByFilters = vi
+      .fn()
+      .mockReturnValueOnce(
+        of(
+          buildSearchPage(buildSampleAnime(20), {
+            total: 40,
+            lastPage: 2,
+            hasNextPage: true,
+          }),
+        ),
+      )
+      .mockReturnValueOnce(
+        of(
+          buildSearchPage(buildSampleAnime(20), {
+            currentPage: 2,
+            total: 40,
+            lastPage: 2,
+            hasNextPage: false,
+          }),
+        ),
+      );
 
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
@@ -77,19 +113,29 @@ describe('GenresPageComponent', () => {
     let compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
 
-    const loadMoreButton = Array.from(compiled.querySelectorAll('button')).find((button) =>
-      button.textContent?.includes('Load more'),
+    const nextButton = Array.from(compiled.querySelectorAll('button')).find((button) =>
+      button.textContent?.includes('Next'),
     );
-    expect(loadMoreButton).toBeTruthy();
-    (loadMoreButton as HTMLButtonElement).click();
+    expect(nextButton).toBeTruthy();
+    (nextButton as HTMLButtonElement).click();
 
     fixture.detectChanges();
     compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('app-anime-card').length).toBe(40);
+    expect(compiled.querySelectorAll('app-anime-card').length).toBe(20);
+    expect(getAnimeByFilters).toHaveBeenLastCalledWith({
+      genres: [],
+      year: undefined,
+      status: undefined,
+      page: 2,
+      perPage: 20,
+      sort: 'POPULARITY_DESC',
+    });
   });
 
-  it('renders the load more button with the plus icon', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(20)));
+  it('renders pagination controls', async () => {
+    const getAnimeByFilters = vi
+      .fn()
+      .mockReturnValue(of(buildSearchPage(buildSampleAnime(20), { total: 20 })));
 
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
@@ -107,8 +153,9 @@ describe('GenresPageComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('app-icon-square-rounded-plus')).toBeTruthy();
-    expect(compiled.textContent).toContain('Showing 20 of 20');
+    expect(compiled.querySelector('app-icon-chevron-left')).toBeTruthy();
+    expect(compiled.querySelector('app-icon-chevron-right')).toBeTruthy();
+    expect(compiled.textContent).toContain('Page 1 of 1');
   });
 
   it('shows loading skeletons before results resolve', async () => {
@@ -156,7 +203,7 @@ describe('GenresPageComponent', () => {
   });
 
   it('shows an empty message when no anime are returned', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of([]));
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSearchPage([])));
 
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
@@ -180,7 +227,7 @@ describe('GenresPageComponent', () => {
   });
 
   it('requests filtered anime when selections are applied', async () => {
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSampleAnime(10)));
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSearchPage(buildSampleAnime(10))));
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
       providers: [
@@ -213,7 +260,7 @@ describe('GenresPageComponent', () => {
       year: 2020,
       status: 'RELEASING',
       page: 1,
-      perPage: 200,
+      perPage: 20,
       sort: 'POPULARITY_DESC',
     });
   });
@@ -255,7 +302,7 @@ describe('GenresPageComponent', () => {
       },
     ];
 
-    const getAnimeByFilters = vi.fn().mockReturnValue(of(ratedAnime));
+    const getAnimeByFilters = vi.fn().mockReturnValue(of(buildSearchPage(ratedAnime)));
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
       providers: [
@@ -291,19 +338,21 @@ describe('GenresPageComponent', () => {
 
   it('surfaces the selected genre in the card tags when filtering', async () => {
     const getAnimeByFilters = vi.fn().mockReturnValue(
-      of([
-        {
-          id: 1,
-          slug: 'genre-test',
-          title: { english: 'Genre Test' },
-          coverImage: { extraLarge: 'cover-1.jpg' },
-          format: 'TV',
-          status: 'RELEASING',
-          averageScore: 78,
-          popularity: 800,
-          genres: ['Action', 'Drama'],
-        },
-      ]),
+      of(
+        buildSearchPage([
+          {
+            id: 1,
+            slug: 'genre-test',
+            title: { english: 'Genre Test' },
+            coverImage: { extraLarge: 'cover-1.jpg' },
+            format: 'TV',
+            status: 'RELEASING',
+            averageScore: 78,
+            popularity: 800,
+            genres: ['Action', 'Drama'],
+          },
+        ]),
+      ),
     );
 
     await TestBed.configureTestingModule({

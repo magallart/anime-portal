@@ -11,6 +11,7 @@ import type { AnimeTag } from '../interfaces/anime-tag';
 import type { StreamingEpisode } from '../interfaces/streaming-episode';
 import type { AnimeFormat } from '../interfaces/anime-format';
 import type { AnimeStatus } from '../interfaces/anime-status';
+import type { AnimeSearchPage } from '../interfaces/anime-search-page';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,7 @@ export class AnilistService {
       );
   }
 
-  getAnimeByFilters(filter: GenreFilter): Observable<AnimeSummary[]> {
+  getAnimeByFilters(filter: GenreFilter): Observable<AnimeSearchPage> {
     const variables: SearchQueryVariables = {
       page: filter.page ?? 1,
       perPage: filter.perPage ?? 20,
@@ -53,7 +54,12 @@ export class AnilistService {
 
     return this.client
       .execute<SearchQueryResponse, SearchQueryVariables>(SEARCH_QUERY, variables)
-      .pipe(map((response) => response.Page.media.map((media) => this.mapAnimeSummary(media))));
+      .pipe(
+        map((response) => ({
+          items: response.Page.media.map((media) => this.mapAnimeSummary(media)),
+          pageInfo: response.Page.pageInfo,
+        })),
+      );
   }
 
   getMostViewedAnime(perPage = 8): Observable<AnimeSummary[]> {
@@ -299,6 +305,13 @@ const SEARCH_QUERY = `
     $isAdult: Boolean
   ) {
     Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
       media(
         search: $search
         genre_in: $genre_in
@@ -436,6 +449,7 @@ interface LatestAiringNode {
 
 interface SearchQueryResponse {
   readonly Page: {
+    readonly pageInfo: SearchQueryPageInfo;
     readonly media: readonly AnimeSummaryNode[];
   };
 }
@@ -451,6 +465,14 @@ interface SearchQueryVariables {
   readonly format?: string;
   readonly sort?: string;
   readonly isAdult?: boolean;
+}
+
+interface SearchQueryPageInfo {
+  readonly total: number;
+  readonly perPage: number;
+  readonly currentPage: number;
+  readonly lastPage: number;
+  readonly hasNextPage: boolean;
 }
 
 interface AnimeSummaryNode {

@@ -82,6 +82,13 @@ describe('AnilistService', () => {
     executeSpy.mockReturnValue(
       of({
         Page: {
+          pageInfo: {
+            total: 1,
+            perPage: 5,
+            currentPage: 2,
+            lastPage: 2,
+            hasNextPage: false,
+          },
           media: [
             {
               id: 999,
@@ -117,7 +124,14 @@ describe('AnilistService', () => {
       sort: 'SCORE_DESC',
       isAdult: false,
     });
-    expect(result[0]).toMatchObject({ id: 999, slug: 'cool-show', genres: ['Drama'] });
+    expect(result.items[0]).toMatchObject({ id: 999, slug: 'cool-show', genres: ['Drama'] });
+    expect(result.pageInfo).toEqual({
+      total: 1,
+      perPage: 5,
+      currentPage: 2,
+      lastPage: 2,
+      hasNextPage: false,
+    });
   });
 
   it('rejects adult anime detail results', async () => {
