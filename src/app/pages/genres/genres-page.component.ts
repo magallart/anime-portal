@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
@@ -128,6 +129,7 @@ import { IconChevronRightComponent } from '../../components/icons/icon-chevron-r
 })
 export class GenresPageComponent {
   private readonly anilistService = inject(AnilistService);
+  private readonly document = inject(DOCUMENT);
   private readonly pageSize = 20;
   private readonly initialPageInfo = {
     currentPage: 1,
@@ -262,6 +264,7 @@ export class GenresPageComponent {
     }
 
     this.currentPage.set(this.currentPage() + 1);
+    this.scrollToTop();
   }
 
   protected goToPrevious(): void {
@@ -270,6 +273,16 @@ export class GenresPageComponent {
     }
 
     this.currentPage.set(this.currentPage() - 1);
+    this.scrollToTop();
+  }
+
+  private scrollToTop(): void {
+    const view = this.document.defaultView;
+    if (!view) {
+      return;
+    }
+
+    view.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   private emptySearchResults(): AnimeSearchPage {

@@ -91,7 +91,19 @@ describe('GenresPageComponent', () => {
             hasNextPage: false,
           }),
         ),
+      )
+      .mockReturnValueOnce(
+        of(
+          buildSearchPage(buildSampleAnime(20), {
+            currentPage: 1,
+            total: 40,
+            lastPage: 2,
+            hasNextPage: true,
+          }),
+        ),
       );
+    const scrollSpy = vi.fn();
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy, writable: true });
 
     await TestBed.configureTestingModule({
       imports: [GenresPageComponent, RouterTestingModule],
@@ -128,6 +140,24 @@ describe('GenresPageComponent', () => {
       perPage: 20,
       sort: 'POPULARITY_DESC',
     });
+    expect(scrollSpy).toHaveBeenCalledTimes(1);
+
+    const previousButton = Array.from(compiled.querySelectorAll('button')).find((button) =>
+      button.textContent?.includes('Previous'),
+    );
+    expect(previousButton).toBeTruthy();
+    (previousButton as HTMLButtonElement).click();
+
+    fixture.detectChanges();
+    expect(getAnimeByFilters).toHaveBeenLastCalledWith({
+      genres: [],
+      year: undefined,
+      status: undefined,
+      page: 1,
+      perPage: 20,
+      sort: 'POPULARITY_DESC',
+    });
+    expect(scrollSpy).toHaveBeenCalledTimes(2);
   });
 
   it('renders pagination controls', async () => {
