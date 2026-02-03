@@ -5,8 +5,6 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { AnimeCardComponent } from '../../components/anime-card/anime-card.component';
-import { AppButtonComponent } from '../../components/app-button/app-button.component';
-import { AppButtonIconDirective } from '../../components/app-button/app-button-icon.directive';
 import { FILTER_ALL, type FilterSelection } from '../../constants/filter-selection';
 import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
 import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
@@ -19,20 +17,12 @@ import type { AnimeStatus } from '../../interfaces/anime-status';
 import type { GenreFilter } from '../../interfaces/genre-filter';
 import type { AnimeTitle } from '../../interfaces/anime-title';
 import { AnilistService } from '../../services/anilist.service';
-import { IconChevronLeftComponent } from '../../components/icons/icon-chevron-left.component';
-import { IconChevronRightComponent } from '../../components/icons/icon-chevron-right.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-genres-page',
   standalone: true,
-  imports: [
-    GenreFiltersComponent,
-    AnimeCardComponent,
-    AppButtonComponent,
-    AppButtonIconDirective,
-    IconChevronLeftComponent,
-    IconChevronRightComponent,
-  ],
+  imports: [GenreFiltersComponent, AnimeCardComponent, PaginationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl px-gutter pb-section pt-6">
@@ -94,33 +84,11 @@ import { IconChevronRightComponent } from '../../components/icons/icon-chevron-r
             }
           </div>
           <div class="mt-8 flex justify-center">
-            <nav class="flex flex-col items-center gap-3" aria-label="Pagination">
-              <p class="text-xs text-muted-foreground">{{ countLabel() }}</p>
-              <div class="flex flex-wrap items-center justify-center gap-2">
-                <app-button
-                  label="Previous"
-                  size="sm"
-                  variant="outline"
-                  [disabled]="!canGoPrevious()"
-                  (click)="goToPrevious()"
-                >
-                  <app-icon-chevron-left appButtonIcon />
-                </app-button>
-                <span class="text-xs text-muted-foreground">
-                  Page {{ currentPage() }} of {{ totalPages() }}
-                </span>
-                <app-button
-                  label="Next"
-                  size="sm"
-                  variant="outline"
-                  iconPosition="right"
-                  [disabled]="!canGoNext()"
-                  (click)="goToNext()"
-                >
-                  <app-icon-chevron-right appButtonIcon />
-                </app-button>
-              </div>
-            </nav>
+            <app-pagination
+              [currentPage]="currentPage()"
+              [totalPages]="totalPages()"
+              (pageChange)="onPageChange($event)"
+            />
           </div>
         }
       </section>
@@ -182,24 +150,6 @@ export class GenresPageComponent {
   protected readonly visibleCards = computed(() => this.cards());
   protected readonly pageInfo = computed(() => this.searchResults().pageInfo);
   protected readonly totalPages = computed(() => Math.max(this.pageInfo().lastPage, 1));
-  protected readonly canGoNext = computed(() => this.pageInfo().hasNextPage);
-  protected readonly canGoPrevious = computed(() => this.currentPage() > 1);
-  protected readonly countLabel = computed(() => {
-    const visibleCount = this.visibleCards().length;
-    if (!visibleCount) {
-      return 'Showing 0 results';
-    }
-
-    const ratingSelection = this.appliedFilters().rating;
-    if (!this.isAllSelection(ratingSelection)) {
-      return `Showing ${visibleCount} result${visibleCount === 1 ? '' : 's'} on this page`;
-    }
-
-    const total = this.pageInfo().total;
-    const start = (this.currentPage() - 1) * this.pageInfo().perPage + 1;
-    const end = start + visibleCount - 1;
-    return `Showing ${start}-${end} of ${total}`;
-  });
   protected readonly skeletonSlots = Array.from({ length: this.pageSize }, (_, index) => index);
 
   protected onFiltersApplied(filters: GenreFilterSelections): void {
@@ -258,21 +208,12 @@ export class GenresPageComponent {
     return value === FILTER_ALL;
   }
 
-  protected goToNext(): void {
-    if (!this.canGoNext()) {
+  protected onPageChange(page: number): void {
+    if (page === this.currentPage()) {
       return;
     }
 
-    this.currentPage.set(this.currentPage() + 1);
-    this.scrollToTop();
-  }
-
-  protected goToPrevious(): void {
-    if (!this.canGoPrevious()) {
-      return;
-    }
-
-    this.currentPage.set(this.currentPage() - 1);
+    this.currentPage.set(page);
     this.scrollToTop();
   }
 

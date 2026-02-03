@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-type ButtonVariant = 'primary' | 'outline';
-type ButtonSize = 'sm' | 'md' | 'lg';
+type ButtonVariant = 'primary' | 'outline' | 'ghost' | 'ghost-active';
+type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 type IconPosition = 'left' | 'right';
 
 const BASE_CLASSES =
@@ -12,15 +12,19 @@ const BASE_CLASSES =
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-primary text-primary-foreground shadow-subtle hover:bg-primary/90',
   outline: 'border border-border text-foreground hover:bg-accent/30',
+  ghost: 'bg-transparent text-muted-foreground hover:text-primary',
+  'ghost-active': 'bg-transparent text-primary-bright',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
+  xs: 'px-3 py-1.5 text-xs font-semibold',
   sm: 'px-4 py-2 text-sm font-semibold',
   md: 'px-5 py-2 text-sm font-semibold',
   lg: 'px-6 py-3 text-sm font-medium',
 };
 
 const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
+  xs: '[&>svg]:h-4 [&>svg]:w-4',
   sm: '[&>svg]:h-5 [&>svg]:w-5',
   md: '[&>svg]:h-4 [&>svg]:w-4',
   lg: '[&>svg]:h-4 [&>svg]:w-4',
@@ -45,6 +49,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
         [attr.target]="external() ? '_blank' : null"
         [attr.rel]="external() ? 'noopener' : null"
         [attr.aria-label]="ariaLabel() ?? label()"
+        [attr.aria-current]="ariaCurrent()"
         [attr.data-test]="testId()"
         [class]="buttonClasses()"
       >
@@ -54,6 +59,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
       <a
         [routerLink]="link()!"
         [attr.aria-label]="ariaLabel() ?? label()"
+        [attr.aria-current]="ariaCurrent()"
         [attr.data-test]="testId()"
         [class]="buttonClasses()"
       >
@@ -63,6 +69,7 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
       <button
         [attr.type]="type()"
         [attr.aria-label]="ariaLabel() ?? label()"
+        [attr.aria-current]="ariaCurrent()"
         [attr.data-test]="testId()"
         [disabled]="disabled()"
         [class]="buttonClasses()"
@@ -84,12 +91,15 @@ export class AppButtonComponent {
   readonly external = input(false);
   readonly testId = input<string | null>(null);
   readonly ariaLabel = input<string | null>(null);
+  readonly ariaCurrent = input<string | null>(null);
+  readonly className = input<string | null>(null);
 
   protected readonly buttonClasses = computed(() => {
     const variant = VARIANT_CLASSES[this.variant()];
     const size = SIZE_CLASSES[this.size()];
     const direction = this.iconPosition() === 'right' ? 'flex-row-reverse' : '';
-    return `${BASE_CLASSES} ${variant} ${size} gap-2 ${direction}`.trim();
+    const extra = this.className();
+    return `${BASE_CLASSES} ${variant} ${size} gap-2 ${direction} ${extra ?? ''}`.trim();
   });
 
   protected readonly iconClasses = computed(() => ICON_SIZE_CLASSES[this.size()]);

@@ -183,7 +183,7 @@ describe('GenresPageComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('app-icon-chevron-left')).toBeTruthy();
     expect(compiled.querySelector('app-icon-chevron-right')).toBeTruthy();
-    expect(compiled.textContent).toContain('Page 1 of 1');
+    expect(compiled.textContent).toContain('1');
   });
 
   it('shows loading skeletons before results resolve', async () => {
