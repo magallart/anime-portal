@@ -52,10 +52,10 @@ interface InfoItem {
                   class="aspect-[3/4] w-full overflow-hidden rounded-2xl border border-border bg-muted/30"
                   aria-hidden="true"
                 ></div>
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2 sm:hidden">
                   @for (tag of tags; track tag) {
                     <span
-                      class="inline-flex items-center rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-foreground"
+                      class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
                     >
                       {{ tag }}
                     </span>
@@ -65,9 +65,7 @@ interface InfoItem {
 
               <div class="space-y-6">
                 <div class="space-y-3">
-                  <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">
-                    Placeholder
-                  </p>
+                  <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">Preview</p>
                   <h1 class="text-4xl font-heading tracking-tight text-foreground">
                     Mob Psycho 100
                   </h1>
@@ -80,9 +78,20 @@ interface InfoItem {
                           <app-icon-eye class="h-4 w-4 text-primary-bright" />
                         }
                         <span class="text-foreground">{{ stat.value }}</span>
-                        <span class="text-muted-foreground">{{ stat.label }}</span>
+                        @if (stat.label) {
+                          <span class="text-muted-foreground">{{ stat.label }}</span>
+                        }
                       </span>
                     }
+                    <div class="flex flex-1 justify-end gap-2">
+                      @for (tag of tags; track tag) {
+                        <span
+                          class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
+                        >
+                          {{ tag }}
+                        </span>
+                      }
+                    </div>
                   </div>
                 </div>
 
@@ -109,15 +118,15 @@ interface InfoItem {
                 </div>
 
                 <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-subtle">
-                  <h2 class="text-lg font-heading text-foreground">Sinopsis</h2>
+                  <h2 class="text-xl font-heading text-primary-bright">Synopsis</h2>
                   <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Un estudiante con poderes psiquicos intenta vivir una vida normal mientras
-                    mantiene sus emociones bajo control.
+                    A student with psychic powers tries to live a normal life while keeping his
+                    emotions under control.
                   </p>
                 </div>
 
                 <div class="flex justify-center pt-4">
-                  <app-button label="Ver ahora" size="lg" className="min-w-48 px-10 text-base">
+                  <app-button label="Watch now" size="lg" className="min-w-48 px-10 text-base">
                     <app-icon-external-link appButtonIcon />
                   </app-button>
                 </div>
@@ -130,14 +139,14 @@ interface InfoItem {
   `,
 })
 export class AnimePageComponent {
-  protected readonly tags = ['Accion', 'Comedia', 'Sobrenatural'];
+  protected readonly tags = ['Action', 'Comedy', 'Supernatural'];
   protected readonly stats: AnimeStat[] = [
-    { label: '/10', value: '8.7', icon: 'star' },
-    { label: 'visualizaciones', value: '4.6M', icon: 'eye' },
+    { label: '', value: '8.7', icon: 'star' },
+    { label: '', value: '4.6M', icon: 'eye' },
   ];
   protected readonly infoItems: InfoItem[] = [
-    { label: 'Ano', value: '2016', icon: 'calendar' },
-    { label: 'Episodios', value: '37', icon: 'episodes' },
-    { label: 'Estado', value: 'Finalizado', icon: 'status' },
+    { label: 'Year', value: '2016', icon: 'calendar' },
+    { label: 'Episodes', value: '37', icon: 'episodes' },
+    { label: 'Status', value: 'Finished', icon: 'status' },
   ];
 }
