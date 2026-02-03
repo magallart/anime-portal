@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-
-interface NavLink {
-  readonly label: string;
-  readonly path: string;
-  readonly testId: string;
-}
+import type { NavLink } from '../../interfaces/nav-link';
 
 @Component({
   selector: 'app-header',

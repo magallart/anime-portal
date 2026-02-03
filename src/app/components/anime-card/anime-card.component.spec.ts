@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it } from 'vitest';
-import type { AnimeCardData } from './anime-card.component';
-import { ANIME_CARD_BADGE_ICON, AnimeCardComponent } from './anime-card.component';
+import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
+import type { AnimeCardData } from '../../interfaces/anime-card-data';
+import { AnimeCardComponent } from './anime-card.component';
 
 const baseCard: AnimeCardData = {
   id: 1,

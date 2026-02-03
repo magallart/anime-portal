@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, type Type } from '@angular/core';
 import { NgClass, NgComponentOutlet } from '@angular/common';
-import { AnimeCardComponent, type AnimeCardData } from '../anime-card/anime-card.component';
+import { AnimeCardComponent } from '../anime-card/anime-card.component';
+import type { AnimeCardData } from '../../interfaces/anime-card-data';
 
 @Component({
   selector: 'app-anime-section',

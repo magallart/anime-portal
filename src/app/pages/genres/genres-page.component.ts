@@ -1,19 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
-import type { AnimeCardData } from '../../components/anime-card/anime-card.component';
-import {
-  ANIME_CARD_BADGE_ICON,
-  AnimeCardComponent,
-} from '../../components/anime-card/anime-card.component';
+import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
+import type { AnimeCardData } from '../../interfaces/anime-card-data';
+import { AnimeCardComponent } from '../../components/anime-card/anime-card.component';
 import { AppButtonComponent } from '../../components/app-button/app-button.component';
 import { AppButtonIconDirective } from '../../components/app-button/app-button-icon.directive';
-import {
-  FILTER_ALL,
-  GenreFiltersComponent,
-  type FilterSelection,
-  type GenreFilterSelections,
-} from '../../components/genre-filters/genre-filters.component';
+import { FILTER_ALL, type FilterSelection } from '../../constants/filter-selection';
+import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
+import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
 import { ANILIST_RATING_FILTERS } from '../../constants/anilist-rating-filters';
 import { DEFAULT_FILTER_SELECTIONS } from '../../constants/genre-filter-defaults';
 import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';

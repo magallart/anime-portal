@@ -13,6 +13,8 @@ import { ANILIST_GENRE_OPTIONS } from '../../constants/anilist-genres';
 import { ANILIST_RATING_OPTIONS } from '../../constants/anilist-ratings';
 import { ANILIST_STATUS_OPTIONS } from '../../constants/anilist-statuses';
 import { ANILIST_YEAR_OPTIONS } from '../../constants/anilist-years';
+import { FILTER_ALL, type FilterSelection } from '../../constants/filter-selection';
+import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
 import { AppButtonComponent } from '../app-button/app-button.component';
 import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
 import { IconFilterComponent } from '../icons/icon-filter.component';
@@ -194,13 +196,4 @@ export class GenreFiltersComponent {
       rating: this.ratingSelection(),
     };
   }
-}
-
-export const FILTER_ALL = 'all' as const;
-export type FilterSelection = typeof FILTER_ALL | number | string;
-export interface GenreFilterSelections {
-  readonly genre: FilterSelection;
-  readonly year: FilterSelection;
-  readonly status: FilterSelection;
-  readonly rating: FilterSelection;
 }

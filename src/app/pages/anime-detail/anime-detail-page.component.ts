@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
-interface DetailFact {
-  readonly label: string;
-  readonly value: string;
-}
+import type { DetailFact } from '../../interfaces/detail-fact';
 
 @Component({
   selector: 'app-anime-detail-page',

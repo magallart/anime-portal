@@ -3,12 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { catchError, map, throwError, type Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import type { GraphqlError, GraphqlRequest, GraphqlResponse } from '../interfaces/graphql';
-
-interface GraphqlClientErrorOptions {
-  readonly graphQLErrors?: GraphqlError[];
-  readonly status?: number;
-  readonly originalError?: unknown;
-}
+import type { GraphqlClientErrorOptions } from '../interfaces/graphql-client-error-options';
 
 export class GraphqlClientError extends Error {
   readonly graphQLErrors?: GraphqlError[];

@@ -1,29 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
+import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { IconCalendarComponent } from '../icons/icon-calendar.component';
 import { IconStarComponent } from '../icons/icon-star.component';
-
-const ANIME_CARD_BADGE_ICON = {
-  STAR: 'star',
-} as const;
-
-type AnimeCardBadgeIcon = (typeof ANIME_CARD_BADGE_ICON)[keyof typeof ANIME_CARD_BADGE_ICON];
-
-export interface AnimeCardData {
-  readonly id: number;
-  readonly slug: string;
-  readonly title: string;
-  readonly subtitle?: string;
-  readonly imageUrl?: string;
-  readonly badge?: string;
-  readonly badgeIcon?: AnimeCardBadgeIcon;
-  readonly season?: string;
-  readonly rating?: string;
-  readonly year?: number;
-  readonly tags?: readonly string[];
-  readonly compactTags?: boolean;
-  readonly hideTags?: boolean;
-}
 
 @Component({
   selector: 'app-anime-card',
@@ -136,5 +116,3 @@ export class AnimeCardComponent {
       : 'rounded-full bg-accent/70 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent-foreground',
   );
 }
-
-export { ANIME_CARD_BADGE_ICON, type AnimeCardBadgeIcon };

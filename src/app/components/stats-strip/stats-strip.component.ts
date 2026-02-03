@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-interface StatItem {
-  readonly value: string;
-  readonly label: string;
-}
+import type { StatItem } from '../../interfaces/stat-item';
 
 @Component({
   selector: 'app-stats-strip',

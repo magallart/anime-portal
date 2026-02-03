@@ -3,10 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { NEVER, of, throwError } from 'rxjs';
-import {
-  FILTER_ALL,
-  GenreFiltersComponent,
-} from '../../components/genre-filters/genre-filters.component';
+import { FILTER_ALL } from '../../constants/filter-selection';
+import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
 import type { AnimeSearchPageInfo } from '../../interfaces/anime-search-page';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { AnilistService } from '../../services/anilist.service';

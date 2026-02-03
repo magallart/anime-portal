@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DatePipe, NgFor } from '@angular/common';
-
-interface PolicySection {
-  readonly title: string;
-  readonly body: string;
-}
+import type { PolicySection } from '../../interfaces/policy-section';
 
 @Component({
   selector: 'app-policy-page',

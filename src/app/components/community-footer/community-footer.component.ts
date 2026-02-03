@@ -7,12 +7,7 @@ import { IconBrandInstagramComponent } from '../icons/icon-brand-instagram.compo
 import { IconBrandXComponent } from '../icons/icon-brand-x.component';
 import { IconBrandYoutubeComponent } from '../icons/icon-brand-youtube.component';
 import { StatsStripComponent } from '../stats-strip/stats-strip.component';
-
-interface SocialLink {
-  readonly key: 'facebook' | 'x' | 'instagram' | 'youtube';
-  readonly label: string;
-  readonly href: string;
-}
+import type { SocialLink } from '../../interfaces/social-link';
 
 @Component({
   selector: 'app-community-footer',
