@@ -5,6 +5,7 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { routes } from './app.routes';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { GenresPageComponent } from './pages/genres/genres-page.component';
+import { AnimePageComponent } from './pages/anime/anime-page.component';
 import { AnimeDetailPageComponent } from './pages/anime-detail/anime-detail-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 
@@ -27,6 +28,11 @@ describe('App Routes', () => {
   it('navigates to the Genres page', async () => {
     const component = await harness.navigateByUrl('/genres', GenresPageComponent);
     expect(component).toBeInstanceOf(GenresPageComponent);
+  });
+
+  it('navigates to the Anime placeholder page', async () => {
+    const component = await harness.navigateByUrl('/anime', AnimePageComponent);
+    expect(component).toBeInstanceOf(AnimePageComponent);
   });
 
   it('navigates to the Anime Detail page using a valid slug', async () => {

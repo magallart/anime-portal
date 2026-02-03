@@ -1,6 +1,7 @@
 import type { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { GenresPageComponent } from './pages/genres/genres-page.component';
+import { AnimePageComponent } from './pages/anime/anime-page.component';
 import { AnimeDetailPageComponent } from './pages/anime-detail/anime-detail-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 import { PolicyPageComponent } from './pages/policy/policy-page.component';
@@ -18,6 +19,12 @@ export const routes: Routes = [
     component: GenresPageComponent,
     title: 'Anime Portal — Genres',
     data: { breadcrumb: 'Genres' },
+  },
+  {
+    path: 'anime',
+    component: AnimePageComponent,
+    title: 'Anime Portal — Anime',
+    data: { breadcrumb: 'Anime' },
   },
   {
     path: 'anime/:slug',
