@@ -4,6 +4,7 @@ import { AppButtonIconDirective } from '../../components/app-button/app-button-i
 import { IconCalendarComponent } from '../../components/icons/icon-calendar.component';
 import { IconEyeComponent } from '../../components/icons/icon-eye.component';
 import { IconPlayerPlayComponent } from '../../components/icons/icon-player-play.component';
+import { IconExternalLinkComponent } from '../../components/icons/icon-external-link.component';
 import { IconStarComponent } from '../../components/icons/icon-star.component';
 
 interface AnimeStat {
@@ -26,6 +27,7 @@ interface InfoItem {
     AppButtonIconDirective,
     IconCalendarComponent,
     IconEyeComponent,
+    IconExternalLinkComponent,
     IconPlayerPlayComponent,
     IconStarComponent,
   ],
@@ -114,9 +116,11 @@ interface InfoItem {
                   </p>
                 </div>
 
-                <app-button label="Ver ahora" size="md" className="w-full">
-                  <app-icon-star appButtonIcon />
-                </app-button>
+                <div class="flex justify-center pt-4">
+                  <app-button label="Ver ahora" size="lg" className="min-w-48 px-10 text-base">
+                    <app-icon-external-link appButtonIcon />
+                  </app-button>
+                </div>
               </div>
             </div>
           </div>
