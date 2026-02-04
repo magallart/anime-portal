@@ -11,19 +11,19 @@ export const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
-    title: 'Anime Portal â€” Home',
+    title: 'Anime Portal — Home',
     data: { breadcrumb: 'Home' },
   },
   {
     path: 'genres',
     component: GenresPageComponent,
-    title: 'Anime Portal â€” Genres',
+    title: 'Anime Portal — Genres',
     data: { breadcrumb: 'Genres' },
   },
   {
     path: 'anime/:slug',
     component: AnimeDetailPageComponent,
-    title: 'Anime Portal â€” Anime Detail',
+    title: 'Anime Portal — Anime Detail',
     data: { breadcrumb: 'Anime Detail' },
     canActivate: [animeSlugGuard],
     resolve: { anime: animeDetailResolver },
@@ -31,13 +31,13 @@ export const routes: Routes = [
   {
     path: 'policy',
     component: PolicyPageComponent,
-    title: 'Anime Portal â€” Policy',
+    title: 'Anime Portal — Policy',
     data: { breadcrumb: 'Policy' },
   },
   {
     path: '404',
     component: NotFoundPageComponent,
-    title: 'Anime Portal â€” Not found',
+    title: 'Anime Portal — Not found',
     data: { breadcrumb: 'Not found' },
   },
   {
