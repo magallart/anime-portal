@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import type { DetailFact } from '../../interfaces/detail-fact';
+import type { AnimeDetail } from '../../interfaces/anime-detail';
 
 @Component({
   selector: 'app-anime-detail-page',
@@ -76,6 +79,13 @@ import type { DetailFact } from '../../interfaces/detail-fact';
   `,
 })
 export class AnimeDetailPageComponent {
+  private readonly route = inject(ActivatedRoute);
+
+  protected readonly anime = toSignal(
+    this.route.data.pipe(map((data) => data['anime'] as AnimeDetail | undefined)),
+    { initialValue: undefined },
+  );
+
   protected readonly facts: DetailFact[] = [
     { label: 'Studio', value: 'Placeholder Animation Works' },
     { label: 'Episodes', value: '24 planned (weekly simulcast)' },
