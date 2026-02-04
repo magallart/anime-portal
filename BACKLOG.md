@@ -120,12 +120,12 @@
 **Description:** Surface a curated list of genres with representative anime cards and link to the Genres page.
 **Checklist:**
 
-- [ ] Define the target genre list (Action, Drama, Comedy, Fantasy, Sci-Fi, Sports, etc.).
-- [ ] Fetch anime samples per genre (or a batched query) via `AnilistService` and map to card view models.
-- [ ] Render responsive grid of cards showing cover plus title; cards route to detail page.
-- [ ] Add a "View all genres" button linking to `/genres` with Tailwind button recipe from DESIGN.
-- [ ] Tests verifying CTA navigation and card output counts.
-      **Acceptance Criteria:**
+- [✔️] Define the target genre list (Action, Drama, Comedy, Fantasy, Sci-Fi, Sports, etc.).
+- [✔️] Fetch anime samples per genre (or a batched query) via `AnilistService` and map to card view models.
+- [✔️] Render responsive grid of cards showing cover plus title; cards route to detail page.
+- [✔️] Add a "View all genres" button linking to `/genres` with Tailwind button recipe from DESIGN.
+- [✔️] Tests verifying CTA navigation and card output counts.
+  **Acceptance Criteria:**
 - At least one anime card per configured genre renders on desktop and mobile.
 - Cards use shared anime-card component styles.
 - CTA navigates to `/genres` and is focusable.
