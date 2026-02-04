@@ -14,6 +14,10 @@ describe('AnimeDetailPageComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.querySelector('h1')?.textContent).toContain('Unknown anime');
-    expect(compiled.querySelectorAll('[data-test="detail-fact"]').length).toBe(4);
+    expect(compiled.textContent).toContain('Year');
+    expect(compiled.textContent).toContain('Episodes');
+    expect(compiled.textContent).toContain('Status');
+    expect(compiled.textContent).toContain('Studio');
+    expect(compiled.textContent).toContain('Synopsis');
   });
 });
