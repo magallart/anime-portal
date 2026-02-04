@@ -1,7 +1,6 @@
-import type { Routes } from '@angular/router';
+﻿import type { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { GenresPageComponent } from './pages/genres/genres-page.component';
-import { AnimePageComponent } from './pages/anime/anime-page.component';
 import { AnimeDetailPageComponent } from './pages/anime-detail/anime-detail-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 import { PolicyPageComponent } from './pages/policy/policy-page.component';
@@ -12,25 +11,19 @@ export const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
-    title: 'Anime Portal — Home',
+    title: 'Anime Portal â€” Home',
     data: { breadcrumb: 'Home' },
   },
   {
     path: 'genres',
     component: GenresPageComponent,
-    title: 'Anime Portal — Genres',
+    title: 'Anime Portal â€” Genres',
     data: { breadcrumb: 'Genres' },
-  },
-  {
-    path: 'anime',
-    component: AnimePageComponent,
-    title: 'Anime Portal — Anime',
-    data: { breadcrumb: 'Anime' },
   },
   {
     path: 'anime/:slug',
     component: AnimeDetailPageComponent,
-    title: 'Anime Portal — Anime Detail',
+    title: 'Anime Portal â€” Anime Detail',
     data: { breadcrumb: 'Anime Detail' },
     canActivate: [animeSlugGuard],
     resolve: { anime: animeDetailResolver },
@@ -38,13 +31,13 @@ export const routes: Routes = [
   {
     path: 'policy',
     component: PolicyPageComponent,
-    title: 'Anime Portal — Policy',
+    title: 'Anime Portal â€” Policy',
     data: { breadcrumb: 'Policy' },
   },
   {
     path: '404',
     component: NotFoundPageComponent,
-    title: 'Anime Portal — Not found',
+    title: 'Anime Portal â€” Not found',
     data: { breadcrumb: 'Not found' },
   },
   {
