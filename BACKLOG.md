@@ -168,7 +168,7 @@
 **Description:** Ensure `/anime/:slug` preloads anime data through a resolver to simplify the detail component and handle missing slugs.
 **Checklist:**
 
-- [ ] Create `AnimeDetailResolver` that reads the route param, calls `getAnimeDetailsById`, and resolves data or redirects on error.
+- [✔️] Create `AnimeDetailResolver` that reads the route param, calls `getAnimeDetailsById`, and resolves data or redirects on error.
 - [ ] Wire resolver into `app.routes.ts` for `/anime/:slug`.
 - [ ] Surface resolved data to the component via `ActivatedRoute.data` or injection.
 - [ ] Add resolver unit tests for success/error cases.
