@@ -185,7 +185,7 @@
 
 - [✔️] Create responsive layout (image on left on desktop, stacked on mobile) with accessible headings.
 - [✔️] Render sanitized synopsis text and metadata list (studio, status, total episodes, next airing info if available).
-- [ ] Include action buttons (for example, "Back to genres", "Open on AniList") following button recipe.
+- [ ] Ensure anime cards navigate to `/anime/:slug` and detail page renders resolved API data.
 - [ ] Handle missing data gracefully (fallback labels) and ensure focus order.
 - [ ] Component tests verifying data binding and fallback rendering.
       **Acceptance Criteria:**
