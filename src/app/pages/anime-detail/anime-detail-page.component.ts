@@ -11,17 +11,8 @@ import { IconExternalLinkComponent } from '../../components/icons/icon-external-
 import { IconPlayerPlayComponent } from '../../components/icons/icon-player-play.component';
 import { IconStarComponent } from '../../components/icons/icon-star.component';
 import type { AnimeDetail } from '../../interfaces/anime-detail';
-
-interface AnimeStat {
-  readonly value: string;
-  readonly icon: 'eye' | 'star';
-}
-
-interface InfoItem {
-  readonly label: string;
-  readonly value: string;
-  readonly icon: 'calendar' | 'episodes' | 'status' | 'studio';
-}
+import type { AnimeInfoItem } from '../../interfaces/anime-info-item';
+import type { AnimeStat } from '../../interfaces/anime-stat';
 
 @Component({
   selector: 'app-anime-detail-page',
@@ -213,7 +204,7 @@ export class AnimeDetailPageComponent {
     ];
   });
 
-  protected readonly infoItems = computed<InfoItem[]>(() => {
+  protected readonly infoItems = computed<AnimeInfoItem[]>(() => {
     const anime = this.anime();
     return [
       { label: 'Year', value: this.formatYear(anime?.seasonYear), icon: 'calendar' },
