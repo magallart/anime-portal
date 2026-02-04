@@ -1,35 +1,65 @@
 # Session Notes
 
-## Date
-
-- 2026-02-04
-
-## Summary
+## 2026-02-04
 
 - Implemented AniList resolver for `/anime/:slug`, wired it into routes, and exposed resolved data in the detail page component.
 - Built the `/anime/:slug` layout to match the approved mockup, binding real API data (titles, rating, views, year, episodes, status, studio, synopsis, images).
 - Added rating conversion logic (percentage to 1–10 scale) and fallbacks for missing data.
-- Added banner image with dark/blur effect and updated icons per design (e.g., studio icon).
+- Added banner image with dark/blur effect and updated icons per design.
 - Extracted detail page interfaces into dedicated files.
 - Removed the unused `/anime` placeholder page and related route/specs.
 - Fixed mojibake issues (`â€”`) and verified no stray occurrences remained.
 - Updated backlog checkmarks for AP-012/AP-013 and added the slug-routing subtask.
-- Ran `pnpm run lint` and `pnpm test` successfully.
+- Ran `pnpm run lint` and `pnpm test`.
 
-## Latest Commits
+## 2026-02-03
 
-- `fix(ui): [AP-013] improve responsive layouts`
-- `fix(app): normalize route titles`
-- `refactor(routes): remove /anime placeholder page`
-- `docs(backlog): [AP-012] mark tests complete`
-- `test(anime): [AP-012] verify detail rendering`
-- `fix(anime): [AP-012] refine detail fallbacks`
-- `refactor(anime): [AP-012] extract detail interfaces`
-- `feat(anime): [AP-012] match detail hero layout`
-- `fix(anime): [AP-012] allow non-placeholder slugs`
-- `docs(backlog): [AP-012] add routing subtask`
-- `feat(anime): [AP-012] render detail data`
-- `test(anime): [AP-011] cover detail resolver`
-- `feat(anime): [AP-011] read resolved detail data`
-- `feat(anime): [AP-011] wire detail resolver`
-- `feat(anime): [AP-011] add anime detail resolver`
+- Added and refined the `/anime` placeholder detail page for AP-011 (hero, stats row, tags, CTA).
+- Added missing detail icons and improved pagination spacing/type scale for genres.
+- Updated backlog status for AP-010 and added initial session notes.
+
+## 2026-02-02
+
+- Built genres page functionality: random popular load, incremental load more, and scroll-to-top behavior.
+- Added rating badge support and card subtitle handling on genres cards.
+- Implemented genre filters with rating selector, clear/apply behavior, constants extraction, and tests.
+- Added home highest-rated section with random picks and improved empty states.
+
+## 2026-01-30
+
+- Introduced Angular Material for genre filters and styled panels/scrollbars.
+- Standardized buttons with `AppButtonComponent` and aligned icon rendering.
+- Continued AP-007 home refinements (spacing, footer, section tweaks) and AP-009 header/filter setup.
+
+## 2026-01-28
+
+- Redesigned home layout and created new UI building-block components.
+- Updated palette tokens and tightened hero/header spacing and styling.
+- Added cards metadata (rating, season, genres) and filtered adult titles.
+
+## 2026-01-27
+
+- Built AniList GraphQL client/service and domain interfaces.
+- Implemented airing schedule list + cards and wired to home.
+- Added slug-based routes, Not Found flow, and page scaffolding.
+- Refreshed UI theme with neon/sticky header adjustments.
+
+## 2026-01-26
+
+- Added shared layout shell and refreshed brand identity.
+- Migrated to pnpm and set up backlog planning.
+
+## 2026-01-23
+
+- Updated README and added design template tokens and agent guidance.
+- Added interface example and enforced type-only imports.
+
+## 2026-01-21
+
+- Initial project setup: linting/formatting, husky/commitlint, Tailwind, e2e scaffolding.
+- Added app state service, i18n scaffolding, basic home layout, and docs updates.
+- Added repo button component and tests.
+
+## 2026-01-21 (Initial)
+
+- Initial commit with baseline project structure.
