@@ -2,24 +2,34 @@
 
 ## Date
 
-- 2026-02-03
+- 2026-02-04
 
 ## Summary
 
-- Added a `/anime` placeholder page for AP-011 with a full-width hero header and modern layout.
-- Refined the stats row, tags placement, and CTA styling.
-- Added new icons: `icon-eye`, `icon-player-play`, `icon-external-link`.
-- Adjusted pagination in Genres and related components earlier in the session.
+- Implemented AniList resolver for `/anime/:slug`, wired it into routes, and exposed resolved data in the detail page component.
+- Built the `/anime/:slug` layout to match the approved mockup, binding real API data (titles, rating, views, year, episodes, status, studio, synopsis, images).
+- Added rating conversion logic (percentage to 1–10 scale) and fallbacks for missing data.
+- Added banner image with dark/blur effect and updated icons per design (e.g., studio icon).
+- Extracted detail page interfaces into dedicated files.
+- Removed the unused `/anime` placeholder page and related route/specs.
+- Fixed mojibake issues (`â€”`) and verified no stray occurrences remained.
+- Updated backlog checkmarks for AP-012/AP-013 and added the slug-routing subtask.
+- Ran `pnpm run lint` and `pnpm test` successfully.
 
-## Latest Commits (AP-011)
+## Latest Commits
 
-- `feat(anime): [AP-011] add /anime placeholder page`
-- `style(anime): [AP-011] refine hero layout and stats icons`
-- `style(anime): [AP-011] refine CTA icon and sizing`
-- `style(anime): [AP-011] refine stats row and tags`
-
-## Next Steps
-
-- Continue AP-011: build data resolver and wire real anime detail data.
-- Replace placeholders with real data mappings once resolver exists.
-- Decide whether `/anime` stays as a design sandbox or gets removed after detail page is complete.
+- `fix(ui): [AP-013] improve responsive layouts`
+- `fix(app): normalize route titles`
+- `refactor(routes): remove /anime placeholder page`
+- `docs(backlog): [AP-012] mark tests complete`
+- `test(anime): [AP-012] verify detail rendering`
+- `fix(anime): [AP-012] refine detail fallbacks`
+- `refactor(anime): [AP-012] extract detail interfaces`
+- `feat(anime): [AP-012] match detail hero layout`
+- `fix(anime): [AP-012] allow non-placeholder slugs`
+- `docs(backlog): [AP-012] add routing subtask`
+- `feat(anime): [AP-012] render detail data`
+- `test(anime): [AP-011] cover detail resolver`
+- `feat(anime): [AP-011] read resolved detail data`
+- `feat(anime): [AP-011] wire detail resolver`
+- `feat(anime): [AP-011] add anime detail resolver`
