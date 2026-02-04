@@ -200,7 +200,7 @@
 **Description:** Finalize cross-page polish, add regression tests, and document verification steps.
 **Checklist:**
 
-- [ ] Audit components for responsiveness (header, cards, filters, detail layout) and adjust Tailwind classes as needed.
+- [✔️] Audit components for responsiveness (header, cards, filters, detail layout) and adjust Tailwind classes as needed.
 - [ ] Add shared error boundary or toast for API failures.
 - [ ] Write Vitest unit tests and Playwright e2e smoke tests covering navigation Home -> Genres -> Detail and back.
 - [ ] Update README with run instructions plus API usage notes.

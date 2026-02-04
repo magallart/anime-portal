@@ -19,7 +19,7 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
             <ng-container *ngComponentOutlet="icon()" />
           </span>
           <div>
-            <h2 class="text-4xl font-heading text-foreground">{{ title() }}</h2>
+            <h2 class="text-3xl font-heading text-foreground sm:text-4xl">{{ title() }}</h2>
             @if (subtitle()) {
               <p class="text-sm text-muted-foreground">{{ subtitle() }}</p>
             }

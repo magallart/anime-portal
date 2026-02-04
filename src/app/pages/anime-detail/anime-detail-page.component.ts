@@ -79,7 +79,7 @@ import type { AnimeStat } from '../../interfaces/anime-stat';
 
               <div class="space-y-6">
                 <div class="space-y-3">
-                  <h1 class="text-4xl font-heading tracking-tight text-foreground">
+                  <h1 class="text-3xl font-heading tracking-tight text-foreground sm:text-4xl">
                     {{ title() }}
                   </h1>
                   <div class="space-y-1 text-sm text-muted-foreground">
@@ -104,7 +104,7 @@ import type { AnimeStat } from '../../interfaces/anime-stat';
                       </span>
                     }
                     @if (displayTags().length) {
-                      <div class="flex flex-1 flex-wrap justify-end gap-2">
+                      <div class="flex w-full flex-wrap gap-2 sm:ml-auto sm:w-auto sm:justify-end">
                         @for (tag of displayTags(); track tag) {
                           <span
                             class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
@@ -118,7 +118,7 @@ import type { AnimeStat } from '../../interfaces/anime-stat';
                 </div>
 
                 <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-subtle">
-                  <div class="grid gap-4 sm:grid-cols-4">
+                  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     @for (item of infoItems(); track item.label) {
                       <div class="space-y-2">
                         <div

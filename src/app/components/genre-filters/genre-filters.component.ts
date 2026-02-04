@@ -113,10 +113,13 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
       </div>
 
       <div class="mt-6 flex justify-center">
-        <div class="flex flex-wrap items-center justify-center gap-3">
+        <div
+          class="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
+        >
           <app-button
             label="Apply filters"
             size="sm"
+            className="w-full sm:w-auto"
             [disabled]="!hasActiveFilters()"
             (click)="applyFilters()"
           >
@@ -124,7 +127,7 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
           </app-button>
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/10 hover:text-primary-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/60 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/10 hover:text-primary-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60 sm:w-auto"
             [disabled]="!hasActiveFilters()"
             (click)="clearFilters()"
           >

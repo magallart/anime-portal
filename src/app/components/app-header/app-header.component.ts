@@ -12,7 +12,9 @@ import type { NavLink } from '../../interfaces/nav-link';
     <header
       class="sticky top-0 z-30 w-full border-b border-border bg-gradient-to-r from-accent/80 via-background/90 to-accent/80 text-foreground shadow-subtle backdrop-blur supports-[backdrop-filter]:bg-accent/60"
     >
-      <div class="mx-auto grid max-w-6xl grid-cols-[auto_1fr] items-center gap-4 px-gutter py-3">
+      <div
+        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-gutter py-3"
+      >
         <a
           routerLink="/"
           class="group inline-flex items-center gap-3 rounded-xl text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -31,8 +33,13 @@ import type { NavLink } from '../../interfaces/nav-link';
           </div>
         </a>
 
-        <nav aria-label="Primary navigation" class="hidden justify-end md:flex">
-          <ul class="flex items-center gap-3 text-sm font-medium">
+        <nav
+          aria-label="Primary navigation"
+          class="flex w-full justify-center sm:w-auto sm:justify-end"
+        >
+          <ul
+            class="flex flex-wrap items-center justify-center gap-2 text-xs font-medium sm:gap-3 sm:text-sm"
+          >
             <li *ngFor="let link of navLinks">
               <a
                 [routerLink]="link.path"
