@@ -169,7 +169,7 @@
 **Checklist:**
 
 - [✔️] Create `AnimeDetailResolver` that reads the route param, calls `getAnimeDetailsById`, and resolves data or redirects on error.
-- [ ] Wire resolver into `app.routes.ts` for `/anime/:slug`.
+- [✔️] Wire resolver into `app.routes.ts` for `/anime/:slug`.
 - [ ] Surface resolved data to the component via `ActivatedRoute.data` or injection.
 - [ ] Add resolver unit tests for success/error cases.
       **Acceptance Criteria:**

@@ -6,6 +6,7 @@ import { AnimeDetailPageComponent } from './pages/anime-detail/anime-detail-page
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 import { PolicyPageComponent } from './pages/policy/policy-page.component';
 import { animeSlugGuard } from './pages/anime-detail/anime-slug.guard';
+import { animeDetailResolver } from './pages/anime-detail/anime-detail.resolver';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
     title: 'Anime Portal — Anime Detail',
     data: { breadcrumb: 'Anime Detail' },
     canActivate: [animeSlugGuard],
+    resolve: { anime: animeDetailResolver },
   },
   {
     path: 'policy',
