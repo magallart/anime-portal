@@ -183,8 +183,8 @@
 **Description:** Build the detail page layout showcasing cover, synopsis, studio, episode count, and other metadata using Tailwind plus DESIGN tokens.
 **Checklist:**
 
-- [ ] Create responsive layout (image on left on desktop, stacked on mobile) with accessible headings.
-- [ ] Render sanitized synopsis text and metadata list (studio, status, total episodes, next airing info if available).
+- [✔️] Create responsive layout (image on left on desktop, stacked on mobile) with accessible headings.
+- [✔️] Render sanitized synopsis text and metadata list (studio, status, total episodes, next airing info if available).
 - [ ] Include action buttons (for example, "Back to genres", "Open on AniList") following button recipe.
 - [ ] Handle missing data gracefully (fallback labels) and ensure focus order.
 - [ ] Component tests verifying data binding and fallback rendering.

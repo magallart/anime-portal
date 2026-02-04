@@ -13,7 +13,7 @@ describe('AnimeDetailPageComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent).toContain('Deep dive');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Unknown anime');
     expect(compiled.querySelectorAll('[data-test="detail-fact"]').length).toBe(4);
   });
 });

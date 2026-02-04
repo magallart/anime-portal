@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
@@ -14,12 +14,9 @@ import type { AnimeDetail } from '../../interfaces/anime-detail';
     <article class="mx-auto max-w-6xl space-y-10 px-gutter py-section">
       <header class="space-y-3 text-center">
         <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">Anime Detail</p>
-        <h1 class="text-4xl font-heading tracking-tight text-foreground">
-          Deep dive into individual series
-        </h1>
+        <h1 class="text-4xl font-heading tracking-tight text-foreground">{{ title() }}</h1>
         <p class="mx-auto max-w-3xl text-base leading-relaxed text-muted-foreground">
-          Once data is resolved, this page will surface cast, studios, release timeline, and airing
-          cadence with enriched media.
+          {{ subtitle() }}
         </p>
       </header>
 
@@ -29,24 +26,24 @@ import type { AnimeDetail } from '../../interfaces/anime-detail';
         <div
           class="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-border bg-muted text-muted-foreground"
         >
-          <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
-            <span class="text-xs uppercase tracking-[0.35em]">Poster</span>
-            <span class="text-lg font-heading">Coming soon</span>
-          </div>
+          @if (coverImage()) {
+            <img [src]="coverImage()" [alt]="posterAlt()" class="h-full w-full object-cover" />
+          } @else {
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+              <span class="text-xs uppercase tracking-[0.35em]">Poster</span>
+              <span class="text-lg font-heading">Coming soon</span>
+            </div>
+          }
         </div>
 
         <div class="space-y-6 text-left">
           <div class="space-y-3">
-            <h2 class="text-3xl font-heading text-foreground">Placeholder anime title</h2>
-            <p class="text-base leading-relaxed text-muted-foreground">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. This copy spotlights how the
-              synopsis will render with generous line-height and accessible contrast once the route
-              resolves real data.
-            </p>
+            <h2 class="text-3xl font-heading text-foreground">{{ title() }}</h2>
+            <p class="text-base leading-relaxed text-muted-foreground">{{ synopsis() }}</p>
           </div>
 
           <dl class="grid gap-4 sm:grid-cols-2">
-            @for (fact of facts; track fact.label) {
+            @for (fact of detailFacts(); track fact.label) {
               <div
                 class="rounded-xl border border-border bg-background/80 p-4"
                 data-test="detail-fact"
@@ -86,10 +83,80 @@ export class AnimeDetailPageComponent {
     { initialValue: undefined },
   );
 
-  protected readonly facts: DetailFact[] = [
-    { label: 'Studio', value: 'Placeholder Animation Works' },
-    { label: 'Episodes', value: '24 planned (weekly simulcast)' },
-    { label: 'Status', value: 'Premiering Soon' },
-    { label: 'Genres', value: 'Action · Adventure · Fantasy' },
-  ];
+  protected readonly title = computed(() => {
+    const anime = this.anime();
+    return anime?.title?.english ?? anime?.title?.romaji ?? anime?.title?.native ?? 'Unknown anime';
+  });
+
+  protected readonly subtitle = computed(() => {
+    const anime = this.anime();
+    if (!anime) {
+      return 'Loading anime details...';
+    }
+    const genres = anime.genres?.length ? anime.genres.slice(0, 3).join(' · ') : 'Genres TBD';
+    const year = anime.seasonYear ? String(anime.seasonYear) : 'Year TBD';
+    return `${genres} · ${year}`;
+  });
+
+  protected readonly synopsis = computed(() => {
+    const anime = this.anime();
+    return anime?.description ?? 'No synopsis available.';
+  });
+
+  protected readonly coverImage = computed(() => {
+    const anime = this.anime();
+    return anime?.coverImage?.extraLarge ?? anime?.coverImage?.large ?? anime?.coverImage?.medium;
+  });
+
+  protected readonly posterAlt = computed(() => `${this.title()} poster`);
+
+  protected readonly detailFacts = computed<DetailFact[]>(() => {
+    const anime = this.anime();
+    if (!anime) {
+      return [
+        { label: 'Studio', value: 'Loading...' },
+        { label: 'Episodes', value: 'Loading...' },
+        { label: 'Status', value: 'Loading...' },
+        { label: 'Genres', value: 'Loading...' },
+      ];
+    }
+
+    const studio = anime.studios?.[0]?.name ?? 'Unknown';
+    const episodes = anime.episodes ? String(anime.episodes) : 'Unknown';
+    const status = anime.status ? this.formatStatus(anime.status) : 'Unknown';
+    const genres = anime.genres?.length ? anime.genres.join(' · ') : 'Unknown';
+    const nextAiring = anime.nextAiringEpisode
+      ? `Ep ${anime.nextAiringEpisode.episodeNumber}${this.formatAiringDate(
+          anime.nextAiringEpisode.airingAt,
+        )}`
+      : 'Not scheduled';
+
+    return [
+      { label: 'Studio', value: studio },
+      { label: 'Episodes', value: episodes },
+      { label: 'Status', value: status },
+      { label: 'Genres', value: genres },
+      { label: 'Next Airing', value: nextAiring },
+    ];
+  });
+
+  private formatStatus(value: string): string {
+    return value
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (match) => match.toUpperCase());
+  }
+
+  private formatAiringDate(seconds?: number): string {
+    if (!seconds) {
+      return '';
+    }
+    const date = new Date(seconds * 1000);
+    const formatted = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+    return ` · ${formatted}`;
+  }
 }
