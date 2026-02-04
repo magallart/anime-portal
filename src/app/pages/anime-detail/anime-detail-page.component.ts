@@ -64,15 +64,17 @@ import type { AnimeStat } from '../../interfaces/anime-stat';
                     />
                   }
                 </div>
-                <div class="flex flex-wrap gap-2 sm:hidden">
-                  @for (tag of displayTags(); track tag) {
-                    <span
-                      class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
-                    >
-                      {{ tag }}
-                    </span>
-                  }
-                </div>
+                @if (displayTags().length) {
+                  <div class="flex flex-wrap gap-2 sm:hidden">
+                    @for (tag of displayTags(); track tag) {
+                      <span
+                        class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
+                      >
+                        {{ tag }}
+                      </span>
+                    }
+                  </div>
+                }
               </div>
 
               <div class="space-y-6">
@@ -101,15 +103,17 @@ import type { AnimeStat } from '../../interfaces/anime-stat';
                         <span class="text-foreground">{{ stat.value }}</span>
                       </span>
                     }
-                    <div class="flex flex-1 flex-wrap justify-end gap-2">
-                      @for (tag of displayTags(); track tag) {
-                        <span
-                          class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
-                        >
-                          {{ tag }}
-                        </span>
-                      }
-                    </div>
+                    @if (displayTags().length) {
+                      <div class="flex flex-1 flex-wrap justify-end gap-2">
+                        @for (tag of displayTags(); track tag) {
+                          <span
+                            class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
+                          >
+                            {{ tag }}
+                          </span>
+                        }
+                      </div>
+                    }
                   </div>
                 </div>
 
@@ -172,12 +176,20 @@ export class AnimeDetailPageComponent {
 
   protected readonly subtitleRomaji = computed(() => {
     const anime = this.anime();
-    return anime?.title?.romaji ?? undefined;
+    const romaji = anime?.title?.romaji?.trim();
+    if (!romaji) {
+      return undefined;
+    }
+    return this.isDuplicateSubtitle(romaji) ? undefined : romaji;
   });
 
   protected readonly subtitleNative = computed(() => {
     const anime = this.anime();
-    return anime?.title?.native ?? undefined;
+    const native = anime?.title?.native?.trim();
+    if (!native) {
+      return undefined;
+    }
+    return this.isDuplicateSubtitle(native) ? undefined : native;
   });
 
   protected readonly synopsis = computed(() => {
@@ -249,5 +261,10 @@ export class AnimeDetailPageComponent {
       .toLowerCase()
       .replace(/_/g, ' ')
       .replace(/\b\w/g, (match) => match.toUpperCase());
+  }
+
+  private isDuplicateSubtitle(value: string): boolean {
+    const title = this.title().trim().toLowerCase();
+    return title.length > 0 && title === value.trim().toLowerCase();
   }
 }
