@@ -84,7 +84,9 @@ interface InfoItem {
                     <p>ONE PIECE</p>
                     <p>ONE PIECE</p>
                   </div>
-                  <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                  <div
+                    class="flex flex-wrap items-center gap-3 text-sm text-muted-foreground sm:gap-4"
+                  >
                     @for (stat of stats; track stat.label) {
                       <span class="inline-flex items-center gap-2">
                         @if (stat.icon === 'star') {
@@ -98,7 +100,7 @@ interface InfoItem {
                         }
                       </span>
                     }
-                    <div class="flex flex-1 justify-end gap-2">
+                    <div class="flex flex-1 flex-wrap justify-end gap-2">
                       @for (tag of tags; track tag) {
                         <span
                           class="inline-flex items-center rounded-full border border-border bg-gradient-to-r from-primary/60 via-primary/40 to-secondary/60 px-3 py-1 text-xs text-primary-foreground"
@@ -146,7 +148,7 @@ interface InfoItem {
                     person who found it, the title of the Pirate King. Enter Monkey D. Luffy, a
                     17-year-old boy that defies your standard definition of a pirate. Rather than
                     the popular persona of a wicked, hardened, toothless pirate who ransacks
-                    villages for fun, Luffy’s reason for being a pirate is one of pure wonder; the
+                    villages for fun, Luffy's reason for being a pirate is one of pure wonder; the
                     thought of an exciting adventure and meeting new and intriguing people, along
                     with finding One Piece, are his reasons of becoming a pirate. Following in the
                     footsteps of his childhood hero, Luffy and his crew travel across the Grand
@@ -171,7 +173,7 @@ interface InfoItem {
 export class AnimePageComponent {
   private formatRating(percentScore: number | undefined): string {
     if (percentScore === undefined || Number.isNaN(percentScore)) {
-      return '—';
+      return '-';
     }
     return (percentScore / 10).toFixed(1);
   }
