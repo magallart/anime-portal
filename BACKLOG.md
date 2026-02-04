@@ -187,8 +187,8 @@
 - [✔️] Render sanitized synopsis text and metadata list (studio, status, total episodes, next airing info if available).
 - [ ] Ensure anime cards navigate to `/anime/:slug` and detail page renders resolved API data.
 - [ ] Handle missing data gracefully (fallback labels) and ensure focus order.
-- [ ] Component tests verifying data binding and fallback rendering.
-      **Acceptance Criteria:**
+- [✔️] Component tests verifying data binding and fallback rendering.
+  **Acceptance Criteria:**
 - Detail page matches DESIGN spacing/typography and remains readable on small screens.
 - All required fields appear when available; placeholders shown when not.
 - Buttons navigate correctly or open AniList link in new tab with rel attrs.
