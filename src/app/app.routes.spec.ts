@@ -79,7 +79,7 @@ describe('App Routes', () => {
   });
 
   it('redirects to not found when slug is invalid', async () => {
-    const component = await harness.navigateByUrl('/anime/not-real', NotFoundPageComponent);
+    const component = await harness.navigateByUrl('/anime/invalid_slug', NotFoundPageComponent);
     expect(component).toBeInstanceOf(NotFoundPageComponent);
   });
 
