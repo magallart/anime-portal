@@ -26,7 +26,7 @@ export class GraphqlClientService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.anilistApiUrl;
 
-  execute<TData, TVariables = Record<string, unknown>>(
+  execute<TData, TVariables = Record<string, never>>(
     query: string,
     variables?: TVariables,
   ): Observable<TData> {

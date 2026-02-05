@@ -1,4 +1,4 @@
-export interface GraphqlRequest<TVariables = Record<string, unknown>> {
+export interface GraphqlRequest<TVariables = Record<string, never>> {
   readonly query: string;
   readonly variables?: TVariables;
 }
@@ -12,6 +12,8 @@ export interface GraphqlError {
   readonly message: string;
   readonly locations?: GraphqlErrorLocation[];
   readonly path?: readonly (string | number)[];
+  readonly status?: number;
+  readonly validation?: Readonly<Record<string, readonly string[]>>;
   readonly extensions?: GraphqlErrorExtensions;
 }
 
@@ -20,7 +22,4 @@ export interface GraphqlErrorLocation {
   readonly column: number;
 }
 
-export interface GraphqlErrorExtensions {
-  readonly code?: string;
-  readonly [key: string]: unknown;
-}
+export type GraphqlErrorExtensions = Record<string, never>;
