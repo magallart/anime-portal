@@ -24,7 +24,9 @@ describe('GraphqlClientService', () => {
 
   it('returns typed data when the request succeeds', async () => {
     const query = 'query Viewer { Viewer { id } }';
-    const promise = firstValueFrom(service.execute<{ Viewer: { id: number } }>(query));
+    const promise = firstValueFrom(
+      service.executeOperation<{ Viewer: { id: number } }>({ query }),
+    );
 
     const req = httpMock.expectOne(environment.anilistApiUrl);
     expect(req.request.method).toBe('POST');
@@ -37,7 +39,9 @@ describe('GraphqlClientService', () => {
 
   it('throws a GraphqlClientError when response contains GraphQL errors', async () => {
     const query = 'query Broken { Viewer { id } }';
-    const promise = firstValueFrom(service.execute<{ Viewer: { id: number } }>(query));
+    const promise = firstValueFrom(
+      service.executeOperation<{ Viewer: { id: number } }>({ query }),
+    );
 
     const req = httpMock.expectOne(environment.anilistApiUrl);
     req.flush(
@@ -52,7 +56,9 @@ describe('GraphqlClientService', () => {
 
   it('wraps network failures in GraphqlClientError', async () => {
     const query = 'query Viewer { Viewer { id } }';
-    const promise = firstValueFrom(service.execute<{ Viewer: { id: number } }>(query));
+    const promise = firstValueFrom(
+      service.executeOperation<{ Viewer: { id: number } }>({ query }),
+    );
 
     const req = httpMock.expectOne(environment.anilistApiUrl);
     req.error(new ProgressEvent('error'), { status: 500, statusText: 'Server error' });

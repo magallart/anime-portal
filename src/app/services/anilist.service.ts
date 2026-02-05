@@ -29,7 +29,7 @@ export class AnilistService {
     };
 
     return this.client
-      .execute(LATEST_AIRING_QUERY, variables)
+      .executeOperation(LATEST_AIRING_QUERY, variables)
       .pipe(
         map((response) =>
           response.Page.latestAiring
@@ -54,7 +54,7 @@ export class AnilistService {
     };
 
     return this.client
-      .execute(SEARCH_QUERY, variables)
+      .executeOperation(SEARCH_QUERY, variables)
       .pipe(
         map((response) => ({
           items: response.Page.media.map((media) => mapAnimeSummary(media)),
@@ -72,7 +72,7 @@ export class AnilistService {
     };
 
     return this.client
-      .execute(SEARCH_QUERY, variables)
+      .executeOperation(SEARCH_QUERY, variables)
       .pipe(map((response) => response.Page.media.map((media) => mapAnimeSummary(media))));
   }
 
@@ -85,13 +85,13 @@ export class AnilistService {
     };
 
     return this.client
-      .execute(SEARCH_QUERY, variables)
+      .executeOperation(SEARCH_QUERY, variables)
       .pipe(map((response) => response.Page.media.map((media) => mapAnimeSummary(media))));
   }
 
   getAnimeDetailsBySlug(slug: string): Observable<AnimeDetail> {
     return this.client
-      .execute(ANIME_DETAIL_QUERY, {
+      .executeOperation(ANIME_DETAIL_QUERY, {
         slug: toSearchTerm(slug),
       })
       .pipe(

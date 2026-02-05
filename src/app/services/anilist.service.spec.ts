@@ -15,7 +15,7 @@ describe('AnilistService', () => {
         AnilistService,
         {
           provide: GraphqlClientService,
-          useValue: { execute: executeSpy },
+          useValue: { executeOperation: executeSpy },
         },
       ],
     });
