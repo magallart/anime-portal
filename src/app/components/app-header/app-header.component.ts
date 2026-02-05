@@ -20,17 +20,13 @@ import type { NavLink } from '../../interfaces/nav-link';
           class="group inline-flex items-center gap-3 rounded-xl text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           aria-label="Anime Portal home"
         >
-          <span
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/90 text-lg font-semibold text-primary-foreground shadow-subtle transition group-hover:scale-105"
-          >
-            AP
-          </span>
-          <div class="hidden sm:block">
-            <p class="font-heading text-lg leading-tight text-foreground">Anime Portal</p>
-            <p class="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-              Curate your queue
-            </p>
-          </div>
+          <img
+            src="/images/logo.png"
+            alt="Anime Portal"
+            class="h-11 w-auto max-w-[10rem] object-contain transition group-hover:scale-[1.02]"
+            loading="eager"
+            decoding="async"
+          />
         </a>
 
         <nav

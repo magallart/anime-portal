@@ -35,7 +35,7 @@ describe('AppHeaderComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.querySelector('header')).toBeTruthy();
-    expect(compiled.textContent).toContain('Anime Portal');
+    expect(compiled.querySelector('img[alt="Anime Portal"]')).toBeTruthy();
 
     const navLinks = compiled.querySelectorAll('nav a');
     expect(navLinks.length).toBe(2);
