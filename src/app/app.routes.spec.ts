@@ -72,6 +72,23 @@ describe('App Routes', () => {
     expect(component).toBeInstanceOf(AnimeDetailPageComponent);
   });
 
+  it('navigates through the main flow and back', async () => {
+    const home = await harness.navigateByUrl('/', HomePageComponent);
+    expect(home).toBeInstanceOf(HomePageComponent);
+
+    const genres = await harness.navigateByUrl('/genres', GenresPageComponent);
+    expect(genres).toBeInstanceOf(GenresPageComponent);
+
+    const detail = await harness.navigateByUrl(
+      '/anime/placeholder-anime',
+      AnimeDetailPageComponent,
+    );
+    expect(detail).toBeInstanceOf(AnimeDetailPageComponent);
+
+    const backHome = await harness.navigateByUrl('/', HomePageComponent);
+    expect(backHome).toBeInstanceOf(HomePageComponent);
+  });
+
   it('redirects to not found when slug is invalid', async () => {
     const component = await harness.navigateByUrl('/anime/invalid_slug', NotFoundPageComponent);
     expect(component).toBeInstanceOf(NotFoundPageComponent);
