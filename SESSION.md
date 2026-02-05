@@ -1,5 +1,16 @@
 # Session Notes
 
+## 2026-02-05
+
+- Split page components into container + view (Home, Genres, Anime Detail).
+- Extracted anime formatters and view-model mappers into `utils/` and `lib/`, plus tests.
+- Refactored AniList service into queries, utils, and mapper modules with tests.
+- Added shared error message component to reduce UI duplication.
+- Updated 404 layout (centered image + new copy) and added/adjusted tests.
+- Added coverage tooling (`test:coverage`, `@vitest/coverage-v8`) and verified coverage run.
+- Added Vitest unit tests for helper/mappers and Playwright smoke coverage for 404.
+- Ran `pnpm run lint`, `pnpm test`, and `pnpm test:e2e`.
+
 ## 2026-02-04
 
 - Implemented AniList resolver for `/anime/:slug`, wired it into routes, and exposed resolved data in the detail page component.
