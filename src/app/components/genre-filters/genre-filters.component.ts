@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, output, signal } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule, type MatSelectChange } from '@angular/material/select';
 
 import { ANILIST_GENRE_OPTIONS } from '../../constants/anilist-genres';
 import { ANILIST_RATING_OPTIONS } from '../../constants/anilist-ratings';
@@ -12,13 +10,13 @@ import { AppButtonComponent } from '../app-button/app-button.component';
 import { AppButtonIconDirective } from '../app-button/app-button-icon.directive';
 import { IconFilterComponent } from '../icons/icon-filter.component';
 import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.component';
+import { FilterSelectComponent } from './filter-select.component';
 
 @Component({
   selector: 'app-genre-filters',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatSelectModule,
+    FilterSelectComponent,
     AppButtonComponent,
     AppButtonIconDirective,
     IconFilterComponent,
@@ -28,81 +26,30 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
   template: `
     <section class="genre-filters rounded-2xl border border-border bg-card/70 p-card shadow-subtle">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <mat-form-field
-          appearance="outline"
-          floatLabel="always"
-          subscriptSizing="dynamic"
-          class="w-full"
-        >
-          <mat-label>Genre</mat-label>
-          <mat-select
-            panelClass="genre-filters-panel"
-            [value]="genreSelection()"
-            (selectionChange)="onGenreChange($event)"
-          >
-            <mat-option value="all">All</mat-option>
-            @for (option of genreOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          appearance="outline"
-          floatLabel="always"
-          subscriptSizing="dynamic"
-          class="w-full"
-        >
-          <mat-label>Year</mat-label>
-          <mat-select
-            panelClass="genre-filters-panel"
-            [value]="yearSelection()"
-            (selectionChange)="onYearChange($event)"
-          >
-            <mat-option value="all">All</mat-option>
-            @for (option of yearOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          appearance="outline"
-          floatLabel="always"
-          subscriptSizing="dynamic"
-          class="w-full"
-        >
-          <mat-label>Status</mat-label>
-          <mat-select
-            panelClass="genre-filters-panel"
-            [value]="statusSelection()"
-            (selectionChange)="onStatusChange($event)"
-          >
-            <mat-option value="all">All</mat-option>
-            @for (option of statusOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          appearance="outline"
-          floatLabel="always"
-          subscriptSizing="dynamic"
-          class="w-full"
-        >
-          <mat-label>Rating</mat-label>
-          <mat-select
-            panelClass="genre-filters-panel"
-            [value]="ratingSelection()"
-            (selectionChange)="onRatingChange($event)"
-          >
-            <mat-option value="all">All</mat-option>
-            @for (option of ratingOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <app-filter-select
+          label="Genre"
+          [options]="genreOptions"
+          [value]="genreSelection()"
+          (selectionChange)="onGenreChange($event)"
+        />
+        <app-filter-select
+          label="Year"
+          [options]="yearOptions"
+          [value]="yearSelection()"
+          (selectionChange)="onYearChange($event)"
+        />
+        <app-filter-select
+          label="Status"
+          [options]="statusOptions"
+          [value]="statusSelection()"
+          (selectionChange)="onStatusChange($event)"
+        />
+        <app-filter-select
+          label="Rating"
+          [options]="ratingOptions"
+          [value]="ratingSelection()"
+          (selectionChange)="onRatingChange($event)"
+        />
       </div>
 
       <div class="mt-6 flex justify-center">
@@ -153,20 +100,20 @@ export class GenreFiltersComponent {
       this.ratingSelection() !== FILTER_ALL,
   );
 
-  onGenreChange(event: MatSelectChange): void {
-    this.genreSelection.set(event.value as FilterSelection);
+  onGenreChange(value: string | number): void {
+    this.genreSelection.set(value as FilterSelection);
   }
 
-  onYearChange(event: MatSelectChange): void {
-    this.yearSelection.set(event.value as FilterSelection);
+  onYearChange(value: string | number): void {
+    this.yearSelection.set(value as FilterSelection);
   }
 
-  onStatusChange(event: MatSelectChange): void {
-    this.statusSelection.set(event.value as FilterSelection);
+  onStatusChange(value: string | number): void {
+    this.statusSelection.set(value as FilterSelection);
   }
 
-  onRatingChange(event: MatSelectChange): void {
-    this.ratingSelection.set(event.value as FilterSelection);
+  onRatingChange(value: string | number): void {
+    this.ratingSelection.set(value as FilterSelection);
   }
 
   applyFilters(): void {

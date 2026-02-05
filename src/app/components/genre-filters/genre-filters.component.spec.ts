@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { describe, expect, it, vi } from 'vitest';
-import type { MatSelectChange } from '@angular/material/select';
 import { GenreFiltersComponent } from './genre-filters.component';
 
 describe('GenreFiltersComponent', () => {
@@ -38,7 +37,7 @@ describe('GenreFiltersComponent', () => {
       expect(button.disabled).toBe(true);
     });
 
-    fixture.componentInstance.onGenreChange({ value: 'Action' } as MatSelectChange);
+    fixture.componentInstance.onGenreChange('Action');
     fixture.detectChanges();
 
     compiled = fixture.nativeElement as HTMLElement;
@@ -54,7 +53,7 @@ describe('GenreFiltersComponent', () => {
     }).compileComponents();
 
     const fixture = TestBed.createComponent(GenreFiltersComponent);
-    fixture.componentInstance.onGenreChange({ value: 'Action' } as MatSelectChange);
+    fixture.componentInstance.onGenreChange('Action');
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
@@ -128,10 +127,10 @@ describe('GenreFiltersComponent', () => {
 
     const component = fixture.componentInstance;
     const emitSpy = vi.spyOn(component.filtersApplied, 'emit');
-    component.onGenreChange({ value: 'Action' } as MatSelectChange);
-    component.onYearChange({ value: 2022 } as MatSelectChange);
-    component.onStatusChange({ value: 'RELEASING' } as MatSelectChange);
-    component.onRatingChange({ value: '5-7' } as MatSelectChange);
+    component.onGenreChange('Action');
+    component.onYearChange(2022);
+    component.onStatusChange('RELEASING');
+    component.onRatingChange('5-7');
 
     component.applyFilters();
 
