@@ -18,6 +18,7 @@ import type { GenreFilter } from '../../interfaces/genre-filter';
 import type { AnimeTitle } from '../../interfaces/anime-title';
 import { AnilistService } from '../../services/anilist.service';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { AppToastService } from '../../services/app-toast.service';
 
 @Component({
   selector: 'app-genres-page',
@@ -97,6 +98,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 })
 export class GenresPageComponent {
   private readonly anilistService = inject(AnilistService);
+  private readonly toastService = inject(AppToastService);
   private readonly document = inject(DOCUMENT);
   private readonly pageSize = 20;
   private readonly initialPageInfo = {
@@ -132,6 +134,7 @@ export class GenresPageComponent {
             console.error('Unable to load filtered anime results.', error);
             this.loading.set(false);
             this.error.set('Unable to load the genres list right now.');
+            this.toastService.showError('Unable to load the genres list right now.');
             return of(this.emptySearchResults());
           }),
         ),

@@ -9,6 +9,7 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
+import { AppToastService } from '../../services/app-toast.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
 import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
@@ -53,6 +54,7 @@ import type { AnimeTitle } from '../../interfaces/anime-title';
 })
 export class HomePageComponent {
   private readonly anilistService = inject(AnilistService);
+  private readonly toastService = inject(AppToastService);
 
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
@@ -71,6 +73,7 @@ export class HomePageComponent {
       catchError(() => {
         this.loading.set(false);
         this.error.set('Unable to load the home feed right now.');
+        this.toastService.showError('Unable to load the home feed right now.');
         return of({ latest: [], mostViewed: [] });
       }),
     ),
