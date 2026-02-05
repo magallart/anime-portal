@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DOCUMENT } from '@angular/common';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
-import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { FILTER_ALL, type FilterSelection } from '../../constants/filter-selection';
 import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
@@ -16,11 +15,7 @@ import type { GenreFilter } from '../../interfaces/genre-filter';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
 import { GenresPageViewComponent } from './genres-page-view.component';
-import {
-  formatRating,
-  resolveRomajiSubtitle,
-  resolveSummaryTitle,
-} from '../../utils/anime-formatters';
+import { mapSummaryToCard } from '../../lib/anime-view-models';
 
 @Component({
   selector: 'app-genres-page',
@@ -181,20 +176,7 @@ export class GenresPageComponent {
   }
 
   private mapSummaryToCard(anime: AnimeSummary, activeGenre?: string): AnimeCardData {
-    const title = resolveSummaryTitle(anime.title);
-    const subtitle = resolveRomajiSubtitle(anime.title);
-    const rating = formatRating(anime.averageScore);
-    const tags = this.resolveCardTags(anime.genres ?? [], activeGenre);
-    return {
-      id: anime.id,
-      slug: anime.slug,
-      title,
-      subtitle,
-      imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
-      badge: rating,
-      badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
-      tags,
-    };
+    return mapSummaryToCard(anime, { activeGenre });
   }
 
   private resolveActiveGenre(selection: FilterSelection): string | undefined {
@@ -203,23 +185,5 @@ export class GenresPageComponent {
     }
 
     return selection;
-  }
-
-  private resolveCardTags(genres: readonly string[], activeGenre?: string): readonly string[] {
-    if (!genres.length) {
-      return [];
-    }
-
-    const normalizedActive = activeGenre?.toLowerCase();
-    const hasActive = normalizedActive
-      ? genres.some((genre) => genre.toLowerCase() === normalizedActive)
-      : false;
-
-    if (!activeGenre || !hasActive) {
-      return genres.slice(0, 2);
-    }
-
-    const remaining = genres.filter((genre) => genre.toLowerCase() !== normalizedActive);
-    return [activeGenre, ...remaining].slice(0, 2);
   }
 }

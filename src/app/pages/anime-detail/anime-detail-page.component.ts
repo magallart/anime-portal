@@ -6,15 +6,8 @@ import type { AnimeDetail } from '../../interfaces/anime-detail';
 import type { AnimeInfoItem } from '../../interfaces/anime-info-item';
 import type { AnimeStat } from '../../interfaces/anime-stat';
 import { AnimeDetailPageViewComponent } from './anime-detail-page-view.component';
-import {
-  formatEpisodesOrUnknown,
-  formatNumberOrDash,
-  formatRatingOrDash,
-  formatStatusOrUnknown,
-  formatStudioName,
-  formatYearOrUnknown,
-  isDuplicateSubtitle,
-} from '../../utils/anime-formatters';
+import { isDuplicateSubtitle } from '../../utils/anime-formatters';
+import { buildAnimeInfoItems, buildAnimeStats } from '../../lib/anime-view-models';
 
 @Component({
   selector: 'app-anime-detail-page',
@@ -84,21 +77,11 @@ export class AnimeDetailPageComponent {
   protected readonly displayTags = computed(() => this.anime()?.genres?.slice(0, 5) ?? []);
 
   protected readonly stats = computed<AnimeStat[]>(() => {
-    const anime = this.anime();
-    return [
-      { value: formatRatingOrDash(anime?.averageScore), icon: 'star' },
-      { value: formatNumberOrDash(anime?.popularity), icon: 'eye' },
-    ];
+    return buildAnimeStats(this.anime());
   });
 
   protected readonly infoItems = computed<AnimeInfoItem[]>(() => {
-    const anime = this.anime();
-    return [
-      { label: 'Year', value: formatYearOrUnknown(anime?.seasonYear), icon: 'calendar' },
-      { label: 'Episodes', value: formatEpisodesOrUnknown(anime?.episodes), icon: 'episodes' },
-      { label: 'Status', value: formatStatusOrUnknown(anime?.status), icon: 'status' },
-      { label: 'Studio', value: formatStudioName(anime), icon: 'studio' },
-    ];
+    return buildAnimeInfoItems(this.anime());
   });
 
   private isDuplicateSubtitle(value: string): boolean {

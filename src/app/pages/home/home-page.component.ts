@@ -3,19 +3,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { IconClockComponent } from '../../components/icons/icon-clock.component';
 import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up.component';
-import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
-import type { AiringEpisode } from '../../interfaces/airing-episode';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { HomePageViewComponent } from './home-page-view.component';
-import {
-  formatRating,
-  resolveRomajiSubtitle,
-  resolveSeasonLabel,
-  resolveSummaryTitle,
-} from '../../utils/anime-formatters';
+import { mapEpisodeToCard, mapSummaryToCard } from '../../lib/anime-view-models';
 
 @Component({
   selector: 'app-home-page',
@@ -73,43 +66,11 @@ export class HomePageComponent {
   protected readonly latestReleaseCards = computed(() =>
     this.homeFeed()
       .latest.slice(0, 15)
-      .map((episode) => this.mapEpisodeToCard(episode, { hideTags: true })),
+      .map((episode) => mapEpisodeToCard(episode, { hideTags: true })),
   );
 
-  private mapEpisodeToCard(
-    episode: AiringEpisode,
-    options: { compactTags?: boolean; hideTags?: boolean } = {},
-  ): AnimeCardData {
-    const seasonLabel = resolveSeasonLabel(episode.startDate);
-    const rating = formatRating(episode.averageScore);
-    return {
-      id: episode.animeId,
-      slug: episode.animeSlug,
-      title: episode.title,
-      imageUrl: episode.coverImage,
-      badge: `EP ${episode.episodeNumber}`,
-      season: seasonLabel,
-      rating,
-      tags: episode.genres?.slice(0, 2) ?? [],
-      compactTags: options.compactTags,
-      hideTags: options.hideTags,
-    };
-  }
-
   private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
-    const title = resolveSummaryTitle(anime.title);
-    const subtitle = resolveRomajiSubtitle(anime.title);
-    const rating = formatRating(anime.averageScore);
-    return {
-      id: anime.id,
-      slug: anime.slug,
-      title,
-      subtitle,
-      imageUrl: anime.coverImage?.extraLarge ?? anime.coverImage?.large ?? anime.coverImage?.medium,
-      badge: rating,
-      badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
-      tags: anime.genres?.slice(0, 2) ?? [],
-    };
+    return mapSummaryToCard(anime);
   }
 
   private pickRandomCards(items: readonly AnimeSummary[], count: number): readonly AnimeSummary[] {
