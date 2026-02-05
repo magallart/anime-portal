@@ -8,7 +8,7 @@ import type { GraphqlClientErrorOptions } from '../interfaces/graphql-client-err
 export class GraphqlClientError extends Error {
   readonly graphQLErrors?: GraphqlError[];
   readonly status?: number;
-  readonly originalError?: unknown;
+  readonly originalError?: Error;
 
   constructor(message: string, options: GraphqlClientErrorOptions = {}) {
     super(message);
@@ -63,12 +63,28 @@ export class GraphqlClientService {
     if (error instanceof HttpErrorResponse) {
       return new GraphqlClientError('Network error while calling AniList.', {
         status: error.status,
-        originalError: error,
+        originalError: this.normalizeError(error),
       });
     }
 
     return new GraphqlClientError('Unexpected GraphQL client error.', {
-      originalError: error,
+      originalError: this.normalizeError(error),
     });
+  }
+
+  private normalizeError(error: unknown): Error {
+    if (error instanceof Error) {
+      return error;
+    }
+
+    if (error instanceof HttpErrorResponse) {
+      return new Error(error.message);
+    }
+
+    if (typeof error === 'string') {
+      return new Error(error);
+    }
+
+    return new Error('Unknown error');
   }
 }
