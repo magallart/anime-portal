@@ -1,4 +1,18 @@
-export const LATEST_AIRING_QUERY = `
+import type {
+  AnimeDetailQueryResponse,
+  AnimeDetailQueryVariables,
+  LatestAiringQueryResponse,
+  LatestAiringQueryVariables,
+  SearchQueryResponse,
+  SearchQueryVariables,
+} from '../../interfaces/anilist-graphql';
+import type { GraphqlOperation } from '../../interfaces/graphql';
+
+export const LATEST_AIRING_QUERY: GraphqlOperation<
+  LatestAiringQueryResponse,
+  LatestAiringQueryVariables
+> = {
+  query: `
   query LatestAiring($start: Int!, $end: Int!) {
     Page(perPage: 25) {
       latestAiring: airingSchedules(airingAt_greater: $start, airingAt_lesser: $end, sort: TIME) {
@@ -29,9 +43,11 @@ export const LATEST_AIRING_QUERY = `
       }
     }
   }
-`;
+`,
+};
 
-export const SEARCH_QUERY = `
+export const SEARCH_QUERY: GraphqlOperation<SearchQueryResponse, SearchQueryVariables> = {
+  query: `
   query SearchAnime(
     $page: Int
     $perPage: Int
@@ -89,9 +105,14 @@ export const SEARCH_QUERY = `
       }
     }
   }
-`;
+`,
+};
 
-export const ANIME_DETAIL_QUERY = `
+export const ANIME_DETAIL_QUERY: GraphqlOperation<
+  AnimeDetailQueryResponse,
+  AnimeDetailQueryVariables
+> = {
+  query: `
   query AnimeDetail($slug: String!) {
     Media(search: $slug, type: ANIME) {
       id
@@ -155,4 +176,5 @@ export const ANIME_DETAIL_QUERY = `
       }
     }
   }
-`;
+`,
+};

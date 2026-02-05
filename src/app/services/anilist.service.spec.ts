@@ -64,10 +64,13 @@ describe('AnilistService', () => {
     const window = { start: new Date(0), end: new Date(0) };
     const result = await firstValueFrom(service.getAiringThisWeek(window));
 
-    expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('LatestAiring'), {
-      start: 0,
-      end: 0,
-    });
+    expect(executeSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ query: expect.stringContaining('LatestAiring') }),
+      {
+        start: 0,
+        end: 0,
+      },
+    );
     expect(result).toEqual([
       expect.objectContaining({
         animeId: 123,
@@ -112,18 +115,21 @@ describe('AnilistService', () => {
 
     const result = await firstValueFrom(service.getAnimeByFilters(filters));
 
-    expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('SearchAnime'), {
-      page: 2,
-      perPage: 5,
-      search: undefined,
-      genre_in: ['Drama'],
-      season: undefined,
-      seasonYear: undefined,
-      status: undefined,
-      format: undefined,
-      sort: 'SCORE_DESC',
-      isAdult: false,
-    });
+    expect(executeSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ query: expect.stringContaining('SearchAnime') }),
+      {
+        page: 2,
+        perPage: 5,
+        search: undefined,
+        genre_in: ['Drama'],
+        season: undefined,
+        seasonYear: undefined,
+        status: undefined,
+        format: undefined,
+        sort: 'SCORE_DESC',
+        isAdult: false,
+      },
+    );
     expect(result.items[0]).toMatchObject({ id: 999, slug: 'cool-show', genres: ['Drama'] });
     expect(result.pageInfo).toEqual({
       total: 1,
@@ -169,9 +175,12 @@ describe('AnilistService', () => {
 
     const result = await firstValueFrom(service.getAnimeDetailsBySlug('detail-anime'));
 
-    expect(executeSpy).toHaveBeenCalledWith(expect.stringContaining('AnimeDetail'), {
-      slug: 'detail anime',
-    });
+    expect(executeSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ query: expect.stringContaining('AnimeDetail') }),
+      {
+        slug: 'detail anime',
+      },
+    );
     expect(result.description).toBe('Strong story');
     expect(result.studios[0]).toEqual({
       id: 1,

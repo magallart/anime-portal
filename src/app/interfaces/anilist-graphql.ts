@@ -10,6 +10,11 @@ export interface LatestAiringQueryResponse {
   readonly Page: LatestAiringPage;
 }
 
+export interface LatestAiringQueryVariables {
+  readonly start: number;
+  readonly end: number;
+}
+
 export interface LatestAiringPage {
   readonly latestAiring: readonly LatestAiringNode[];
 }

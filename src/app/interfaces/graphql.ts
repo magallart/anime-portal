@@ -3,6 +3,10 @@ export interface GraphqlRequest<TVariables = Record<string, never>> {
   readonly variables?: TVariables;
 }
 
+export interface GraphqlOperation<TData, TVariables = Record<string, never>> {
+  readonly query: string;
+}
+
 export interface GraphqlResponse<TData> {
   readonly data?: TData;
   readonly errors?: GraphqlError[];

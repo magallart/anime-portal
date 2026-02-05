@@ -2,7 +2,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, map, throwError, type Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import type { GraphqlError, GraphqlRequest, GraphqlResponse } from '../interfaces/graphql';
+import type {
+  GraphqlError,
+  GraphqlOperation,
+  GraphqlRequest,
+  GraphqlResponse,
+} from '../interfaces/graphql';
 import type { GraphqlClientErrorOptions } from '../interfaces/graphql-client-error-options';
 
 export class GraphqlClientError extends Error {
@@ -29,7 +34,18 @@ export class GraphqlClientService {
   execute<TData, TVariables = Record<string, never>>(
     query: string,
     variables?: TVariables,
+  ): Observable<TData>;
+  execute<TData, TVariables = Record<string, never>>(
+    operation: GraphqlOperation<TData, TVariables>,
+    variables?: TVariables,
+  ): Observable<TData>;
+  execute<TData, TVariables = Record<string, never>>(
+    queryOrOperation: string | GraphqlOperation<TData, TVariables>,
+    variables?: TVariables,
   ): Observable<TData> {
+    const query = typeof queryOrOperation === 'string'
+      ? queryOrOperation
+      : queryOrOperation.query;
     const body: GraphqlRequest<TVariables> =
       variables === undefined ? { query } : { query, variables };
 

@@ -7,13 +7,7 @@ import type { AnimeDetail } from '../interfaces/anime-detail';
 import type { AnimeSummary } from '../interfaces/anime-summary';
 import type { GenreFilter } from '../interfaces/genre-filter';
 import type { AnimeSearchPage } from '../interfaces/anime-search-page';
-import type {
-  AnimeDetailQueryResponse,
-  AnimeDetailQueryVariables,
-  LatestAiringQueryResponse,
-  SearchQueryResponse,
-  SearchQueryVariables,
-} from '../interfaces/anilist-graphql';
+import type { LatestAiringQueryVariables, SearchQueryVariables } from '../interfaces/anilist-graphql';
 import {
   ANIME_DETAIL_QUERY,
   LATEST_AIRING_QUERY,
@@ -29,13 +23,13 @@ export class AnilistService {
   private readonly client = inject(GraphqlClientService);
 
   getAiringThisWeek(window: AiringWindow = getCurrentWeekWindow()): Observable<AiringEpisode[]> {
-    const variables = {
+    const variables: LatestAiringQueryVariables = {
       start: Math.floor(window.start.getTime() / 1000),
       end: Math.floor(window.end.getTime() / 1000),
     };
 
     return this.client
-      .execute<LatestAiringQueryResponse, typeof variables>(LATEST_AIRING_QUERY, variables)
+      .execute(LATEST_AIRING_QUERY, variables)
       .pipe(
         map((response) =>
           response.Page.latestAiring
@@ -60,7 +54,7 @@ export class AnilistService {
     };
 
     return this.client
-      .execute<SearchQueryResponse, SearchQueryVariables>(SEARCH_QUERY, variables)
+      .execute(SEARCH_QUERY, variables)
       .pipe(
         map((response) => ({
           items: response.Page.media.map((media) => mapAnimeSummary(media)),
@@ -78,7 +72,7 @@ export class AnilistService {
     };
 
     return this.client
-      .execute<SearchQueryResponse, SearchQueryVariables>(SEARCH_QUERY, variables)
+      .execute(SEARCH_QUERY, variables)
       .pipe(map((response) => response.Page.media.map((media) => mapAnimeSummary(media))));
   }
 
@@ -91,13 +85,13 @@ export class AnilistService {
     };
 
     return this.client
-      .execute<SearchQueryResponse, SearchQueryVariables>(SEARCH_QUERY, variables)
+      .execute(SEARCH_QUERY, variables)
       .pipe(map((response) => response.Page.media.map((media) => mapAnimeSummary(media))));
   }
 
   getAnimeDetailsBySlug(slug: string): Observable<AnimeDetail> {
     return this.client
-      .execute<AnimeDetailQueryResponse, AnimeDetailQueryVariables>(ANIME_DETAIL_QUERY, {
+      .execute(ANIME_DETAIL_QUERY, {
         slug: toSearchTerm(slug),
       })
       .pipe(
