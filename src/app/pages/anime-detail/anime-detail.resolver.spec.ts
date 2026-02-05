@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import type { ActivatedRouteSnapshot } from '@angular/router';
+import type { ActivatedRouteSnapshot, ParamMap } from '@angular/router';
 import { Router } from '@angular/router';
 import { firstValueFrom, isObservable, of, throwError } from 'rxjs';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
@@ -12,12 +12,20 @@ describe('animeDetailResolver', () => {
   let router: { navigate: ReturnType<typeof vi.fn> };
   let anilistService: { getAnimeDetailsBySlug: ReturnType<typeof vi.fn> };
 
+  const createParamMap = (slug: string | null): ParamMap => ({
+    get: vi.fn().mockReturnValue(slug),
+    getAll: vi.fn().mockReturnValue(slug ? [slug] : []),
+    has: vi.fn().mockReturnValue(slug !== null),
+    keys: slug ? ['slug'] : [],
+  });
+
+  const createRouteSnapshot = (slug: string | null): ActivatedRouteSnapshot =>
+    ({
+      paramMap: createParamMap(slug),
+    }) as ActivatedRouteSnapshot;
+
   beforeEach(() => {
-    route = {
-      paramMap: {
-        get: vi.fn().mockReturnValue('placeholder-anime'),
-      },
-    } as unknown as ActivatedRouteSnapshot;
+    route = createRouteSnapshot('placeholder-anime');
 
     router = { navigate: vi.fn() };
     anilistService = { getAnimeDetailsBySlug: vi.fn() };
@@ -53,7 +61,7 @@ describe('animeDetailResolver', () => {
   });
 
   it('redirects to 404 when slug is missing', async () => {
-    route.paramMap.get = vi.fn().mockReturnValue(null);
+    route = createRouteSnapshot(null);
 
     const result = TestBed.runInInjectionContext(() => animeDetailResolver(route, {} as never));
 
