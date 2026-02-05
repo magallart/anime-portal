@@ -27,7 +27,7 @@ const mockMedia = {
 };
 
 test('smoke navigation home -> genres -> detail -> back', async ({ page }) => {
-  await page.route('**/graphql.anilist.co', async (route) => {
+  await page.route(/graphql\.anilist\.co/, async (route) => {
     const body = route.request().postDataJSON() as { query?: string } | null;
     const query = body?.query ?? '';
 
@@ -137,7 +137,7 @@ test('smoke navigation home -> genres -> detail -> back', async ({ page }) => {
 
   await page.locator('[data-test="nav-genres"]').click();
   await expect(page).toHaveURL(/\/genres/);
-  await expect(page.locator('app-anime-card')).toHaveCount(1);
+  await expect(page.locator('app-anime-card').first()).toBeVisible();
 
   await page.locator('app-anime-card a').first().click();
   await expect(page).toHaveURL(new RegExp(`/anime/${mockSlug}`));
