@@ -6,6 +6,15 @@ import type { AnimeDetail } from '../../interfaces/anime-detail';
 import type { AnimeInfoItem } from '../../interfaces/anime-info-item';
 import type { AnimeStat } from '../../interfaces/anime-stat';
 import { AnimeDetailPageViewComponent } from './anime-detail-page-view.component';
+import {
+  formatEpisodesOrUnknown,
+  formatNumberOrDash,
+  formatRatingOrDash,
+  formatStatusOrUnknown,
+  formatStudioName,
+  formatYearOrUnknown,
+  isDuplicateSubtitle,
+} from '../../utils/anime-formatters';
 
 @Component({
   selector: 'app-anime-detail-page',
@@ -77,60 +86,23 @@ export class AnimeDetailPageComponent {
   protected readonly stats = computed<AnimeStat[]>(() => {
     const anime = this.anime();
     return [
-      { value: this.formatRating(anime?.averageScore), icon: 'star' },
-      { value: this.formatNumber(anime?.popularity), icon: 'eye' },
+      { value: formatRatingOrDash(anime?.averageScore), icon: 'star' },
+      { value: formatNumberOrDash(anime?.popularity), icon: 'eye' },
     ];
   });
 
   protected readonly infoItems = computed<AnimeInfoItem[]>(() => {
     const anime = this.anime();
     return [
-      { label: 'Year', value: this.formatYear(anime?.seasonYear), icon: 'calendar' },
-      { label: 'Episodes', value: this.formatEpisodes(anime?.episodes), icon: 'episodes' },
-      { label: 'Status', value: this.formatStatus(anime?.status), icon: 'status' },
-      { label: 'Studio', value: this.formatStudio(anime), icon: 'studio' },
+      { label: 'Year', value: formatYearOrUnknown(anime?.seasonYear), icon: 'calendar' },
+      { label: 'Episodes', value: formatEpisodesOrUnknown(anime?.episodes), icon: 'episodes' },
+      { label: 'Status', value: formatStatusOrUnknown(anime?.status), icon: 'status' },
+      { label: 'Studio', value: formatStudioName(anime), icon: 'studio' },
     ];
   });
 
-  private formatRating(score: number | undefined): string {
-    if (!score || Number.isNaN(score)) {
-      return '-';
-    }
-    return (score / 10).toFixed(1);
-  }
-
-  private formatNumber(value: number | undefined): string {
-    if (!value || Number.isNaN(value)) {
-      return '-';
-    }
-    return new Intl.NumberFormat('en-US').format(value);
-  }
-
-  private formatYear(value: number | undefined): string {
-    return value ? String(value) : 'Unknown';
-  }
-
-  private formatEpisodes(value: number | undefined): string {
-    return value ? String(value) : 'Unknown';
-  }
-
-  private formatStudio(anime: AnimeDetail | undefined): string {
-    const studio = anime?.studios?.[0]?.name;
-    return studio ? studio : 'Unknown';
-  }
-
-  private formatStatus(value: string | undefined): string {
-    if (!value) {
-      return 'Unknown';
-    }
-    return value
-      .toLowerCase()
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, (match) => match.toUpperCase());
-  }
-
   private isDuplicateSubtitle(value: string): boolean {
     const title = this.title().trim().toLowerCase();
-    return title.length > 0 && title === value.trim().toLowerCase();
+    return isDuplicateSubtitle(title, value);
   }
 }

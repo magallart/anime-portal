@@ -8,10 +8,14 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
-import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
-import type { AnimeTitle } from '../../interfaces/anime-title';
 import { HomePageViewComponent } from './home-page-view.component';
+import {
+  formatRating,
+  resolveRomajiSubtitle,
+  resolveSeasonLabel,
+  resolveSummaryTitle,
+} from '../../utils/anime-formatters';
 
 @Component({
   selector: 'app-home-page',
@@ -76,8 +80,8 @@ export class HomePageComponent {
     episode: AiringEpisode,
     options: { compactTags?: boolean; hideTags?: boolean } = {},
   ): AnimeCardData {
-    const seasonLabel = this.resolveSeasonLabel(episode.startDate);
-    const rating = this.formatRating(episode.averageScore);
+    const seasonLabel = resolveSeasonLabel(episode.startDate);
+    const rating = formatRating(episode.averageScore);
     return {
       id: episode.animeId,
       slug: episode.animeSlug,
@@ -92,39 +96,10 @@ export class HomePageComponent {
     };
   }
 
-  private resolveSeasonLabel(date: AnimeFuzzyDate | undefined): string {
-    if (!date?.year || !date.month) {
-      return 'Season TBD';
-    }
-
-    const month = date.month;
-    const year = date.year;
-    const season =
-      month <= 3
-        ? 'Winter'
-        : month <= 6
-          ? 'Spring'
-          : month <= 9
-            ? 'Summer'
-            : month <= 12
-              ? 'Fall'
-              : 'Winter';
-
-    return `${season} ${year}`;
-  }
-
-  private formatRating(score: number | undefined): string | undefined {
-    if (!score || Number.isNaN(score)) {
-      return undefined;
-    }
-
-    return (score / 10).toFixed(1);
-  }
-
   private mapSummaryToCard(anime: AnimeSummary): AnimeCardData {
-    const title = this.resolveSummaryTitle(anime.title);
-    const subtitle = this.resolveRomajiSubtitle(anime.title);
-    const rating = this.formatRating(anime.averageScore);
+    const title = resolveSummaryTitle(anime.title);
+    const subtitle = resolveRomajiSubtitle(anime.title);
+    const rating = formatRating(anime.averageScore);
     return {
       id: anime.id,
       slug: anime.slug,
@@ -135,15 +110,6 @@ export class HomePageComponent {
       badgeIcon: rating ? ANIME_CARD_BADGE_ICON.STAR : undefined,
       tags: anime.genres?.slice(0, 2) ?? [],
     };
-  }
-
-  private resolveSummaryTitle(title: AnimeTitle): string {
-    return title.english ?? title.romaji ?? 'Untitled';
-  }
-
-  private resolveRomajiSubtitle(title: AnimeTitle): string | undefined {
-    const romaji = title.romaji?.trim();
-    return romaji ? romaji : undefined;
   }
 
   private pickRandomCards(items: readonly AnimeSummary[], count: number): readonly AnimeSummary[] {

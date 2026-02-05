@@ -13,10 +13,14 @@ import type { AnimeSearchPage } from '../../interfaces/anime-search-page';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import type { AnimeStatus } from '../../interfaces/anime-status';
 import type { GenreFilter } from '../../interfaces/genre-filter';
-import type { AnimeTitle } from '../../interfaces/anime-title';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
 import { GenresPageViewComponent } from './genres-page-view.component';
+import {
+  formatRating,
+  resolveRomajiSubtitle,
+  resolveSummaryTitle,
+} from '../../utils/anime-formatters';
 
 @Component({
   selector: 'app-genres-page',
@@ -177,9 +181,9 @@ export class GenresPageComponent {
   }
 
   private mapSummaryToCard(anime: AnimeSummary, activeGenre?: string): AnimeCardData {
-    const title = this.resolveSummaryTitle(anime.title);
-    const subtitle = this.resolveRomajiSubtitle(anime.title);
-    const rating = this.formatRating(anime.averageScore);
+    const title = resolveSummaryTitle(anime.title);
+    const subtitle = resolveRomajiSubtitle(anime.title);
+    const rating = formatRating(anime.averageScore);
     const tags = this.resolveCardTags(anime.genres ?? [], activeGenre);
     return {
       id: anime.id,
@@ -217,22 +221,5 @@ export class GenresPageComponent {
 
     const remaining = genres.filter((genre) => genre.toLowerCase() !== normalizedActive);
     return [activeGenre, ...remaining].slice(0, 2);
-  }
-
-  private resolveSummaryTitle(title: AnimeTitle): string {
-    return title.english ?? title.romaji ?? 'Untitled';
-  }
-
-  private resolveRomajiSubtitle(title: AnimeTitle): string | undefined {
-    const romaji = title.romaji?.trim();
-    return romaji ? romaji : undefined;
-  }
-
-  private formatRating(score: number | undefined): string | undefined {
-    if (!score || Number.isNaN(score)) {
-      return undefined;
-    }
-
-    return (score / 10).toFixed(1);
   }
 }
