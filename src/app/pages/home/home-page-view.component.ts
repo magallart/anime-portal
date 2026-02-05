@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, type Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
+import type { IconComponent } from '../../interfaces/icon-component';
 
 @Component({
   selector: 'app-home-page-view',
@@ -42,8 +43,8 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
   `,
 })
 export class HomePageViewComponent {
-  readonly mostViewedIcon = input.required<Type<unknown>>();
-  readonly latestReleaseIcon = input.required<Type<unknown>>();
+  readonly mostViewedIcon = input.required<IconComponent>();
+  readonly latestReleaseIcon = input.required<IconComponent>();
   readonly mostViewedCards = input<readonly AnimeCardData[]>([]);
   readonly latestReleaseCards = input<readonly AnimeCardData[]>([]);
   readonly loading = input(false);

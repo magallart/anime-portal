@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, type Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass, NgComponentOutlet } from '@angular/common';
 import { AnimeCardComponent } from '../anime-card/anime-card.component';
 import { AppErrorMessageComponent } from '../app-error-message/app-error-message.component';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
+import type { IconComponent } from '../../interfaces/icon-component';
 
 @Component({
   selector: 'app-anime-section',
@@ -65,7 +66,7 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
 export class AnimeSectionComponent {
   readonly title = input.required<string>();
   readonly subtitle = input<string | null>(null);
-  readonly icon = input.required<Type<unknown>>();
+  readonly icon = input.required<IconComponent>();
   readonly items = input<readonly AnimeCardData[]>([]);
   readonly loading = input(false);
   readonly error = input<string | null>(null);
