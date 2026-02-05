@@ -1,6 +1,7 @@
 import type { AiringWindow } from '../../interfaces/airing-window';
 import { ANIME_FORMAT, type AnimeFormat } from '../../interfaces/anime-format';
 import { ANIME_STATUS, type AnimeStatus } from '../../interfaces/anime-status';
+import type { AnimeTitle } from '../../interfaces/anime-title';
 
 const ANIME_FORMAT_VALUES: readonly AnimeFormat[] = Object.values(ANIME_FORMAT);
 const ANIME_STATUS_VALUES: readonly AnimeStatus[] = Object.values(ANIME_STATUS);
@@ -34,7 +35,7 @@ export function sanitizeDescription(value?: string | null): string | undefined {
 export function resolveSlug(media: {
   id: number;
   siteUrl?: string | null;
-  title?: { romaji?: string };
+  title?: AnimeTitle;
 }): string {
   const slugFromUrl = parseSlugFromSiteUrl(media.siteUrl);
   if (slugFromUrl) {
@@ -59,7 +60,7 @@ export function toSearchTerm(slug: string): string {
   return slug.replace(/-/g, ' ').trim();
 }
 
-export function resolveTitle(title: { english?: string; romaji?: string } | undefined): string {
+export function resolveTitle(title: AnimeTitle | undefined): string {
   return title?.english ?? title?.romaji ?? 'Untitled';
 }
 
