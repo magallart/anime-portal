@@ -2,13 +2,19 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from 
 import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
 import { AnimeCardComponent } from '../../components/anime-card/anime-card.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { AppErrorMessageComponent } from '../../components/app-error-message/app-error-message.component';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
 
 @Component({
   selector: 'app-genres-page-view',
   standalone: true,
-  imports: [GenreFiltersComponent, AnimeCardComponent, PaginationComponent],
+  imports: [
+    GenreFiltersComponent,
+    AnimeCardComponent,
+    PaginationComponent,
+    AppErrorMessageComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="mx-auto max-w-6xl px-gutter pb-section pt-6">
@@ -32,13 +38,7 @@ import type { GenreFilterSelections } from '../../interfaces/genre-filter-select
             }
           </div>
         } @else if (error()) {
-          <div
-            class="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive-foreground"
-            role="status"
-            aria-live="polite"
-          >
-            {{ error() }}
-          </div>
+          <app-error-message [message]="error() ?? ''" />
         } @else if (!visibleCards().length) {
           <div
             class="flex flex-col items-center gap-4 p-6 text-center text-sm text-muted-foreground"

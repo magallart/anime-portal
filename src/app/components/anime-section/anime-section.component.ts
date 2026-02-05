@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, type Type } from '@angular/core';
 import { NgClass, NgComponentOutlet } from '@angular/common';
 import { AnimeCardComponent } from '../anime-card/anime-card.component';
+import { AppErrorMessageComponent } from '../app-error-message/app-error-message.component';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
 
 @Component({
   selector: 'app-anime-section',
   standalone: true,
-  imports: [NgClass, NgComponentOutlet, AnimeCardComponent],
+  imports: [NgClass, NgComponentOutlet, AnimeCardComponent, AppErrorMessageComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="space-y-6">
@@ -42,13 +43,7 @@ import type { AnimeCardData } from '../../interfaces/anime-card-data';
           }
         </div>
       } @else if (error()) {
-        <div
-          class="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive-foreground"
-          role="status"
-          aria-live="polite"
-        >
-          {{ error() }}
-        </div>
+        <app-error-message [message]="error() ?? ''" />
       } @else if (!items().length) {
         <div
           class="rounded-xl border border-border bg-card/60 p-6 text-sm text-muted-foreground"
