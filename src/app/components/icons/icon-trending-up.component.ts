@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <svg
-      class="h-4 w-4"
+      class="h-9 w-9"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
