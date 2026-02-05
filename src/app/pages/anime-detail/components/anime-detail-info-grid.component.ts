@@ -16,7 +16,7 @@ import type { AnimeInfoItem } from '../../../interfaces/anime-info-item';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-subtle">
+    <div class="mt-6 rounded-2xl border border-border bg-background/70 p-5 shadow-subtle">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         @for (item of infoItems(); track item.label) {
           <div class="space-y-2">
