@@ -3,53 +3,30 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { IconClockComponent } from '../../components/icons/icon-clock.component';
 import { IconTrendingUpComponent } from '../../components/icons/icon-trending-up.component';
-import { AnimeSectionComponent } from '../../components/anime-section/anime-section.component';
 import { ANIME_CARD_BADGE_ICON } from '../../constants/anime-card-badge';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
-import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
-import { CommunityFooterComponent } from '../../components/community-footer/community-footer.component';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
 import type { AiringEpisode } from '../../interfaces/airing-episode';
 import type { AnimeFuzzyDate } from '../../interfaces/anime-fuzzy-date';
 import type { AnimeSummary } from '../../interfaces/anime-summary';
 import type { AnimeTitle } from '../../interfaces/anime-title';
+import { HomePageViewComponent } from './home-page-view.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [AnimeSectionComponent, HeroSectionComponent, CommunityFooterComponent],
+  imports: [HomePageViewComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <app-hero-section />
-
-    <section>
-      <div class="w-full border-y border-border bg-accent/70">
-        <div class="mx-auto max-w-6xl px-gutter py-section">
-          <app-anime-section
-            title="Highest-rated anime"
-            [icon]="mostViewedIcon"
-            [items]="mostViewedCards()"
-            [loading]="loading()"
-            [error]="error()"
-            gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          />
-        </div>
-      </div>
-
-      <div class="mx-auto max-w-6xl px-gutter py-section">
-        <app-anime-section
-          title="Latest releases"
-          [icon]="latestReleaseIcon"
-          [items]="latestReleaseCards()"
-          [loading]="loading()"
-          [error]="error()"
-          gridClass="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-        />
-      </div>
-    </section>
-
-    <app-community-footer />
+    <app-home-page-view
+      [mostViewedIcon]="mostViewedIcon"
+      [latestReleaseIcon]="latestReleaseIcon"
+      [mostViewedCards]="mostViewedCards()"
+      [latestReleaseCards]="latestReleaseCards()"
+      [loading]="loading()"
+      [error]="error()"
+    />
   `,
 })
 export class HomePageComponent {
