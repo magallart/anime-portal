@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { NgClass, NgComponentOutlet } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
 import { AnimeCardComponent } from '../anime-card/anime-card.component';
 import { AppErrorMessageComponent } from '../app-error-message/app-error-message.component';
 import type { AnimeCardData } from '../../interfaces/anime-card-data';
@@ -8,7 +8,7 @@ import type { IconComponent } from '../../interfaces/icon-component';
 @Component({
   selector: 'app-anime-section',
   standalone: true,
-  imports: [NgClass, NgComponentOutlet, AnimeCardComponent, AppErrorMessageComponent],
+  imports: [NgComponentOutlet, AnimeCardComponent, AppErrorMessageComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="space-y-6">
@@ -30,7 +30,7 @@ import type { IconComponent } from '../../interfaces/icon-component';
       </header>
 
       @if (loading()) {
-        <div class="grid gap-6" [ngClass]="gridClass()">
+        <div class="grid gap-6" [class]="gridClass()">
           @for (slot of skeletonSlots; track slot) {
             <div class="rounded-xl border border-border bg-card/60 p-4 shadow-subtle animate-pulse">
               <div class="aspect-[2/3] w-full rounded-xl bg-muted/60"></div>
@@ -54,7 +54,7 @@ import type { IconComponent } from '../../interfaces/icon-component';
           {{ emptyMessage() }}
         </div>
       } @else {
-        <div class="grid gap-6" [ngClass]="gridClass()">
+        <div class="grid gap-6" [class]="gridClass()">
           @for (item of items(); track item.id) {
             <app-anime-card [card]="item" />
           }
