@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
-type ButtonVariant = 'primary' | 'outline' | 'ghost' | 'ghost-active';
-type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-type IconPosition = 'left' | 'right';
+import type { ButtonSize } from '../../constants/button-size';
+import type { ButtonVariant } from '../../constants/button-variant';
+import type { IconPosition } from '../../constants/icon-position';
 
 const BASE_CLASSES =
   'inline-flex items-center justify-center rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60';

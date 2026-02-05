@@ -1,24 +1,9 @@
 import type { AiringWindow } from '../../interfaces/airing-window';
-import type { AnimeFormat } from '../../interfaces/anime-format';
-import type { AnimeStatus } from '../../interfaces/anime-status';
+import { ANIME_FORMAT, type AnimeFormat } from '../../interfaces/anime-format';
+import { ANIME_STATUS, type AnimeStatus } from '../../interfaces/anime-status';
 
-const ANIME_FORMAT_VALUES: readonly AnimeFormat[] = [
-  'TV',
-  'TV_SHORT',
-  'MOVIE',
-  'SPECIAL',
-  'OVA',
-  'ONA',
-  'MUSIC',
-] as const;
-
-const ANIME_STATUS_VALUES: readonly AnimeStatus[] = [
-  'FINISHED',
-  'RELEASING',
-  'NOT_YET_RELEASED',
-  'CANCELLED',
-  'HIATUS',
-] as const;
+const ANIME_FORMAT_VALUES: readonly AnimeFormat[] = Object.values(ANIME_FORMAT);
+const ANIME_STATUS_VALUES: readonly AnimeStatus[] = Object.values(ANIME_STATUS);
 
 export function castToAnimeFormat(value?: string | null): AnimeFormat | undefined {
   if (!value) {
