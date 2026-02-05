@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
 import { AppToastService } from '../../services/app-toast.service';
 import { IconAlertTriangleComponent } from '../icons/icon-alert-triangle.component';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [NgIf, NgFor, IconAlertTriangleComponent],
+  imports: [IconAlertTriangleComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (hasToasts()) {
