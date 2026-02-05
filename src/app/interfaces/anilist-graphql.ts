@@ -1,6 +1,10 @@
 import type { AnimeCoverImage } from './anime-cover-image';
 import type { AnimeFuzzyDate } from './anime-fuzzy-date';
+import type { AnimeSearchPageInfo } from './anime-search-page';
+import type { AnimeStudio } from './anime-studio';
+import type { AnimeTag } from './anime-tag';
 import type { AnimeTitle } from './anime-title';
+import type { StreamingEpisode } from './streaming-episode';
 
 export interface LatestAiringQueryResponse {
   readonly Page: LatestAiringPage;
@@ -38,13 +42,7 @@ export interface SearchQueryVariables {
   readonly isAdult?: boolean;
 }
 
-export interface SearchQueryPageInfo {
-  readonly total: number;
-  readonly perPage: number;
-  readonly currentPage: number;
-  readonly lastPage: number;
-  readonly hasNextPage: boolean;
-}
+export type SearchQueryPageInfo = AnimeSearchPageInfo;
 
 export interface AnimeSummaryNode {
   readonly id: number;
@@ -89,25 +87,19 @@ export interface AnimeStudioConnection {
   readonly nodes?: readonly AnimeStudioNode[];
 }
 
-export interface AnimeStudioNode {
-  readonly id: number;
-  readonly name: string;
+export type AnimeStudioNode = Omit<AnimeStudio, 'isAnimationStudio'> & {
   readonly isAnimationStudio?: boolean | null;
-}
+};
 
-export interface AnimeTagNode {
-  readonly id: number;
-  readonly name: string;
+export type AnimeTagNode = Omit<AnimeTag, 'description' | 'rank' | 'isAdult'> & {
   readonly description?: string | null;
   readonly rank?: number | null;
   readonly isAdult?: boolean | null;
-}
+};
 
-export interface StreamingEpisodeNode {
-  readonly title: string;
-  readonly url: string;
+export type StreamingEpisodeNode = Omit<StreamingEpisode, 'thumbnail'> & {
   readonly thumbnail?: string | null;
-}
+};
 
 export interface AnimeDetailQueryVariables {
   readonly slug: string;
