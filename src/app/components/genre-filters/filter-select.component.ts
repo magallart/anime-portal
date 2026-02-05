@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, type MatSelectChange } from '@angular/material/select';
+import { PANEL_CLASSES } from '../../constants/panel-classes';
 import { FILTER_ALL } from '../../constants/filter-selection';
 import type { SelectOption } from '../../constants/select-option';
 
@@ -36,7 +37,7 @@ export class FilterSelectComponent {
   readonly label = input.required<string>();
   readonly options = input.required<readonly SelectOption<string | number>[]>();
   readonly value = input<string | number>(FILTER_ALL);
-  readonly panelClass = input<string>('genre-filters-panel');
+  readonly panelClass = input<string>(PANEL_CLASSES.genreFilters);
   readonly includeAll = input(true);
   readonly allLabel = input('All');
   readonly allValue = input<string | number>(FILTER_ALL);
