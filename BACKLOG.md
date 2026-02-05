@@ -201,7 +201,7 @@
 **Checklist:**
 
 - [✔️] Audit components for responsiveness (header, cards, filters, detail layout) and adjust Tailwind classes as needed.
-- [ ] Add shared error boundary or toast for API failures.
+- [✔️] Add shared error boundary or toast for API failures.
 - [ ] Write Vitest unit tests and Playwright e2e smoke tests covering navigation Home -> Genres -> Detail and back.
 - [ ] Update README with run instructions plus API usage notes.
 - [ ] Run `pnpm run lint`, `pnpm test`, and `pnpm test:e2e` ensuring green builds.
