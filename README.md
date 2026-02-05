@@ -1,112 +1,42 @@
-# 🚀 Angular AI Project Template
+# Anime Portal
 
-A modern **Angular 21** starter template supercharged with **AI-powered agents** to help you design, scaffold, test, and evolve applications faster — without losing architectural consistency.
+![Anime Portal Logo](public/images/logo.png)
 
-This repository is not just a boilerplate. It’s a **thinking partner** for Angular projects:
+Proyecto personal para aprender y practicar Angular 21 con un enfoque en diseño consistente, componentes reutilizables y buenas prácticas.
 
-- 🤖 AI agents that understand your codebase and design system.
-- 🎨 A scalable design system with semantic tokens.
-- 🧱 Opinionated structure to reduce decision fatigue.
-- ⚡ Ready for real-world, long-lived applications.
+**✨ Sobre la app**
+Anime Portal es una aplicación para explorar anime: listas destacadas, géneros y detalles de cada título, con una experiencia visual cuidada y navegación rápida.
 
-If you build Angular apps regularly and want **speed without chaos**, this template is for you.
+**🛰️ Datos y API**
+La app consume la API oficial de AniList:
 
----
+```
+https://anilist.co
+```
 
-## ✨ What’s inside
-
-- **Angular 21** (generated with Angular CLI 21.1.0)
-- **AI Agents** for:
-  - Design consistency
-  - Tailwind usage rules
-  - Workflow and process enforcement
-
-- **Semantic design system** (tokens over raw values)
-- **Vitest** for unit testing
-- Clean, extensible project structure
-
----
-
-## 🧑‍💻 Getting started
-
-### 📦 Install dependencies
+**🚀 Arranque local**
+Instala dependencias:
 
 ```bash
 pnpm install
 ```
 
-### ▶️ Run the app locally
+Inicia la app:
 
 ```bash
 pnpm start
 ```
 
-Then open:
-
-```
-http://localhost:4200/
-```
-
-The app will automatically reload on file changes.
-
----
-
-## 🧩 Common commands
-
-### Build for production
-
-```bash
-pnpm build
-```
-
-Artifacts will be generated in the `dist/` folder, optimized for performance.
-
-### Run unit tests
+**🧪 Tests**
+Ejecuta los tests unitarios:
 
 ```bash
 pnpm test
 ```
 
-Powered by **Vitest**.
-
-### Run end-to-end tests
+**📊 Cobertura**
+Genera el reporte de cobertura:
 
 ```bash
-pnpm test:e2e
+pnpm test:coverage
 ```
-
----
-
-## 🎨 Adapting the design template to a New App
-
-🔁 **When to Update Each File:**
-
-| Change                            | File to Update                  |
-| --------------------------------- | ------------------------------- |
-| New brand / redesign              | DESIGN.md + styles.css          |
-| New semantic color (e.g. warning) | tailwind.config.js + styles.css |
-| New UI pattern                    | DESIGN.md                       |
-| Tailwind usage rules              | agents/tailwind.md              |
-| Process or workflow rules         | AGENTS.md                       |
-
-### 📒 Quick reference
-
-- **DESIGN.md** → What this app looks like
-- **styles.css** → Real values (colors, fonts)
-- **tailwind.config.js** → Semantic tokens
-- **Components** → Use tokens, never raw values
-
-This separation allows AI agents (and humans) to reason clearly about design decisions.
-
----
-
-## 🙏🏻 Thanks
-
-Thanks to the authors and maintainers who shared the knowledge and resources that informed the agent setup in this template:
-
-- [https://hassantayyab.com/blogs/agent-skills-angular-ai-coding](https://hassantayyab.com/blogs/agent-skills-angular-ai-coding)
-- [https://github.com/Gentleman-Programming/Gentleman-Skills](https://github.com/Gentleman-Programming/Gentleman-Skills)
-
----
-
-Happy building ✨
