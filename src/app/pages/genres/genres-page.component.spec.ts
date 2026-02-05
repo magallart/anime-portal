@@ -250,7 +250,7 @@ describe('GenresPageComponent', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('Genre gremlins ate the results.');
-    expect(compiled.textContent).toContain('Tweak the filters and we’ll try again.');
+    expect(compiled.textContent).toContain("Tweak the filters and we'll try again.");
     expect(compiled.querySelector('img[src="/images/no-results.png"]')).toBeTruthy();
   });
 
