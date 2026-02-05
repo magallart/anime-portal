@@ -26,9 +26,18 @@ export function sanitizeDescription(value?: string | null): string | undefined {
   if (!value) {
     return undefined;
   }
-  return value
+
+  const withLineBreaks = value
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<p[^>]*>/gi, '');
+
+  return withLineBreaks
     .replace(/<[^>]+>/g, '')
-    .replace(/\s+/g, ' ')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/ *\n */g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 

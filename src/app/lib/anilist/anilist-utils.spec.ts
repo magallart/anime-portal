@@ -19,7 +19,7 @@ describe('anilist-utils', () => {
   });
 
   it('sanitizes descriptions and resolves titles', () => {
-    expect(sanitizeDescription('<b>Demo</b>\n\nLine')).toBe('Demo Line');
+    expect(sanitizeDescription('<b>Demo</b>\n\nLine')).toBe('Demo\n\nLine');
     expect(resolveTitle({ english: 'English' })).toBe('English');
   });
 
