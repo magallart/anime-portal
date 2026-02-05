@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, type UrlTree } from '@angular/router';
 import type { ButtonSize } from '../../constants/button-size';
 import type { ButtonVariant } from '../../constants/button-variant';
 import type { IconPosition } from '../../constants/icon-position';
@@ -84,7 +84,7 @@ export class AppButtonComponent {
   readonly size = input<ButtonSize>('md');
   readonly iconPosition = input<IconPosition>('left');
   readonly href = input<string | null>(null);
-  readonly link = input<readonly unknown[] | string | null>(null);
+  readonly link = input<string | readonly (string | number)[] | UrlTree | null>(null);
   readonly type = input<'button' | 'submit' | 'reset'>('button');
   readonly disabled = input(false);
   readonly external = input(false);
