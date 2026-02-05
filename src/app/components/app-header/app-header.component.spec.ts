@@ -36,6 +36,7 @@ describe('AppHeaderComponent', () => {
 
     expect(compiled.querySelector('header')).toBeTruthy();
     expect(compiled.querySelector('img[alt="Anime Portal"]')).toBeTruthy();
+    expect(compiled.textContent).toContain('Anime Portal');
 
     const navLinks = compiled.querySelectorAll('nav a');
     expect(navLinks.length).toBe(2);

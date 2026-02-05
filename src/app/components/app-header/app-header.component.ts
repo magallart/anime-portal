@@ -27,6 +27,11 @@ import type { NavLink } from '../../interfaces/nav-link';
             loading="eager"
             decoding="async"
           />
+          <span
+            class="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl supports-[background-clip:text]:bg-gradient-to-r supports-[background-clip:text]:from-primary-bright supports-[background-clip:text]:via-primary supports-[background-clip:text]:to-primary supports-[background-clip:text]:bg-clip-text supports-[background-clip:text]:text-transparent"
+          >
+            Anime Portal
+          </span>
         </a>
 
         <nav
@@ -55,7 +60,7 @@ import type { NavLink } from '../../interfaces/nav-link';
 })
 export class AppHeaderComponent {
   protected readonly navLinks: NavLink[] = [
-    { label: 'Home', path: '/', testId: 'nav-home' },
-    { label: 'Genres', path: '/genres', testId: 'nav-genres' },
+    { label: 'HOME', path: '/', testId: 'nav-home' },
+    { label: 'GENRES', path: '/genres', testId: 'nav-genres' },
   ];
 }
