@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { GenreFiltersComponent } from '../../components/genre-filters/genre-filters.component';
 import { AnimeCardComponent } from '../../components/anime-card/anime-card.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
@@ -89,6 +89,6 @@ export class GenresPageViewComponent {
   readonly currentPage = input(1);
   readonly totalPages = input(1);
 
-  @Output() readonly filtersApplied = new EventEmitter<GenreFilterSelections>();
-  @Output() readonly pageChange = new EventEmitter<number>();
+  readonly filtersApplied = output<GenreFilterSelections>();
+  readonly pageChange = output<number>();
 }

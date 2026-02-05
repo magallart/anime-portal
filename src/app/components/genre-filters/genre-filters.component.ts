@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, output, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, type MatSelectChange } from '@angular/material/select';
 
@@ -140,7 +133,7 @@ import { IconWashDrycleanOffComponent } from '../icons/icon-wash-dryclean-off.co
   `,
 })
 export class GenreFiltersComponent {
-  @Output() readonly filtersApplied = new EventEmitter<GenreFilterSelections>();
+  readonly filtersApplied = output<GenreFilterSelections>();
 
   readonly genreOptions = ANILIST_GENRE_OPTIONS;
   readonly yearOptions = ANILIST_YEAR_OPTIONS;
