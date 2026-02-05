@@ -10,6 +10,11 @@
 - Added coverage tooling (`test:coverage`, `@vitest/coverage-v8`) and verified coverage run.
 - Added Vitest unit tests for helper/mappers and Playwright smoke coverage for 404.
 - Ran `pnpm run lint`, `pnpm test`, and `pnpm test:e2e`.
+- Refactor summary: split pages into container/view pairs, extracted AniList logic to queries/utils/mappers, and centralized shared UI + formatters.
+- Documented unit, e2e, and coverage test commands in README.
+- Updated README layout/content, including logo usage and emoji headings.
+- Added a visible tech stack section (Angular, TypeScript, HTML/CSS, Tailwind, Vitest, Playwright, AniList, Git, AI-assisted dev).
+
 
 ## 2026-02-04
 
