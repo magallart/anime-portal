@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom, isObservable, of, throwError } from 'rxjs';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { animeDetailResolver } from './anime-detail.resolver';
+import { APP_ROUTES } from '../../constants/routes';
 import { AnilistService } from '../../services/anilist.service';
 import type { AnimeDetail } from '../../interfaces/anime-detail';
 
@@ -68,7 +69,7 @@ describe('animeDetailResolver', () => {
     const result$ = isObservable(result) ? result : of(result);
     const value = await firstValueFrom(result$, { defaultValue: undefined });
     expect(value).toBeUndefined();
-    expect(router.navigate).toHaveBeenCalledWith(['/404']);
+    expect(router.navigate).toHaveBeenCalledWith([APP_ROUTES.notFound]);
     expect(anilistService.getAnimeDetailsBySlug).not.toHaveBeenCalled();
   });
 
@@ -82,7 +83,7 @@ describe('animeDetailResolver', () => {
     const result$ = isObservable(result) ? result : of(result);
     const value = await firstValueFrom(result$, { defaultValue: undefined });
     expect(value).toBeUndefined();
-    expect(router.navigate).toHaveBeenCalledWith(['/404']);
+    expect(router.navigate).toHaveBeenCalledWith([APP_ROUTES.notFound]);
     expect(consoleSpy).toHaveBeenCalledWith('Anime detail resolver failed.', error);
     consoleSpy.mockRestore();
   });

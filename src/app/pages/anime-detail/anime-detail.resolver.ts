@@ -4,6 +4,7 @@ import { catchError, EMPTY } from 'rxjs';
 import { AnilistService } from '../../services/anilist.service';
 import type { AnimeDetail } from '../../interfaces/anime-detail';
 import { AppToastService } from '../../services/app-toast.service';
+import { APP_ROUTES } from '../../constants/routes';
 
 export const animeDetailResolver: ResolveFn<AnimeDetail> = (route) => {
   const slug = route.paramMap.get('slug');
@@ -12,7 +13,7 @@ export const animeDetailResolver: ResolveFn<AnimeDetail> = (route) => {
   const toastService = inject(AppToastService);
 
   if (!slug) {
-    void router.navigate(['/404']);
+    void router.navigate([APP_ROUTES.notFound]);
     return EMPTY;
   }
 
@@ -20,7 +21,7 @@ export const animeDetailResolver: ResolveFn<AnimeDetail> = (route) => {
     catchError((error) => {
       console.error('Anime detail resolver failed.', error);
       toastService.showError('Unable to load anime details right now.');
-      void router.navigate(['/404']);
+      void router.navigate([APP_ROUTES.notFound]);
       return EMPTY;
     }),
   );
