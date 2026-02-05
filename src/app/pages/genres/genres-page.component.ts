@@ -2,11 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DOCUMENT } from '@angular/common';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
-import type { AnimeCardData } from '../../interfaces/anime-card-data';
 import type { GenreFilterSelections } from '../../interfaces/genre-filter-selections';
 import { DEFAULT_FILTER_SELECTIONS } from '../../constants/genre-filter-defaults';
 import type { AnimeSearchPage } from '../../interfaces/anime-search-page';
-import type { AnimeSummary } from '../../interfaces/anime-summary';
 import { AnilistService } from '../../services/anilist.service';
 import { AppToastService } from '../../services/app-toast.service';
 import { GenresPageViewComponent } from './genres-page-view.component';
@@ -26,7 +24,7 @@ import {
     <app-genres-page-view
       [loading]="loading()"
       [error]="error()"
-      [visibleCards]="visibleCards()"
+      [visibleCards]="cards()"
       [skeletonSlots]="skeletonSlots"
       [currentPage]="currentPage()"
       [totalPages]="totalPages()"
@@ -89,9 +87,8 @@ export class GenresPageComponent {
   );
   protected readonly cards = computed(() => {
     const activeGenre = resolveActiveGenre(this.appliedFilters().genre);
-    return this.filteredResults().map((anime) => this.mapSummaryToCard(anime, activeGenre));
+    return this.filteredResults().map((anime) => mapSummaryToCard(anime, { activeGenre }));
   });
-  protected readonly visibleCards = computed(() => this.cards());
   protected readonly pageInfo = computed(() => this.searchResults().pageInfo);
   protected readonly totalPages = computed(() => Math.max(this.pageInfo().lastPage, 1));
   protected readonly skeletonSlots = Array.from({ length: this.pageSize }, (_, index) => index);
@@ -124,9 +121,5 @@ export class GenresPageComponent {
       items: [],
       pageInfo: this.initialPageInfo,
     };
-  }
-
-  private mapSummaryToCard(anime: AnimeSummary, activeGenre?: string): AnimeCardData {
-    return mapSummaryToCard(anime, { activeGenre });
   }
 }
