@@ -149,3 +149,10 @@ test('smoke navigation home -> genres -> detail -> back', async ({ page }) => {
   await page.locator('[data-test="nav-home"]').click();
   await expect(page).toHaveURL('/');
 });
+
+test('not found page shows the illustration and guidance', async ({ page }) => {
+  await page.goto('/missing-route');
+  await expect(page.getByRole('heading', { name: /scene hasn't aired/i })).toBeVisible();
+  await expect(page.locator('img[alt="Lost anime explorer illustration"]')).toBeVisible();
+  await expect(page.locator('[data-test^="not-found"]')).toHaveCount(0);
+});

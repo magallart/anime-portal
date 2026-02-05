@@ -13,7 +13,9 @@ describe('NotFoundPageComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent).toContain("couldn't find");
-    expect(compiled.querySelectorAll('[data-test^="not-found"]').length).toBe(2);
+    expect(compiled.querySelector('h1')?.textContent).toContain('scene');
+    expect(compiled.textContent).not.toContain('Error 404');
+    expect(compiled.querySelector('img')).toBeTruthy();
+    expect(compiled.querySelectorAll('[data-test^="not-found"]').length).toBe(0);
   });
 });
