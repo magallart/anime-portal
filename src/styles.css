@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 @tailwind base;
 @tailwind components;
@@ -197,6 +196,7 @@ body {
 
   .genre-filters .mat-mdc-text-field-wrapper {
     @apply rounded-xl bg-card/70 transition-colors;
+    padding-inline: 1rem;
   }
 
   .genre-filters .mdc-notched-outline__leading,

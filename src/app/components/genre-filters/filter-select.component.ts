@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, type MatSelectChange } from '@angular/material/select';
+import './material-theme.css';
 import { PANEL_CLASSES } from '../../constants/panel-classes';
 import { FILTER_ALL } from '../../constants/filter-selection';
 import type { SelectOption } from '../../constants/select-option';
