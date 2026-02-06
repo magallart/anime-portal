@@ -2,73 +2,109 @@
   <img src="public/images/logo2.png" alt="Anime Portal Logo" width="300" />
 </p>
 
-## ✨ About the app
+<p align="center">
+  Discover anime through a clean, fast, and modern Angular-powered interface.
+</p>
 
-Anime Portal is a focused side project built to explore and practice Angular 21. It lets you discover anime through curated sections, browse by genre, and open detailed views for each title. The UI emphasizes clear hierarchy, fast navigation, and a consistent visual system.
-The goal is to learn by building a real product surface: list views, detail pages, and reusable UI components that stay consistent as the app grows.
+<p align="center">
+  🌐 <a href="https://anime-portal-cyan.vercel.app/">Live Demo</a>
+</p>
+
+## ✨ Features
+
+- 🔍 Discover anime through curated sections.
+- 🎭 Browse anime by genre.
+- 📄 Detailed anime pages with structured metadata.
+- ⚡ Fast navigation and reusable Angular components.
+- 🎨 Consistent design system using Tailwind CSS.
+- 🧪 Unit and end-to-end testing setup.
+- 📱 Responsive layout focused on clarity and usability.
+
+## 🖼️ Preview
+
+A quick visual overview of the main sections of the application.
+
+<p align="center">
+  <a href="public/screenshots/anime-portal-home.jpg">
+    <img
+      src="public/screenshots/anime-portal-home.jpg"
+      width="32%"
+      alt="Anime Portal – Home page"
+      style="vertical-align: top;"
+    />
+  </a>
+  <a href="public/screenshots/anime-portal-genres.jpg">
+    <img
+      src="public/screenshots/anime-portal-genres.jpg"
+      width="32%"
+      alt="Anime Portal – Genres page"
+      style="vertical-align: top;"
+    />
+  </a>
+  <a href="public/screenshots/anime-portal-detail.jpg">
+    <img
+      src="public/screenshots/anime-portal-detail.jpg"
+      width="32%"
+      alt="Anime Portal – Anime detail page"
+      style="vertical-align: top;"
+    />
+  </a>
+</p>
+
+
+## 🧠 About the project
+
+Anime Portal is a personal side project built to **practice and explore Angular 21** by developing a real, production-like application.
+
+- 🧱 Clean and scalable component architecture.
+- ♻️ Reusable UI components.
+- 🔐 Strongly typed data from external APIs.
+- 🧭 Clear separation between UI, data, and logic.
+
+The app includes list views, detail pages, and shared components designed to stay consistent as the project grows.
 
 ## 🛰️ Data & API
 
-<p>All data shown in the UI comes from AniList and is mapped into typed models before rendering.</p>
-<p>The app consumes the official AniList API:</p>
+- 🛰️ **Source:** AniList API
+- 🧠 **Data handling:** Mapped into strongly typed models before rendering
+- 🔗 **API endpoint:** https://anilist.co
 
-```
-https://anilist.co
-```
+## 🏗️ Architecture overview
+
+- 🧩 Feature-based folder structure.
+- 🧱 Standalone Angular components.
+- 🛰️ Centralized API service layer.
+- 🔐 Strong TypeScript typing for external data.
+- ♻️ Reusable UI components and shared styles.
+- 🎨 Tailwind CSS for design consistency.
 
 ## 🚀 Getting started
 
-<p>Once the dev server is running, open in your browser in </p>
-
-[http://localhost:4200/](http://localhost:4200/)
-
-<p>Install dependencies:</p>
-
-```bash
-pnpm install
-```
-
-<p>Run the app:</p>
-
-```bash
-pnpm start
-```
+- 📦 Install dependencies: `pnpm install`
+- ▶️ Run the development server: `pnpm start`
+- 🌐 Open in your browser: `http://localhost:4200/`
 
 ## 🧪 Tests
 
-<p>This runs the Angular test runner with Vitest and reports results in the terminal.</p>
-
-<p>Run unit tests:</p>
-
-```bash
-pnpm test
-```
-
-<p>Run end-to-end tests:</p>
-
-```bash
-pnpm test:e2e
-```
-
-## 📊 Coverage
-
-<p>Coverage output will be written to the `coverage/` directory.</p>
-
-<p>Generate the coverage report:</p>
-
-```bash
-pnpm test:coverage
-```
+- 🧩 Unit tests (Vitest): `pnpm test`
+- 🌐 E2E tests (Playwright): `pnpm test:e2e`
+- 📊 Coverage: `pnpm test:coverage` (output in `coverage/`)
 
 ## 🧰 Tech stack
 
-- Angular 21
-- TypeScript
-- HTML
-- CSS
-- Tailwind CSS
-- Vitest
-- Playwright
-- AniList API
-- Git
-- AI-assisted development
+- 🎨 **Frontend:** Angular 21 · TypeScript · Tailwind CSS
+- 🧪 **Testing:** Vitest · Playwright
+- 🛠️ **Tooling & Platform:** pnpm · Git · Vercel
+- 🛰️ **Data:** AniList API
+- 🤖 **Development:** AI-assisted development
+
+## 🛣️ Roadmap
+
+Planned improvements for future versions:
+
+- 📄 Expand anime detail pages (more metadata, relations, and richer sections)
+- 📱 Improve responsive design and mobile UX
+- 🌍 Add multi-language support (i18n)
+- 🔎 Add a global anime search in the navbar
+- ⚡ Performance optimizations (load time, caching, and rendering)
+- 🎛️ Improve genre page filters (better sorting and discoverability)
