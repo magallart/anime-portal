@@ -22,29 +22,37 @@
 
 ## 🖼️ Preview
 
-A quick visual overview of the main sections of the application.
-
-<table>
+<table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top" width="33%">
       <a href="public/screenshots/anime-portal-home.jpg">
-        <img src="public/screenshots/anime-portal-home.jpg" width="100%" alt="Anime Portal – Home page" />
+        <img
+          src="public/screenshots/anime-portal-home.jpg"
+          width="100%"
+          alt="Anime Portal – Home page"
+        />
       </a>
     </td>
     <td valign="top" width="33%">
       <a href="public/screenshots/anime-portal-genres.jpg">
-        <img src="public/screenshots/anime-portal-genres.jpg" width="100%" alt="Anime Portal – Genres page" />
+        <img
+          src="public/screenshots/anime-portal-genres.jpg"
+          width="100%"
+          alt="Anime Portal – Genres page"
+        />
       </a>
     </td>
     <td valign="top" width="33%">
       <a href="public/screenshots/anime-portal-detail.jpg">
-        <img src="public/screenshots/anime-portal-detail.jpg" width="100%" alt="Anime Portal – Anime detail page" />
+        <img
+          src="public/screenshots/anime-portal-detail.jpg"
+          width="100%"
+          alt="Anime Portal – Anime detail page"
+        />
       </a>
     </td>
   </tr>
 </table>
-
-
 
 ## 🧠 About the project
 
