@@ -1,44 +1,46 @@
-ï»¿import type { Routes } from '@angular/router';
-import { HomePageComponent } from './pages/home/home-page.component';
-import { GenresPageComponent } from './pages/genres/genres-page.component';
-import { AnimeDetailPageComponent } from './pages/anime-detail/anime-detail-page.component';
-import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
+import type { Routes } from '@angular/router';
 import { APP_ROUTES } from './constants/routes';
-import { PolicyPageComponent } from './pages/policy/policy-page.component';
 import { animeSlugGuard } from './pages/anime-detail/anime-slug.guard';
 import { animeDetailResolver } from './pages/anime-detail/anime-detail.resolver';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomePageComponent,
-    title: 'Anime Portal â€” Home',
+    loadComponent: () =>
+      import('./pages/home/home-page.component').then((m) => m.HomePageComponent),
+    title: 'Anime Portal — Home',
     data: { breadcrumb: 'Home' },
   },
   {
     path: 'genres',
-    component: GenresPageComponent,
-    title: 'Anime Portal â€” Genres',
+    loadComponent: () =>
+      import('./pages/genres/genres-page.component').then((m) => m.GenresPageComponent),
+    title: 'Anime Portal — Genres',
     data: { breadcrumb: 'Genres' },
   },
   {
     path: 'anime/:slug',
-    component: AnimeDetailPageComponent,
-    title: 'Anime Portal â€” Anime Detail',
+    loadComponent: () =>
+      import('./pages/anime-detail/anime-detail-page.component').then(
+        (m) => m.AnimeDetailPageComponent,
+      ),
+    title: 'Anime Portal — Anime Detail',
     data: { breadcrumb: 'Anime Detail' },
     canActivate: [animeSlugGuard],
     resolve: { anime: animeDetailResolver },
   },
   {
     path: 'policy',
-    component: PolicyPageComponent,
-    title: 'Anime Portal â€” Policy',
+    loadComponent: () =>
+      import('./pages/policy/policy-page.component').then((m) => m.PolicyPageComponent),
+    title: 'Anime Portal — Policy',
     data: { breadcrumb: 'Policy' },
   },
   {
     path: '404',
-    component: NotFoundPageComponent,
-    title: 'Anime Portal â€” Not found',
+    loadComponent: () =>
+      import('./pages/not-found/not-found-page.component').then((m) => m.NotFoundPageComponent),
+    title: 'Anime Portal — Not found',
     data: { breadcrumb: 'Not found' },
   },
   {
